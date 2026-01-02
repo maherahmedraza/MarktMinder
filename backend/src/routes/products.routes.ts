@@ -117,7 +117,23 @@ router.get(
             limit,
         });
 
-        res.json({ deals, count: deals.length });
+        // Transform to frontend-expected format
+        const formattedDeals = deals.map(deal => ({
+            id: deal.productId,
+            title: deal.productName,
+            image_url: deal.imageUrl,
+            marketplace: deal.marketplace,
+            current_price: deal.currentPrice,
+            currency: 'EUR',
+            score: deal.dealScore,
+            original_price: deal.previousPrice,
+            discount_percentage: deal.dropPercentage,
+            recommendation: deal.recommendation,
+            reason: deal.isHistoricLow ? 'Historic low price!' :
+                deal.predictedDirection === 'up' ? 'Price expected to rise' : undefined,
+        }));
+
+        res.json({ deals: formattedDeals, count: formattedDeals.length });
     })
 );
 
