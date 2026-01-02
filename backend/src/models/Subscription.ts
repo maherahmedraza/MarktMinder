@@ -225,6 +225,12 @@ export async function updateSubscription(
  * Check if user can add more products
  */
 export async function canAddProduct(userId: string): Promise<{ allowed: boolean; current: number; limit: number }> {
+    // Check if user is admin - admins have unlimited access
+    const userResult = await query('SELECT role FROM users WHERE id = $1', [userId]);
+    if (userResult.rows.length > 0 && userResult.rows[0].role === 'admin') {
+        return { allowed: true, current: 0, limit: -1 };
+    }
+
     const subscription = await getOrCreateSubscription(userId);
     const limits = tierConfigs[subscription.tier];
 
@@ -248,6 +254,12 @@ export async function canAddProduct(userId: string): Promise<{ allowed: boolean;
  * Check if user can add more alerts
  */
 export async function canAddAlert(userId: string): Promise<{ allowed: boolean; current: number; limit: number }> {
+    // Check if user is admin - admins have unlimited access
+    const userResult = await query('SELECT role FROM users WHERE id = $1', [userId]);
+    if (userResult.rows.length > 0 && userResult.rows[0].role === 'admin') {
+        return { allowed: true, current: 0, limit: -1 };
+    }
+
     const subscription = await getOrCreateSubscription(userId);
     const limits = tierConfigs[subscription.tier];
 
@@ -271,6 +283,12 @@ export async function canAddAlert(userId: string): Promise<{ allowed: boolean; c
  * Check if user has feature access
  */
 export async function hasFeatureAccess(userId: string, feature: string): Promise<boolean> {
+    // Check if user is admin - admins have full access
+    const userResult = await query('SELECT role FROM users WHERE id = $1', [userId]);
+    if (userResult.rows.length > 0 && userResult.rows[0].role === 'admin') {
+        return true;
+    }
+
     const subscription = await getOrCreateSubscription(userId);
     const limits = tierConfigs[subscription.tier];
 
