@@ -24,7 +24,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
 }));
 
-// Rate limiting
+// Rate limiting (skip in development for easier testing)
 const limiter = rateLimit({
     windowMs: config.rateLimit.windowMs,
     max: config.rateLimit.maxRequests,
@@ -36,6 +36,7 @@ const limiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
+    skip: () => !config.isProduction, // Skip rate limiting in development
 });
 app.use('/api/', limiter);
 
