@@ -256,16 +256,42 @@ export abstract class BaseScraper {
     protected parsePrice(priceText: string): number | undefined {
         if (!priceText) return undefined;
 
-        // Remove currency symbols and normalize
-        const normalized = priceText
-            .replace(/[€$£¥]/g, '')
-            .replace(/\s/g, '')
-            .replace(/,(\d{2})$/, '.$1')  // Handle European format (1.234,56)
-            .replace(/\./g, '')           // Remove thousand separators
-            .replace(',', '.');           // Convert comma to decimal
+        // Remove currency symbols and non-numeric chars except . and ,
+        const clean = priceText.replace(/[^\d.,]/g, '');
+        if (!clean) return undefined;
 
-        const price = parseFloat(normalized);
-        return isNaN(price) ? undefined : price;
+        // Check for EU format: ends with ,XX (e.g., 1.234,56 or 12,99)
+        if (/,\d{1,2}$/.test(clean)) {
+            return parseFloat(clean.replace(/\./g, '').replace(',', '.'));
+        }
+
+        // Check for US/UK format: ends with .XX (e.g., 1,234.56 or 12.99)
+        if (/\.\d{1,2}$/.test(clean)) {
+            return parseFloat(clean.replace(/,/g, ''));
+        }
+
+        // Fallback: If only commas, treat as decimal if looking like price, else thousands?
+        // If string is "1234", return 1234.
+        // If "1,234", assume 1234 (US)
+        // If "1.234", assume 1234 (EU thousands? or US decimal?)
+        // Given we strip others, let's look at what's present.
+
+        if (clean.includes(',') && !clean.includes('.')) {
+            // Ambiguous: "1,234" vs "12,99"
+            // If comma is followed by 1 or 2 digits and end -> Decimal
+            // Else -> Thousands
+            if (/,\d{1,2}$/.test(clean)) return parseFloat(clean.replace(',', '.'));
+            return parseFloat(clean.replace(/,/g, ''));
+        }
+
+        if (clean.includes('.') && !clean.includes(',')) {
+            // Ambiguous: "1.234" vs "12.99"
+            // If dot followed by 1 or 2 digits and end -> Decimal
+            if (/\.\d{1,2}$/.test(clean)) return parseFloat(clean);
+            return parseFloat(clean.replace(/\./g, '')); // Treat as thousands if 3 digits
+        }
+
+        return parseFloat(clean);
     }
 
     /**

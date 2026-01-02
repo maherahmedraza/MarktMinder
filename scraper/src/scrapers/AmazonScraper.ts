@@ -61,6 +61,16 @@ export class AmazonScraper extends BaseScraper {
         await this.delay(500);
     }
 
+    protected async setupPage(page: Page): Promise<void> {
+        await page.evaluateOnNewDocument(() => {
+            // @ts-ignore
+            if (!window.__name) {
+                // @ts-ignore
+                window.__name = (target, value) => target.name = value;
+            }
+        });
+    }
+
     protected async checkForBlocks(page: Page): Promise<boolean> {
         const url = page.url();
 
@@ -87,6 +97,13 @@ export class AmazonScraper extends BaseScraper {
         if (!parsed) {
             throw new Error('Failed to parse Amazon URL');
         }
+
+        // Inject polyfill to prevent ReferenceError: __name is not defined
+        await page.evaluate(() => {
+            if (typeof (window as any).__name === 'undefined') {
+                (window as any).__name = (target: any, value: any) => target.name = value;
+            }
+        });
 
         // Extract data using page.evaluate
         const data = await page.evaluate(() => {

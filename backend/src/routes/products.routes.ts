@@ -358,6 +358,7 @@ router.get(
                 notes: (p as any).notes,
                 isFavorite: (p as any).is_favorite,
                 addedAt: (p as any).added_at,
+                createdAt: p.created_at,
             })),
             pagination: {
                 total,

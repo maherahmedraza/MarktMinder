@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { asyncHandler, authenticate } from '../middleware/index.js';
 import { validate } from '../middleware/validate.js';
-import { param } from 'express-validator';
+import { param, body } from 'express-validator';
 import { query } from '../config/database.js';
 import { ForbiddenError, NotFoundError } from '../utils/errors.js';
 
@@ -237,18 +237,32 @@ router.get(
         const page = parseInt(req.query.page as string) || 1;
         const limit = parseInt(req.query.limit as string) || 20;
         const offset = (page - 1) * limit;
+        const search = req.query.search as string;
 
-        const countResult = await query('SELECT COUNT(*) FROM users');
+        let whereClause = '';
+        const params: any[] = [];
+        let paramIndex = 1;
+
+        if (search) {
+            whereClause = `WHERE email ILIKE $${paramIndex} OR name ILIKE $${paramIndex}`;
+            params.push(`%${search}%`);
+            paramIndex++;
+        }
+
+        const countQuery = `SELECT COUNT(*) FROM users ${whereClause}`;
+        const countResult = await query(countQuery, params);
         const total = parseInt(countResult.rows[0].count);
 
+        params.push(limit, offset);
         const result = await query(`
-            SELECT u.id, u.email, u.name, u.email_verified, u.created_at, u.last_login_at,
+            SELECT u.id, u.email, u.name, u.email_verified, u.created_at, u.last_login_at, u.role,
                    (SELECT COUNT(*) FROM user_products WHERE user_id = u.id) as products_count,
                    (SELECT COUNT(*) FROM alerts WHERE user_id = u.id) as alerts_count
             FROM users u
+            ${whereClause}
             ORDER BY u.created_at DESC
-            LIMIT $1 OFFSET $2
-        `, [limit, offset]);
+            LIMIT $${paramIndex++} OFFSET $${paramIndex++}
+        `, params);
 
         res.json({
             users: result.rows,
@@ -258,6 +272,35 @@ router.get(
                 total,
                 totalPages: Math.ceil(total / limit),
             },
+        });
+    })
+);
+
+/**
+ * @route   POST /api/admin/users/bulk-delete
+ * @desc    Delete multiple users
+ * @access  Admin
+ */
+router.post(
+    '/users/bulk-delete',
+    authenticate,
+    asyncHandler(isAdmin),
+    validate([body('userIds').isArray().withMessage('userIds must be an array')]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { userIds } = req.body;
+        const currentUserId = req.user!.id;
+
+        if (userIds.includes(currentUserId)) {
+            throw new ForbiddenError('Cannot delete yourself in bulk operation');
+        }
+
+        // Use ANY to delete multiple
+        const queryText = 'DELETE FROM users WHERE id = ANY($1::uuid[]) RETURNING id';
+        const result = await query(queryText, [userIds]);
+
+        res.json({
+            message: `${result.rowCount} users deleted successfully`,
+            deletedCount: result.rowCount
         });
     })
 );
