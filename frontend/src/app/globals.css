@@ -1,0 +1,400 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* ============================================
+   NIGHT MARKET THEME - MarktMinder Design System
+   ============================================ */
+
+@theme {
+    /* Typography - Distinctive, Modern */
+    --font-sans: 'Sora', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-display: 'Sora', system-ui, sans-serif;
+
+    /* Primary - Deep Midnight Palette */
+    --color-primary-50: #F0F4FF;
+    --color-primary-100: #E0E8FF;
+    --color-primary-200: #C7D4FF;
+    --color-primary-300: #A3B8FF;
+    --color-primary-400: #7A92FF;
+    --color-primary-500: #5B6CFF;
+    --color-primary-600: #4B4FF5;
+    --color-primary-700: #3D3DD8;
+    --color-primary-800: #3333AE;
+    --color-primary-900: #2D2D89;
+    --color-primary-950: #1A1A50;
+
+    /* Midnight - Dark Mode Base */
+    --color-midnight-950: #080A12;
+    --color-midnight-900: #0D0F1A;
+    --color-midnight-800: #141829;
+    --color-midnight-700: #1E2340;
+    --color-midnight-600: #282E52;
+    --color-midnight-500: #363D6A;
+
+    /* Coral - Accent for Deals & Drops */
+    --color-coral-50: #FFF5F5;
+    --color-coral-100: #FFE5E5;
+    --color-coral-200: #FFCCCC;
+    --color-coral-300: #FFA3A3;
+    --color-coral-400: #FF7A7A;
+    --color-coral-500: #FF6B6B;
+    --color-coral-600: #E54545;
+    --color-coral-700: #CC3333;
+    --color-coral-800: #A32929;
+    --color-coral-900: #851F1F;
+
+    /* Mint - Success & Savings */
+    --color-mint-50: #ECFDF5;
+    --color-mint-100: #D1FAE5;
+    --color-mint-200: #A7F3D0;
+    --color-mint-300: #6EE7B7;
+    --color-mint-400: #34D399;
+    --color-mint-500: #00DFA2;
+    --color-mint-600: #059669;
+    --color-mint-700: #047857;
+    --color-mint-800: #065F46;
+    --color-mint-900: #064E3B;
+
+    /* Gold - Alerts & Highlights */
+    --color-gold-50: #FFFBEB;
+    --color-gold-100: #FEF3C7;
+    --color-gold-200: #FDE68A;
+    --color-gold-300: #FCD34D;
+    --color-gold-400: #FBBF24;
+    --color-gold-500: #FFE066;
+    --color-gold-600: #D97706;
+    --color-gold-700: #B45309;
+    --color-gold-800: #92400E;
+    --color-gold-900: #78350F;
+
+    /* Marketplace Colors */
+    --color-amazon: #FF9900;
+    --color-etsy: #F56400;
+    --color-otto: #E30613;
+}
+
+/* ============================================
+   CSS CUSTOM PROPERTIES - Semantic Tokens
+   ============================================ */
+
+:root {
+    /* Light Mode (Day Market) */
+    --color-bg-primary: #FFFFFF;
+    --color-bg-secondary: #F8FAFC;
+    --color-bg-tertiary: #F1F5F9;
+    --color-bg-elevated: #FFFFFF;
+    --color-bg-overlay: rgba(0, 0, 0, 0.4);
+
+    --color-text-primary: #0F172A;
+    --color-text-secondary: #475569;
+    --color-text-tertiary: #94A3B8;
+    --color-text-inverse: #FFFFFF;
+
+    --color-border-primary: #E2E8F0;
+    --color-border-secondary: #CBD5E1;
+    --color-border-focus: #5B6CFF;
+
+    --color-accent: #5B6CFF;
+    --color-accent-hover: #4B4FF5;
+    --color-success: #00DFA2;
+    --color-warning: #FFE066;
+    --color-error: #FF6B6B;
+
+    --gradient-hero: linear-gradient(135deg, #5B6CFF 0%, #A855F7 50%, #EC4899 100%);
+    --gradient-card: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    --gradient-glow: radial-gradient(ellipse at top, rgba(91, 108, 255, 0.15), transparent 50%);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 40px rgba(91, 108, 255, 0.3);
+
+    --foreground: #0F172A;
+    --background: #FFFFFF;
+}
+
+.dark {
+    /* Dark Mode (Night Market) */
+    --color-bg-primary: #0D0F1A;
+    --color-bg-secondary: #141829;
+    --color-bg-tertiary: #1E2340;
+    --color-bg-elevated: #1E2340;
+    --color-bg-overlay: rgba(0, 0, 0, 0.7);
+
+    --color-text-primary: #F8FAFC;
+    --color-text-secondary: #94A3B8;
+    --color-text-tertiary: #64748B;
+    --color-text-inverse: #0F172A;
+
+    --color-border-primary: #282E52;
+    --color-border-secondary: #363D6A;
+    --color-border-focus: #7A92FF;
+
+    --color-accent: #7A92FF;
+    --color-accent-hover: #A3B8FF;
+    --color-success: #34D399;
+    --color-warning: #FBBF24;
+    --color-error: #FF7A7A;
+
+    --gradient-hero: linear-gradient(135deg, #1E2340 0%, #2D2D89 50%, #4B4FF5 100%);
+    --gradient-card: linear-gradient(180deg, rgba(30, 35, 64, 0.9) 0%, rgba(20, 24, 41, 0.95) 100%);
+    --gradient-glow: radial-gradient(ellipse at top, rgba(122, 146, 255, 0.2), transparent 50%);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 60px rgba(122, 146, 255, 0.4);
+
+    --foreground: #F8FAFC;
+    --background: #0D0F1A;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--foreground);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth theme transitions */
+*,
+*::before,
+*::after {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease;
+}
+
+/* Custom scrollbar - Theme aware */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border-secondary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-tertiary);
+}
+
+/* Price chart tooltip */
+.chart-tooltip {
+    background: var(--color-bg-elevated) !important;
+    border: 1px solid var(--color-border-primary) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* ============================================
+   ANIMATIONS - Motion Design
+   ============================================ */
+
+/* Reveal Animation - Staggered Entry */
+@keyframes reveal-up {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes reveal-scale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(91, 108, 255, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 20px 10px rgba(91, 108, 255, 0);
+    }
+}
+
+@keyframes price-drop-celebrate {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 223, 162, 0.4);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 30px 15px rgba(0, 223, 162, 0);
+    }
+}
+
+/* Animation Utilities */
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+.animate-reveal {
+    animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+.animate-reveal-scale {
+    animation: reveal-scale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-price-drop {
+    animation: price-drop-celebrate 1.5s ease-in-out;
+}
+
+/* Staggered children delays */
+.stagger-children>*:nth-child(1) {
+    animation-delay: 0ms;
+}
+
+.stagger-children>*:nth-child(2) {
+    animation-delay: 60ms;
+}
+
+.stagger-children>*:nth-child(3) {
+    animation-delay: 120ms;
+}
+
+.stagger-children>*:nth-child(4) {
+    animation-delay: 180ms;
+}
+
+.stagger-children>*:nth-child(5) {
+    animation-delay: 240ms;
+}
+
+.stagger-children>*:nth-child(6) {
+    animation-delay: 300ms;
+}
+
+.stagger-children>*:nth-child(7) {
+    animation-delay: 360ms;
+}
+
+.stagger-children>*:nth-child(8) {
+    animation-delay: 420ms;
+}
+
+/* Skeleton loading */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Price change indicators */
+.price-up {
+    color: #EF4444;
+}
+
+.price-down {
+    color: #10B981;
+}
+
+/* Marketplace badges */
+.badge-amazon {
+    background-color: #FF9900;
+    color: #111827;
+}
+
+.badge-etsy {
+    background-color: #F56400;
+    color: white;
+}
+
+.badge-otto {
+    background-color: #E30613;
+    color: white;
+}

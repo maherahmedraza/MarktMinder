@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarktMinder</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <img src="../assets/icon-48.png" alt="MarktMinder" class="logo-icon">
+        <span class="logo-text">MarktMinder</span>
+      </div>
+      <button id="settings-btn" class="icon-btn" title="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading product data...</p>
+    </div>
+
+    <!-- Not on Product Page -->
+    <div id="not-product" class="state-message hidden">
+      <div class="state-icon">🛒</div>
+      <h3>No Product Detected</h3>
+      <p>Visit an Amazon, Etsy, or Otto.de product page to see price history.</p>
+      <a href="#" id="open-dashboard" class="btn btn-secondary">Open Dashboard</a>
+    </div>
+
+    <!-- Product View -->
+    <div id="product-view" class="product-view hidden">
+      <!-- Product Info -->
+      <div class="product-info">
+        <img id="product-image" src="" alt="Product" class="product-image">
+        <div class="product-details">
+          <h2 id="product-title" class="product-title"></h2>
+          <div class="product-meta">
+            <span id="product-marketplace" class="marketplace-badge"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price Display -->
+      <div class="price-section">
+        <div class="current-price">
+          <span class="price-label">Current Price</span>
+          <span id="current-price" class="price-value">€--</span>
+        </div>
+        <div class="price-stats">
+          <div class="stat">
+            <span class="stat-label">Lowest</span>
+            <span id="lowest-price" class="stat-value stat-lowest">€--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Highest</span>
+            <span id="highest-price" class="stat-value stat-highest">€--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Average</span>
+            <span id="average-price" class="stat-value">€--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price Change Indicator -->
+      <div id="price-change" class="price-change hidden">
+        <span id="change-icon" class="change-icon"></span>
+        <span id="change-text" class="change-text"></span>
+      </div>
+
+      <!-- Chart -->
+      <div class="chart-container">
+        <div class="chart-header">
+          <span class="chart-title">Price History</span>
+          <div class="chart-range">
+            <button class="range-btn" data-range="7d">7D</button>
+            <button class="range-btn active" data-range="30d">30D</button>
+            <button class="range-btn" data-range="90d">90D</button>
+            <button class="range-btn" data-range="1y">1Y</button>
+          </div>
+        </div>
+        <canvas id="price-chart" height="120"></canvas>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button id="track-btn" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span id="track-btn-text">Track Product</span>
+        </button>
+        <button id="alert-btn" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          Set Alert
+        </button>
+      </div>
+
+      <!-- Alert Modal -->
+      <div id="alert-modal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Set Price Alert</h3>
+          <div class="form-group">
+            <label for="alert-price">Notify me when price drops to:</label>
+            <div class="input-with-currency">
+              <span class="currency-symbol">€</span>
+              <input type="number" id="alert-price" step="0.01" placeholder="0.00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="alert-email" checked>
+              Email notification
+            </label>
+          </div>
+          <div class="modal-actions">
+            <button id="cancel-alert" class="btn btn-text">Cancel</button>
+            <button id="save-alert" class="btn btn-primary">Create Alert</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Required -->
+    <div id="login-required" class="state-message hidden">
+      <div class="state-icon">🔐</div>
+      <h3>Login Required</h3>
+      <p>Sign in to track products and set price alerts.</p>
+      <button id="login-btn" class="btn btn-primary">Sign In</button>
+      <a href="#" id="signup-link" class="signup-link">Create an account</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a href="#" id="view-all-link">View all tracked products</a>
+    </footer>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

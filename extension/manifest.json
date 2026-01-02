@@ -1,0 +1,106 @@
+{
+    "manifest_version": 3,
+    "name": "MarktMinder: Price Tracker for Amazon, Etsy & Otto",
+    "short_name": "MarktMinder",
+    "version": "1.0.0",
+    "description": "Track price history and set alerts for Amazon, Etsy & Otto products. Never miss a deal!",
+    "icons": {
+        "16": "assets/icon-16.png",
+        "48": "assets/icon-48.png",
+        "128": "assets/icon-128.png"
+    },
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": {
+            "16": "assets/icon-16.png",
+            "48": "assets/icon-48.png"
+        },
+        "default_title": "MarktMinder"
+    },
+    "background": {
+        "service_worker": "background/service-worker.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.amazon.com/*",
+                "*://*.amazon.de/*",
+                "*://*.amazon.co.uk/*",
+                "*://*.amazon.fr/*",
+                "*://*.amazon.it/*",
+                "*://*.amazon.es/*",
+                "*://*.amazon.nl/*",
+                "*://*.amazon.ca/*"
+            ],
+            "js": [
+                "content/amazon.js"
+            ],
+            "css": [
+                "content/styles.css"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "*://*.etsy.com/*"
+            ],
+            "js": [
+                "content/etsy.js"
+            ],
+            "css": [
+                "content/styles.css"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "*://*.otto.de/*"
+            ],
+            "js": [
+                "content/otto.js"
+            ],
+            "css": [
+                "content/styles.css"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "permissions": [
+        "storage",
+        "alarms",
+        "notifications"
+    ],
+    "host_permissions": [
+        "*://*.amazon.com/*",
+        "*://*.amazon.de/*",
+        "*://*.amazon.co.uk/*",
+        "*://*.amazon.fr/*",
+        "*://*.amazon.it/*",
+        "*://*.amazon.es/*",
+        "*://*.amazon.nl/*",
+        "*://*.amazon.ca/*",
+        "*://*.etsy.com/*",
+        "*://*.otto.de/*"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "assets/*",
+                "content/chart.min.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "options_page": "options/options.html",
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Alt+M"
+            },
+            "description": "Open MarktMinder popup"
+        }
+    }
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "feature": "System",
+    "step": "Error",
+    "status": "FAIL",
+    "message": "Navigation timeout of 30000 ms exceeded"
+  }
+]

@@ -1,0 +1,42 @@
+{
+    "name": "marktminder-scraper",
+    "version": "1.0.0",
+    "description": "MarktMinder Smart Price Scraping Engine",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx watch src/index.ts",
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "worker": "tsx src/worker.ts",
+        "test": "vitest",
+        "lint": "eslint src --ext .ts"
+    },
+    "dependencies": {
+        "bullmq": "^5.66.4",
+        "cheerio": "^1.0.0-rc.12",
+        "dotenv": "^16.3.1",
+        "ioredis": "^5.3.2",
+        "node-fetch": "^3.3.2",
+        "pg": "^8.11.3",
+        "puppeteer": "^24.34.0",
+        "puppeteer-extra": "^3.3.6",
+        "puppeteer-extra-plugin-stealth": "^2.11.2",
+        "user-agents": "^1.1.193",
+        "uuid": "^9.0.1",
+        "winston": "^3.11.0",
+        "zod": "^4.3.4"
+    },
+    "devDependencies": {
+        "@types/node": "^25.0.3",
+        "@types/pg": "^8.10.9",
+        "@types/uuid": "^9.0.7",
+        "eslint": "^9.39.2",
+        "tsx": "^4.21.0",
+        "typescript": "^5.3.3",
+        "vitest": "^4.0.16"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

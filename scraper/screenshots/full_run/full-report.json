@@ -1,0 +1,39 @@
+[
+  {
+    "flow": "User",
+    "step": "Registration",
+    "status": "PASS"
+  },
+  {
+    "flow": "User",
+    "step": "Nav to Add Product",
+    "status": "PASS"
+  },
+  {
+    "flow": "Admin",
+    "step": "Login",
+    "status": "PASS"
+  },
+  {
+    "flow": "Admin",
+    "step": "Access Admin Panel",
+    "status": "PASS"
+  },
+  {
+    "flow": "Admin",
+    "step": "User Management",
+    "status": "PASS"
+  },
+  {
+    "flow": "Admin",
+    "step": "Product Management",
+    "status": "FAIL",
+    "message": "Table not found"
+  },
+  {
+    "flow": "Admin",
+    "step": "Analytics",
+    "status": "FAIL",
+    "message": "Charts not found"
+  }
+]

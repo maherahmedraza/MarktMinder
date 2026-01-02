@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarktMinder Settings</title>
+    <style>
+        :root {
+            --primary: #1E40AF;
+            --primary-light: #3B82F6;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .logo img {
+            width: 48px;
+            height: 48px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        header p {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        label span {
+            flex: 1;
+        }
+
+        .label-text {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .label-description {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 2px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+        }
+
+        select,
+        input[type="text"],
+        input[type="url"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        select:focus,
+        input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .account-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #1E3A8A;
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+        }
+
+        .status {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 16px;
+        }
+
+        .status.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 32px;
+            color: var(--gray-500);
+            font-size: 12px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../assets/icon-48.png" alt="MarktMinder">
+                <h1>MarktMinder</h1>
+            </div>
+            <p>Extension Settings</p>
+        </header>
+
+        <!-- Account -->
+        <div class="card">
+            <h2>Account</h2>
+            <div id="logged-out" class="account-section">
+                <span>Sign in to sync your tracked products</span>
+                <button id="login-btn" class="btn btn-primary">Sign In</button>
+            </div>
+            <div id="logged-in" class="account-section hidden">
+                <div class="user-info">
+                    <div class="avatar" id="user-avatar">U</div>
+                    <div>
+                        <div class="user-name" id="user-name">User</div>
+                        <div class="user-email" id="user-email">user@example.com</div>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary">Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Display Settings -->
+        <div class="card">
+            <h2>Display</h2>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="show-widget" checked>
+                    <span>
+                        <div class="label-text">Show price widget on product pages</div>
+                        <div class="label-description">Display price history chart on Amazon, Etsy, and Otto</div>
+                    </span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="show-badge" checked>
+                    <span>
+                        <div class="label-text">Show tracked products count</div>
+                        <div class="label-description">Display number of tracked products on extension icon</div>
+                    </span>
+                </label>
+            </div>
+            <div class="form-group">
+                <span class="label-text">Default chart range</span>
+                <select id="chart-range">
+                    <option value="7d">7 Days</option>
+                    <option value="30d" selected>30 Days</option>
+                    <option value="90d">90 Days</option>
+                    <option value="1y">1 Year</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="card">
+            <h2>Notifications</h2>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="enable-notifications" checked>
+                    <span>
+                        <div class="label-text">Enable browser notifications</div>
+                        <div class="label-description">Get notified when prices drop</div>
+                    </span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="sound-notifications">
+                    <span>
+                        <div class="label-text">Play notification sound</div>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- API Settings -->
+        <div class="card">
+            <h2>Advanced</h2>
+            <div class="form-group">
+                <span class="label-text">API Server URL</span>
+                <input type="url" id="api-url" value="http://localhost:3001" placeholder="https://api.marktminder.com">
+            </div>
+            <div class="form-group">
+                <span class="label-text">Website URL</span>
+                <input type="url" id="website-url" value="http://localhost:3000" placeholder="https://marktminder.com">
+            </div>
+        </div>
+
+        <!-- Save -->
+        <button id="save-btn" class="btn btn-primary" style="width: 100%;">Save Settings</button>
+        <div id="status" class="status hidden"></div>
+
+        <footer>
+            <p>MarktMinder v1.0.0</p>
+            <p>
+                <a href="http://localhost:3000/privacy" target="_blank">Privacy Policy</a> ·
+                <a href="http://localhost:3000/terms" target="_blank">Terms of Service</a> ·
+                <a href="mailto:support@marktminder.com">Support</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+
+</html>

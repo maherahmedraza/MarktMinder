@@ -1,0 +1,99 @@
+[
+  {
+    "category": "SEO",
+    "test": "Homepage - Title",
+    "status": "PASS",
+    "message": "MarktMinder - Price Tracker for Amazon, Etsy & Otto"
+  },
+  {
+    "category": "SEO",
+    "test": "Homepage - Meta Description",
+    "status": "PASS"
+  },
+  {
+    "category": "SEO",
+    "test": "Homepage - H1 Tag",
+    "status": "PASS",
+    "message": "Never Miss aPrice Drop Again"
+  },
+  {
+    "category": "SEO",
+    "test": "About - Title",
+    "status": "PASS",
+    "message": "MarktMinder - Price Tracker for Amazon, Etsy & Otto"
+  },
+  {
+    "category": "SEO",
+    "test": "About - Meta Description",
+    "status": "PASS"
+  },
+  {
+    "category": "SEO",
+    "test": "About - H1 Tag",
+    "status": "PASS",
+    "message": "About MarktMinder"
+  },
+  {
+    "category": "SEO",
+    "test": "Pricing - Title",
+    "status": "PASS",
+    "message": "MarktMinder - Price Tracker for Amazon, Etsy & Otto"
+  },
+  {
+    "category": "SEO",
+    "test": "Pricing - Meta Description",
+    "status": "PASS"
+  },
+  {
+    "category": "SEO",
+    "test": "Pricing - H1 Tag",
+    "status": "PASS",
+    "message": "Simple, Transparent Pricing"
+  },
+  {
+    "category": "SEO",
+    "test": "Login - Title",
+    "status": "PASS",
+    "message": "MarktMinder - Price Tracker for Amazon, Etsy & Otto"
+  },
+  {
+    "category": "SEO",
+    "test": "Login - Meta Description",
+    "status": "PASS"
+  },
+  {
+    "category": "SEO",
+    "test": "Login - H1 Tag",
+    "status": "PASS",
+    "message": "Sign in to your account"
+  },
+  {
+    "category": "User Flow",
+    "test": "Login",
+    "status": "PASS"
+  },
+  {
+    "category": "User Flow",
+    "test": "Dashboard Access",
+    "status": "FAIL",
+    "message": "Redirected to http://localhost:3000/login"
+  },
+  {
+    "category": "User Flow",
+    "test": "Add Product Page",
+    "status": "FAIL",
+    "message": "Input not found"
+  },
+  {
+    "category": "Admin Flow",
+    "test": "User Management",
+    "status": "FAIL",
+    "message": "Users table not found (timeout)"
+  },
+  {
+    "category": "Admin Flow",
+    "test": "Analytics",
+    "status": "FAIL",
+    "message": "Chart container not found (timeout)"
+  }
+]
