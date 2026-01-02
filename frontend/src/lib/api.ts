@@ -8,12 +8,64 @@ interface ApiOptions {
 
 class ApiClient {
     private accessToken: string | null = null;
+    private isRefreshing: boolean = false;
+    private refreshPromise: Promise<boolean> | null = null;
 
     setToken(token: string | null) {
         this.accessToken = token;
     }
 
-    async request<T>(endpoint: string, options: ApiOptions = {}): Promise<T> {
+    private async tryRefreshToken(): Promise<boolean> {
+        // If already refreshing, wait for it
+        if (this.isRefreshing && this.refreshPromise) {
+            return this.refreshPromise;
+        }
+
+        this.isRefreshing = true;
+        this.refreshPromise = (async () => {
+            try {
+                // Dynamic import to avoid circular dependency
+                const Cookies = (await import('js-cookie')).default;
+                const refreshToken = Cookies.get('refreshToken');
+
+                if (!refreshToken) {
+                    return false;
+                }
+
+                const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ refreshToken }),
+                });
+
+                if (!response.ok) {
+                    return false;
+                }
+
+                const data = await response.json();
+                const accessTokenDays = Math.max(data.tokens.expiresIn / (24 * 60 * 60), 1 / 24);
+
+                Cookies.set('accessToken', data.tokens.accessToken, {
+                    expires: accessTokenDays, path: '/', sameSite: 'lax'
+                });
+                Cookies.set('refreshToken', data.tokens.refreshToken, {
+                    expires: 30, path: '/', sameSite: 'lax'
+                });
+
+                this.accessToken = data.tokens.accessToken;
+                return true;
+            } catch {
+                return false;
+            } finally {
+                this.isRefreshing = false;
+                this.refreshPromise = null;
+            }
+        })();
+
+        return this.refreshPromise;
+    }
+
+    async request<T>(endpoint: string, options: ApiOptions = {}, _retried = false): Promise<T> {
         const url = `${API_BASE_URL}${endpoint}`;
 
         const headers: Record<string, string> = {
@@ -33,9 +85,17 @@ class ApiClient {
 
         const data = await response.json();
 
+        // Handle 401 with automatic retry after token refresh
+        if (response.status === 401 && !_retried) {
+            const refreshed = await this.tryRefreshToken();
+            if (refreshed) {
+                return this.request<T>(endpoint, options, true);
+            }
+        }
+
         if (!response.ok) {
             throw new ApiError(
-                data.error?.message || 'Request failed',
+                data.error?.message || data.error || 'Request failed',
                 response.status,
                 data.error?.code
             );

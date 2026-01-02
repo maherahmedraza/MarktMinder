@@ -42,7 +42,7 @@ export const config = {
     },
 
     // Frontend
-    frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3002',
+    frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
 
     // Rate Limiting (higher for development)
     rateLimit: {
