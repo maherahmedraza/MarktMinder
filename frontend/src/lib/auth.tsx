@@ -56,9 +56,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     function saveTokens(tokens: Tokens) {
-        const expiresIn = tokens.expiresIn / (24 * 60 * 60); // Convert seconds to days
-        Cookies.set('accessToken', tokens.accessToken, { expires: expiresIn });
-        Cookies.set('refreshToken', tokens.refreshToken, { expires: 30 }); // 30 days
+        // expiresIn is in seconds, cookie expires expects days
+        // Access token expiry: minimum 1 hour (for dev/testing), actual value from tokens
+        const accessTokenDays = Math.max(tokens.expiresIn / (24 * 60 * 60), 1 / 24); // At least 1 hour
+
+        // Set cookies with path to ensure they're available on all routes
+        Cookies.set('accessToken', tokens.accessToken, {
+            expires: accessTokenDays,
+            path: '/',
+            sameSite: 'lax'
+        });
+        Cookies.set('refreshToken', tokens.refreshToken, {
+            expires: 30, // 30 days
+            path: '/',
+            sameSite: 'lax'
+        });
         api.setToken(tokens.accessToken);
     }
 

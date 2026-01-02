@@ -196,19 +196,21 @@ router.post(
 /**
  * @route   POST /api/auth/logout
  * @desc    Logout user (revoke refresh token)
- * @access  Private
+ * @access  Public (uses refresh token for identification)
  */
 router.post(
     '/logout',
-    authenticate,
+    validate([
+        body('refreshToken').optional().isString(),
+    ]),
     asyncHandler(async (req: Request, res: Response) => {
         const { refreshToken } = req.body;
 
         if (refreshToken) {
             const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
             await query(
-                'UPDATE refresh_tokens SET revoked_at = NOW() WHERE token_hash = $1 AND user_id = $2',
-                [tokenHash, req.user!.id]
+                'UPDATE refresh_tokens SET revoked_at = NOW() WHERE token_hash = $1',
+                [tokenHash]
             );
         }
 
