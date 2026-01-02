@@ -1,3 +1,8 @@
+// Polyfill for esbuild __name helper if missing
+if (typeof (globalThis as any).__name === 'undefined') {
+    (globalThis as any).__name = (target: any, value: any) => target.name = value;
+}
+
 import logger from './logger.js';
 import { closePool } from './database.js';
 import { browserManager } from './browser/BrowserManager.js';
