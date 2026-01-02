@@ -210,6 +210,18 @@ router.post(
         const { url, customName, notes, folderId } = req.body;
         const userId = req.user!.id;
 
+        // Check subscription limit for products
+        const { canAddProduct } = await import('../models/Subscription.js');
+        const productLimit = await canAddProduct(userId);
+        if (!productLimit.allowed) {
+            return res.status(403).json({
+                error: `Product limit reached (${productLimit.current}/${productLimit.limit}). Upgrade your plan to track more products.`,
+                upgradeRequired: true,
+                current: productLimit.current,
+                limit: productLimit.limit
+            });
+        }
+
         // Parse URL to get marketplace info
         const parsed = parseProductUrl(url);
         if (!parsed) {

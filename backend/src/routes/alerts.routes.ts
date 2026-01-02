@@ -54,6 +54,18 @@ router.post(
             throw new BadRequestError('Target percentage is required for this alert type');
         }
 
+        // Check subscription limit for alerts
+        const { canAddAlert } = await import('../models/Subscription.js');
+        const alertLimit = await canAddAlert(userId);
+        if (!alertLimit.allowed) {
+            return res.status(403).json({
+                error: `Alert limit reached (${alertLimit.current}/${alertLimit.limit}). Upgrade your plan to create more alerts.`,
+                upgradeRequired: true,
+                current: alertLimit.current,
+                limit: alertLimit.limit
+            });
+        }
+
         // Check if user is tracking this product
         const userProduct = await query(
             'SELECT 1 FROM user_products WHERE user_id = $1 AND product_id = $2',
