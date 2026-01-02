@@ -7,13 +7,18 @@ import { ForbiddenError, NotFoundError } from '../utils/errors.js';
 
 const router = Router();
 
-// Admin middleware - check if user is admin
+// Admin middleware - check if user is admin via role column
 const isAdmin = async (req: Request, res: Response, next: Function) => {
-    // For now, we'll use a simple email check. In production, add an is_admin column
-    const adminEmails = ['admin@marktminder.de'];
-    if (!req.user || !adminEmails.includes(req.user.email)) {
+    if (!req.user) {
+        throw new ForbiddenError('Authentication required');
+    }
+
+    // Check database for admin role
+    const result = await query('SELECT role FROM users WHERE id = $1', [req.user.id]);
+    if (result.rows.length === 0 || result.rows[0].role !== 'admin') {
         throw new ForbiddenError('Admin access required');
     }
+
     next();
 };
 
