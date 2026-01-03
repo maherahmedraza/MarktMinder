@@ -99,9 +99,17 @@ export class AmazonScraper extends BaseScraper {
         }
 
         // Inject polyfill to prevent ReferenceError: __name is not defined
+        // MUST return target, otherwise esbuild wrapper returns string name!
         await page.evaluate(() => {
             if (typeof (window as any).__name === 'undefined') {
-                (window as any).__name = (target: any, value: any) => target.name = value;
+                (window as any).__name = (target: any, value: any) => {
+                    try {
+                        Object.defineProperty(target, 'name', { value: value, configurable: true });
+                    } catch (e) {
+                        // Ignore if name is read-only
+                    }
+                    return target;
+                };
             }
         });
 
