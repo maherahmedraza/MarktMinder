@@ -1,49 +1,56 @@
-FROM node:20-slim
-
-# Install Chromium dependencies
-RUN apt-get update && apt-get install -y \
-    chromium \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libgbm1 \
-    libpango-1.0-0 \
-    libcairo2 \
-    libasound2 \
-    libxshmfence1 \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set up Puppeteer to use system Chromium
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+# Scraper Dockerfile
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
-COPY package*.json ./
-RUN npm ci
+# Install Chromium dependencies
+RUN apk add --no-cache \
+  chromium \
+  nss \
+  freetype \
+  harfbuzz \
+  ca-certificates \
+  ttf-freefont
 
-# Copy source code
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy source
 COPY . .
 
 # Build TypeScript
 RUN npm run build
 
-# Create non-root user for security
-RUN groupadd -r scraper && useradd -r -g scraper scraper
-RUN chown -R scraper:scraper /app
+# Production image
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Install Chromium
+RUN apk add --no-cache \
+  chromium \
+  nss \
+  freetype \
+  harfbuzz \
+  ca-certificates \
+  ttf-freefont
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 scraper
+
+# Copy built files
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+
 USER scraper
 
-# Health check (can be customized based on monitoring endpoint)
-HEALTHCHECK --interval=60s --timeout=30s --start-period=10s --retries=3 \
-  CMD node -e "console.log('healthy')" || exit 1
-
-# Start the scraper service
-CMD ["npm", "start"]
+CMD ["node", "dist/index.js"]

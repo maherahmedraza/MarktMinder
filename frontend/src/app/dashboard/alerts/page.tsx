@@ -2,13 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Bell, Plus, Trash2, ToggleLeft, ToggleRight, TrendingDown, Package, Loader2, AlertCircle } from 'lucide-react';
+import { Bell, Package, Trash2, ToggleLeft, ToggleRight, Loader2, AlertCircle } from 'lucide-react';
 import api, { Alert } from '@/lib/api';
+import ConfirmationModal from '@/components/ui/ConfirmationModal';
 
 export default function AlertsPage() {
     const [alerts, setAlerts] = useState<Alert[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+
+    // Delete Modal State
+    const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; alertId?: string }>({ isOpen: false });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         loadAlerts();
@@ -28,30 +33,52 @@ export default function AlertsPage() {
 
     async function handleToggle(alertId: string) {
         try {
-            const { alert: updatedAlert } = await api.toggleAlert(alertId);
-            setAlerts(alerts.map(a => a.id === alertId ? updatedAlert : a));
+            // Fix: The API returns { message, isActive }, NOT the full alert object.
+            // We must merge the new isActive status with the existing alert to preserve 'product' data.
+            const result = await api.toggleAlert(alertId);
+            const newActiveState = result.isActive; // Assuming API returns isActive, or we toggle locally if API doesn't return
+
+            // If API result structure is unknown, we can optimistically toggle based on current state, 
+            // but relying on API return is safer. 
+            // Based on backend code: returns { message, isActive }
+
+            setAlerts(prev => prev.map(a =>
+                a.id === alertId ? { ...a, isActive: newActiveState } : a
+            ));
         } catch (err: any) {
             setError(err.message || 'Failed to toggle alert');
         }
     }
 
-    async function handleDelete(alertId: string) {
-        if (!confirm('Are you sure you want to delete this alert?')) return;
+    function confirmDelete(alertId: string) {
+        setDeleteModal({ isOpen: true, alertId });
+    }
 
+    async function handleConfirmDelete() {
+        if (!deleteModal.alertId) return;
+
+        setIsDeleting(true);
         try {
-            await api.deleteAlert(alertId);
-            setAlerts(alerts.filter(a => a.id !== alertId));
+            await api.deleteAlert(deleteModal.alertId);
+            setAlerts(prev => prev.filter(a => a.id !== deleteModal.alertId));
+            setDeleteModal({ isOpen: false });
         } catch (err: any) {
             setError(err.message || 'Failed to delete alert');
+        } finally {
+            setIsDeleting(false);
         }
     }
 
     function getAlertTypeLabel(type: string): string {
         switch (type) {
-            case 'price_drop': return 'Price Drop';
-            case 'target_price': return 'Target Price';
+            case 'price_below': return 'Price Target';
+            case 'price_above': return 'Price Above Limit';
+            case 'price_drop_pct': return 'Price Drop (%)';
+            case 'price_rise_pct': return 'Price Increase (%)';
             case 'back_in_stock': return 'Back in Stock';
-            default: return type;
+            case 'all_time_low': return 'All-Time Low';
+            case 'any_change': return 'Any Price Change';
+            default: return type.replace(/_/g, ' '); // Fallback: replace underscores with spaces
         }
     }
 
@@ -124,10 +151,11 @@ export default function AlertsPage() {
                                     <tr key={alert.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
+                                                {/* Ensure product exists before accessing */}
                                                 {alert.product?.imageUrl ? (
                                                     <img
                                                         src={alert.product.imageUrl}
-                                                        alt={alert.product.title}
+                                                        alt={alert.product.title || 'Product'}
                                                         className="w-12 h-12 rounded-lg object-cover bg-gray-100 dark:bg-gray-700"
                                                     />
                                                 ) : (
@@ -176,7 +204,7 @@ export default function AlertsPage() {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <button
-                                                onClick={() => handleDelete(alert.id)}
+                                                onClick={() => confirmDelete(alert.id)}
                                                 className="p-2 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                                 title="Delete alert"
                                             >
@@ -203,6 +231,16 @@ export default function AlertsPage() {
                     <li>• <strong>Back in Stock:</strong> Get notified when an out-of-stock item becomes available</li>
                 </ul>
             </div>
+
+            <ConfirmationModal
+                isOpen={deleteModal.isOpen}
+                onClose={() => setDeleteModal({ isOpen: false })}
+                onConfirm={handleConfirmDelete}
+                title="Delete Alert?"
+                message="Are you sure you want to delete this alert? You will no longer receive notifications."
+                isDestructive={true}
+                isLoading={isDeleting}
+            />
         </div>
     );
 }

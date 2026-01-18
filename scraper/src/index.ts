@@ -1,6 +1,13 @@
 // Polyfill for esbuild __name helper if missing
 if (typeof (globalThis as any).__name === 'undefined') {
-    (globalThis as any).__name = (target: any, value: any) => target.name = value;
+    (globalThis as any).__name = (target: any, value: any) => {
+        try {
+            Object.defineProperty(target, 'name', { value, configurable: true });
+        } catch (e) {
+            // Ignore if name property is not configurable
+        }
+        return target;
+    };
 }
 
 import logger from './logger.js';

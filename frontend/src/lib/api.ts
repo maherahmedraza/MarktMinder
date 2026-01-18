@@ -189,7 +189,7 @@ class ApiClient {
     }
 
     async toggleAlert(id: string) {
-        return this.request<{ alert: Alert }>(`/alerts/${id}/toggle`, {
+        return this.request<{ message: string; isActive: boolean }>(`/alerts/${id}/toggle`, {
             method: 'POST',
         });
     }

@@ -76,20 +76,56 @@ router.post(
             throw new BadRequestError('You must be tracking this product to create an alert');
         }
 
-        // Create alert
-        const alert = await AlertModel.create({
-            user_id: userId,
-            product_id: productId,
-            alert_type: alertType,
-            target_price: targetPrice,
-            target_percentage: targetPercentage,
-            notify_email: notifyEmail,
-            notify_push: notifyPush,
-            notify_once: notifyOnce,
-        });
+        // Check for existing identical alert
+        const existingResult = await query(
+            `SELECT * FROM alerts 
+             WHERE user_id = $1 
+             AND product_id = $2 
+             AND alert_type = $3 
+             AND (target_price IS NOT DISTINCT FROM $4)
+             AND (target_percentage IS NOT DISTINCT FROM $5)`,
+            [
+                userId,
+                productId,
+                alertType,
+                targetPrice ?? null,
+                targetPercentage ?? null
+            ]
+        );
 
-        res.status(201).json({
-            message: 'Alert created successfully',
+        let alert;
+        let isReactivated = false;
+
+        if (existingResult.rows.length > 0) {
+            const existing: any = existingResult.rows[0];
+            if (existing.is_active) {
+                return res.status(409).json({
+                    message: 'An identical alert already exists for this product.'
+                });
+            }
+
+            // Reactivate existing alert
+            alert = await AlertModel.update(existing.id, userId, { is_active: true });
+            if (!alert) {
+                throw new Error('Failed to reactivate alert');
+            }
+            isReactivated = true;
+        } else {
+            // Create new alert
+            alert = await AlertModel.create({
+                user_id: userId,
+                product_id: productId,
+                alert_type: alertType,
+                target_price: targetPrice,
+                target_percentage: targetPercentage,
+                notify_email: notifyEmail,
+                notify_push: notifyPush,
+                notify_once: notifyOnce,
+            });
+        }
+
+        res.status(isReactivated ? 200 : 201).json({
+            message: isReactivated ? 'Reactivated existing alert' : 'Alert created successfully',
             alert: {
                 id: alert.id,
                 productId: alert.product_id,
