@@ -9,9 +9,54 @@ import crypto from 'crypto';
 const router = Router();
 
 /**
- * @route   POST /api/auth/register
- * @desc    Register a new user
- * @access  Public
+ * @openapi
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 minLength: 8
+ *                 example: Password123!
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *                 tokens:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       type: string
+ *                     refreshToken:
+ *                       type: string
+ *                     expiresIn:
+ *                       type: integer
+ *       409:
+ *         description: User already exists
  */
 router.post(
     '/register',

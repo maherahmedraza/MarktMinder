@@ -8,11 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Swagger/OpenAPI documentation at `/api/docs`
+- Toast notification component for frontend
 - CI/CD pipeline with GitHub Actions
-- Comprehensive project documentation
+- Comprehensive project documentation (FEATURES.md, DEVOPS.md)
+- Dockerfiles for all services (backend, frontend, scraper)
 
 ### Changed
-- Nothing yet
+- Updated API info endpoint to include documentation link
 
 ### Fixed
 - Nothing yet

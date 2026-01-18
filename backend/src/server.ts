@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import swaggerUi from 'swagger-ui-express';
 import config from './config/index.js';
 import { logger } from './utils/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/index.js';
@@ -9,6 +10,7 @@ import { checkHealth as checkDbHealth, closePool } from './config/database.js';
 import { checkHealth as checkRedisHealth, closeRedis } from './config/redis.js';
 import { authRoutes, productsRoutes, alertsRoutes, adminRoutes, billingRoutes } from './routes/index.js';
 import apiV1Routes from './routes/api-v1.routes.js';
+import { swaggerSpec } from './config/swagger.js';
 
 // Create Express application
 const app: Application = express();
@@ -94,6 +96,18 @@ app.use('/api/alerts', alertsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/billing', billingRoutes);  // Subscription & Payments
 app.use('/api/v1', apiV1Routes);  // Public API
+
+// ======================
+// API Documentation (Swagger)
+// ======================
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'MarktMinder API Docs',
+}));
+app.get('/api/docs.json', (req: Request, res: Response) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+});
 
 // API info endpoint
 app.get('/api', (req: Request, res: Response) => {
