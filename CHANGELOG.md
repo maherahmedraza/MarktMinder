@@ -13,12 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI/CD pipeline with GitHub Actions
 - Comprehensive project documentation (FEATURES.md, DEVOPS.md)
 - Dockerfiles for all services (backend, frontend, scraper)
+- Brute force protection for login endpoint (rate limiting + IP blocking)
+- Scraper retry mechanism with exponential backoff
 
 ### Changed
 - Updated API info endpoint to include documentation link
+- Login errors now show remaining attempts
 
-### Fixed
-- Nothing yet
+### Security
+- Rate limiting specifically for authentication endpoints
+- Progressive slowdown after failed login attempts
+- Temporary IP blocking after 5 failed attempts
 
 ---
 

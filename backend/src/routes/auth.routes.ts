@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { body, param, query as queryValidator } from 'express-validator';
 import { UserModel } from '../models/index.js';
 import { asyncHandler, validate, authenticate, generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../middleware/index.js';
+import { bruteForceProtection, recordFailedAttempt, clearFailedAttempts, getRemainingAttempts } from '../middleware/bruteForce.js';
 import { BadRequestError, UnauthorizedError, ConflictError, NotFoundError } from '../utils/errors.js';
 import { query } from '../config/database.js';
 import crypto from 'crypto';
@@ -117,24 +118,35 @@ router.post(
  */
 router.post(
     '/login',
+    ...bruteForceProtection, // Rate limiting, slow down, and block check
     validate([
         body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
         body('password').notEmpty().withMessage('Password is required'),
     ]),
     asyncHandler(async (req: Request, res: Response) => {
         const { email, password } = req.body;
+        const ip = req.ip || req.socket.remoteAddress || 'unknown';
 
         // Find user
         const user = await UserModel.findByEmail(email);
         if (!user) {
-            throw new UnauthorizedError('Invalid email or password');
+            // Record failed attempt
+            await recordFailedAttempt(ip, email);
+            const remaining = await getRemainingAttempts(ip);
+            throw new UnauthorizedError(`Invalid email or password. ${remaining} attempts remaining.`);
         }
 
         // Verify password
         const isValid = await UserModel.verifyPassword(user, password);
         if (!isValid) {
-            throw new UnauthorizedError('Invalid email or password');
+            // Record failed attempt
+            await recordFailedAttempt(ip, email);
+            const remaining = await getRemainingAttempts(ip);
+            throw new UnauthorizedError(`Invalid email or password. ${remaining} attempts remaining.`);
         }
+
+        // Clear failed attempts on successful login
+        await clearFailedAttempts(ip);
 
         // Update last login
         await UserModel.updateLastLogin(user.id);

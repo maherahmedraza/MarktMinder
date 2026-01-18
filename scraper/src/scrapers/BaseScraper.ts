@@ -3,6 +3,7 @@ import { browserManager } from '../browser/BrowserManager.js';
 import { scraperApi } from '../browser/ScraperApi.js';
 import config from '../config.js';
 import logger from '../logger.js';
+import { withRetry, isRetryableError } from '../utils/retry.js';
 
 export type Marketplace = 'amazon' | 'etsy' | 'otto';
 export type Availability = 'in_stock' | 'out_of_stock' | 'limited' | 'unknown';
@@ -51,8 +52,28 @@ export abstract class BaseScraper {
     /**
      * Scrape a product URL
      * Uses ScraperAPI for Amazon if enabled, otherwise uses Puppeteer
+     * Includes automatic retry with exponential backoff
      */
     async scrape(url: string): Promise<ScrapeResult> {
+        return withRetry(
+            () => this.scrapeInternal(url),
+            {
+                maxRetries: 3,
+                initialDelayMs: 2000,
+                maxDelayMs: 30000,
+                onRetry: (attempt, error, delay) => {
+                    logger.warn(`[${this.name}] Retry ${attempt}/3 for ${url} after ${delay}ms`, {
+                        error: error.message,
+                    });
+                },
+            }
+        );
+    }
+
+    /**
+     * Internal scrape implementation
+     */
+    private async scrapeInternal(url: string): Promise<ScrapeResult> {
         const startTime = Date.now();
 
         // Try ScraperAPI first for supported marketplaces
@@ -62,10 +83,22 @@ export abstract class BaseScraper {
                 return result;
             }
             logger.warn(`[${this.name}] ScraperAPI failed, falling back to Puppeteer`);
+
+            // If ScraperAPI failed with retryable error, throw to trigger retry
+            if (result.error && isRetryableError(result.error)) {
+                throw new Error(result.error);
+            }
         }
 
         // Standard Puppeteer scraping
-        return this.scrapeWithPuppeteer(url, startTime);
+        const result = await this.scrapeWithPuppeteer(url, startTime);
+
+        // If Puppeteer failed with retryable error, throw to trigger retry
+        if (!result.success && result.error && isRetryableError(result.error)) {
+            throw new Error(result.error);
+        }
+
+        return result;
     }
 
     /**
