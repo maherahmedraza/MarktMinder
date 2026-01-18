@@ -38,10 +38,8 @@ export const loginRateLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        // Use X-Forwarded-For in production (behind proxy)
-        return req.ip || req.socket.remoteAddress || 'unknown';
-    },
+    // Remove custom keyGenerator to use default which handles IPv6 properly
+    validate: { xForwardedForHeader: false },
 });
 
 /**
@@ -53,9 +51,7 @@ export const loginSlowDown = slowDown({
     delayAfter: SLOW_DOWN_AFTER,
     delayMs: (hits) => hits * SLOW_DOWN_DELAY_MS, // Progressive delay
     maxDelayMs: 10000, // Max 10 second delay
-    keyGenerator: (req) => {
-        return req.ip || req.socket.remoteAddress || 'unknown';
-    },
+    validate: { xForwardedForHeader: false },
 });
 
 /**
