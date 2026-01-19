@@ -249,6 +249,28 @@ The GitHub Actions will:
 
 ---
 
+## 🛠️ Code Review & Branching Strategy
+
+To maintain high code quality and stability, we follow a strict Pull Request (PR) workflow.
+
+### Branching Model
+
+| Branch Type | naming Convention | Target Branch |
+|-------------|-------------------|---------------|
+| **Features**| `feature/*` | `main` |
+| **Bug Fixes**| `fix/*` | `main` |
+| **Refactor** | `refactor/*` | `main` |
+| **Hotfix**   | `hotfix/*` | `main` |
+
+### Pull Request Guidelines
+
+1. **Self-Review**: Before opening a PR, run `npm run lint` and `npm run build` locally.
+2. **Linked Tasks**: Every PR must link to a task in `SPRINTS.md`.
+3. **Automated Checks**: The `ci.yml` workflow MUST pass on all PRs.
+4. **Documentation**: Update `CHANGELOG.md` for any user-facing changes.
+
+---
+
 ## 🆘 Troubleshooting
 
 ### Common Issues
@@ -288,4 +310,4 @@ For DevOps questions:
 
 ---
 
-*Last updated: 2026-01-18*
+*Last updated: 2026-01-19*
