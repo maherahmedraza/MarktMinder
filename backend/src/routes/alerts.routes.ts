@@ -400,4 +400,121 @@ router.get(
     })
 );
 
+// ==========================================
+// NATURAL LANGUAGE ALERT ENDPOINTS
+// ==========================================
+
+/**
+ * @route   POST /api/alerts/nlp/parse
+ * @desc    Parse natural language into alert conditions (preview)
+ * @access  Private
+ */
+router.post(
+    '/nlp/parse',
+    authenticate,
+    validate([
+        body('text').isString().isLength({ min: 5, max: 500 }).withMessage('Text must be 5-500 characters'),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { text } = req.body;
+
+        const { parseNaturalLanguageAlert, validateParsedAlert } = await import('../services/nlp-alert-parser.service.js');
+
+        const parsed = parseNaturalLanguageAlert(text);
+        const validation = validateParsedAlert(parsed);
+
+        res.json({
+            ...parsed,
+            validation,
+        });
+    })
+);
+
+/**
+ * @route   POST /api/alerts/nlp/create
+ * @desc    Create alert from natural language
+ * @access  Private
+ */
+router.post(
+    '/nlp/create',
+    authenticate,
+    validate([
+        body('text').isString().isLength({ min: 5, max: 500 }),
+        body('productId').isUUID().withMessage('Valid product ID is required'),
+        body('notifyVia').optional().isArray(),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { text, productId, notifyVia = ['email'] } = req.body;
+        const userId = req.user!.id;
+
+        // Check subscription limit
+        const { canAddAlert } = await import('../models/Subscription.js');
+        const alertLimit = await canAddAlert(userId);
+        if (!alertLimit.allowed) {
+            return res.status(403).json({
+                error: `Alert limit reached (${alertLimit.current}/${alertLimit.limit}). Upgrade your plan.`,
+                upgradeRequired: true,
+            });
+        }
+
+        // Parse the natural language
+        const { parseNaturalLanguageAlert, validateParsedAlert } = await import('../services/nlp-alert-parser.service.js');
+        const parsed = parseNaturalLanguageAlert(text);
+        const validation = validateParsedAlert(parsed);
+
+        if (!parsed.success || !validation.valid) {
+            return res.status(400).json({
+                error: 'Could not understand the alert request',
+                parsed,
+                validation,
+            });
+        }
+
+        // Create the conditional alert
+        const { createConditionalAlert } = await import('../services/conditional-alerts.service.js');
+        const alert = await createConditionalAlert(
+            userId,
+            productId,
+            parsed.summary,
+            parsed.conditions,
+            parsed.logic,
+            notifyVia,
+            24 // cooldown hours
+        );
+
+        res.status(201).json({
+            message: 'Alert created from natural language',
+            alert: {
+                id: alert.id,
+                name: alert.name,
+                conditions: alert.conditions,
+                logic: alert.logic,
+                summary: parsed.summary,
+            },
+            parsed,
+        });
+    })
+);
+
+/**
+ * @route   GET /api/alerts/nlp/suggestions
+ * @desc    Get auto-complete suggestions for natural language input
+ * @access  Private
+ */
+router.get(
+    '/nlp/suggestions',
+    authenticate,
+    validate([
+        queryValidator('text').optional().isString(),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const text = (req.query.text as string) || '';
+
+        const { getSuggestions } = await import('../services/nlp-alert-parser.service.js');
+        const suggestions = getSuggestions(text);
+
+        res.json({ suggestions });
+    })
+);
+
 export default router;
