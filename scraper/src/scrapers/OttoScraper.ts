@@ -1,5 +1,6 @@
 import { Page } from 'puppeteer';
 import { BaseScraper, ScrapedProduct, Availability } from './BaseScraper.js';
+import config from '../config.js';
 import logger from '../logger.js';
 
 /**
@@ -9,6 +10,29 @@ import logger from '../logger.js';
 export class OttoScraper extends BaseScraper {
     constructor() {
         super('otto', 'OttoScraper');
+    }
+
+    /**
+     * Override scrape to prioritize Official API
+     */
+    async scrape(url: string): Promise<any> {
+        const parsed = this.parseUrl(url);
+
+        // Try Official API first if marketplaceId is found and API key is present
+        if (parsed?.marketplaceId && config.otto.apiKey) {
+            logger.info(`[OttoScraper] Attempting official API for: ${parsed.marketplaceId}`);
+            const apiResult = await this.scrapeViaApi(parsed.marketplaceId);
+            if (apiResult) {
+                return {
+                    success: true,
+                    product: apiResult,
+                    duration: 0
+                };
+            }
+            logger.warn(`[OttoScraper] Official API failed, falling back to scraping`);
+        }
+
+        return super.scrape(url);
     }
 
     getUrlPatterns(): RegExp[] {
@@ -230,6 +254,45 @@ export class OttoScraper extends BaseScraper {
 
         logger.debug(`[OttoScraper] Extracted: ${product.title}, €${product.price}`);
         return product;
+    }
+
+    /**
+     * Official Otto Consumer API Implementation
+     * Note: Requires valid API Key and potentially OAuth2.0
+     */
+    async scrapeViaApi(articleNumber: string): Promise<ScrapedProduct | null> {
+        if (!config.otto.apiKey) return null;
+
+        try {
+            // Simplified placeholder for Otto Consumer API
+            // Documentation: https://api.otto.de/docs/
+            const response = await fetch(
+                `https://api.otto.de/products/v1/articles/${articleNumber}`,
+                {
+                    headers: { 'Authorization': `Bearer ${config.otto.apiKey}` },
+                }
+            );
+
+            if (!response.ok) return null;
+
+            const data = await response.json() as any;
+
+            return {
+                marketplace: 'otto',
+                marketplaceId: articleNumber,
+                region: 'de',
+                url: data.url || `https://www.otto.de/p/${articleNumber}`,
+                title: data.name,
+                price: data.price?.amount,
+                currency: 'EUR',
+                imageUrl: data.images?.[0]?.url,
+                availability: data.available ? 'in_stock' : 'out_of_stock',
+                scrapedAt: new Date(),
+            };
+        } catch (error) {
+            logger.error(`[OttoScraper] API Integration error: ${error}`);
+            return null;
+        }
     }
 }
 

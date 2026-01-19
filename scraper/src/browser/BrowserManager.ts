@@ -2,7 +2,7 @@ import puppeteer, { Browser, Page, LaunchOptions } from 'puppeteer';
 import config from '../config.js';
 import logger from '../logger.js';
 import { proxyManager, Proxy } from './ProxyManager.js';
-import { setupAntiDetection, humanDelay, getRandomUserAgent } from './AntiDetection.js';
+import { setupAntiDetection, humanDelay } from './AntiDetection.js';
 
 export interface BrowserOptions {
     headless?: boolean;

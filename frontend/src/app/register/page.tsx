@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
-import { TrendingDown, Mail, Lock, User, AlertCircle, Loader2, Check } from 'lucide-react';
+import { TrendingDown, Mail, Lock, User, AlertCircle, Loader2, Check, Shield, Zap, Target } from 'lucide-react';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 export default function RegisterPage() {
     const { register } = useAuth();
@@ -15,6 +17,7 @@ export default function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false);
 
     const passwordStrength = getPasswordStrength(password);
+    const isPasswordStrong = passwordStrength >= 3 && password.length >= 8;
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -30,6 +33,11 @@ export default function RegisterPage() {
             return;
         }
 
+        if (!password.match(/[A-Z]/) || !password.match(/[^a-zA-Z0-9]/)) {
+            setError('Password must contain at least one uppercase letter and one special character');
+            return;
+        }
+
         setIsLoading(true);
 
         try {
@@ -40,8 +48,7 @@ export default function RegisterPage() {
             const plan = params.get('plan');
 
             if (plan && ['pro', 'power', 'business'].includes(plan)) {
-                setIsLoading(true); // Keep loading state
-                // Import api dynamically or use global api instance if available
+                setIsLoading(true);
                 const api = (await import('@/lib/api')).default;
 
                 try {
@@ -49,7 +56,7 @@ export default function RegisterPage() {
                         method: 'POST',
                         body: {
                             tier: plan,
-                            interval: 'monthly' // Default to monthly for now
+                            interval: 'monthly'
                         }
                     });
 
@@ -59,7 +66,6 @@ export default function RegisterPage() {
                     }
                 } catch (billingError) {
                     console.error('Failed to initiate checkout:', billingError);
-                    // Continue to dashboard if billing fails, user can upgrade later
                 }
             }
         } catch (err: any) {
@@ -70,41 +76,45 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <Link href="/" className="flex items-center justify-center gap-2">
-                    <div className="w-12 h-12 bg-primary-800 rounded-xl flex items-center justify-center">
-                        <TrendingDown className="w-7 h-7 text-white" />
+        <div className="min-h-screen bg-background relative overflow-hidden flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {/* Background elements to match Login UI */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+
+            <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+                <Link href="/" className="flex items-center justify-center gap-3 mb-8 group">
+                    <div className="w-14 h-14 bg-gradient-to-br from-primary via-primary/80 to-secondary rounded-2xl flex items-center justify-center shadow-glow transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        <TrendingDown className="w-8 h-8 text-white group-hover:animate-bounce" />
                     </div>
                 </Link>
-                <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
+                <h2 className="heading-1 text-center text-text-primary mb-2">
                     Create your account
                 </h2>
-                <p className="mt-2 text-center text-sm text-gray-600">
+                <p className="text-center text-text-tertiary font-bold uppercase tracking-widest text-[11px] mb-8">
                     Already have an account?{' '}
-                    <Link href="/login" className="text-primary-600 hover:text-primary-500 font-medium">
+                    <Link href="/login" className="text-primary hover:text-primary/80 transition-colors">
                         Sign in
                     </Link>
                 </p>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow-lg sm:rounded-xl sm:px-10">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+                <GlassCard variant="pro" className="p-8 shadow-2xl">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
+                            <div className="bg-error/10 border border-error/20 text-error px-4 py-3 rounded-xl flex items-center gap-3 animate-shake">
                                 <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                                <span className="text-sm">{error}</span>
+                                <span className="text-xs font-bold uppercase tracking-wide">{error}</span>
                             </div>
                         )}
 
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        <div className="space-y-2">
+                            <label htmlFor="name" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
                                 Full name
                             </label>
-                            <div className="mt-1 relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <User className="h-5 w-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
+                                    <User className="h-5 w-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
                                 </div>
                                 <input
                                     id="name"
@@ -114,19 +124,19 @@ export default function RegisterPage() {
                                     required
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 !text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                    placeholder="John Doe"
+                                    className="input-themed"
+                                    placeholder="Enter your name"
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        <div className="space-y-2">
+                            <label htmlFor="email" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
                                 Email address
                             </label>
-                            <div className="mt-1 relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
+                                    <Mail className="h-5 w-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
                                 </div>
                                 <input
                                     id="email"
@@ -136,19 +146,19 @@ export default function RegisterPage() {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 !text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                    placeholder="you@example.com"
+                                    className="input-themed"
+                                    placeholder="your@email.com"
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                        <div className="space-y-2">
+                            <label htmlFor="password" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
                                 Password
                             </label>
-                            <div className="mt-1 relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
+                                    <Lock className="h-5 w-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
                                 </div>
                                 <input
                                     id="password"
@@ -158,41 +168,55 @@ export default function RegisterPage() {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 !text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                                    className="input-themed"
                                     placeholder="••••••••"
                                 />
                             </div>
+
+                            {/* Strength Indicator Refined */}
                             {password && (
-                                <div className="mt-2">
-                                    <div className="flex gap-1">
+                                <div className="mt-4 px-1">
+                                    <div className="flex gap-1.5 h-1.5">
                                         {[1, 2, 3, 4].map((level) => (
                                             <div
                                                 key={level}
-                                                className={`h-1 flex-1 rounded-full ${passwordStrength >= level
+                                                className={`flex-1 rounded-full transition-all duration-500 ${passwordStrength >= level
                                                     ? passwordStrength >= 3
-                                                        ? 'bg-green-500'
+                                                        ? 'bg-success shadow-glow-sm'
                                                         : passwordStrength >= 2
-                                                            ? 'bg-yellow-500'
-                                                            : 'bg-red-500'
-                                                    : 'bg-gray-200'
+                                                            ? 'bg-warning'
+                                                            : 'bg-error'
+                                                    : 'bg-surface-hover/30'
                                                     }`}
                                             />
                                         ))}
                                     </div>
-                                    <p className="mt-1 text-xs text-gray-500">
-                                        {passwordStrength >= 3 ? 'Strong password' : passwordStrength >= 2 ? 'Medium password' : 'Weak password'}
-                                    </p>
+                                    <div className="flex items-center justify-between mt-2">
+                                        <p className="text-[9px] font-black uppercase tracking-wider text-text-tertiary">
+                                            Security Level: <span className={
+                                                passwordStrength >= 3 ? 'text-success' :
+                                                    passwordStrength >= 2 ? 'text-warning' : 'text-error'
+                                            }>
+                                                {passwordStrength >= 3 ? 'CALIBRATED' : passwordStrength >= 2 ? 'UNSTABLE' : 'CRITICAL'}
+                                            </span>
+                                        </p>
+                                        <div className="flex gap-2">
+                                            {password.length >= 8 && <Check className="w-3 h-3 text-success" />}
+                                            {password.match(/[A-Z]/) && <Target className="w-3 h-3 text-success" />}
+                                            {password.match(/[^a-zA-Z0-9]/) && <Zap className="w-3 h-3 text-success" />}
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </div>
 
-                        <div>
-                            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
+                        <div className="space-y-2">
+                            <label htmlFor="confirm-password" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
                                 Confirm password
                             </label>
-                            <div className="mt-1 relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
+                                    <Lock className="h-5 w-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
                                 </div>
                                 <input
                                     id="confirm-password"
@@ -202,53 +226,60 @@ export default function RegisterPage() {
                                     required
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 !text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                                    className="input-themed"
                                     placeholder="••••••••"
                                 />
                                 {confirmPassword && password === confirmPassword && (
-                                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                        <Check className="h-5 w-5 text-green-500" />
+                                    <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                                        <Shield className="h-4 w-4 text-success animate-pulse" />
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        <div className="flex items-start">
-                            <input
-                                id="terms"
-                                name="terms"
-                                type="checkbox"
-                                required
-                                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-0.5"
-                            />
-                            <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-                                I agree to the{' '}
-                                <Link href="/terms" className="text-primary-600 hover:text-primary-500">
-                                    Terms of Service
-                                </Link>{' '}
-                                and{' '}
-                                <Link href="/privacy" className="text-primary-600 hover:text-primary-500">
-                                    Privacy Policy
-                                </Link>
-                            </label>
+                        <div className="flex items-start bg-surface/30 p-3 rounded-xl border border-border/10">
+                            <div className="flex items-center h-5">
+                                <input
+                                    id="terms"
+                                    name="terms"
+                                    type="checkbox"
+                                    required
+                                    className="h-4 w-4 rounded border-border/50 text-primary bg-surface focus:ring-primary focus:ring-offset-background transition-all"
+                                />
+                            </div>
+                            <div className="ml-3">
+                                <label htmlFor="terms" className="text-[10px] font-bold text-text-secondary leading-tight">
+                                    I agree to the <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
+                                </label>
+                            </div>
                         </div>
 
-                        <button
+                        <GlowButton
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-primary-800 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="w-full h-14"
                         >
                             {isLoading ? (
                                 <>
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                    Creating account...
+                                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                                    CREATING PORTAL...
                                 </>
                             ) : (
-                                'Create account'
+                                <>
+                                    <Shield className="w-5 h-5 mr-2" />
+                                    CREATE ACCOUNT
+                                </>
                             )}
-                        </button>
+                        </GlowButton>
                     </form>
-                </div>
+                </GlassCard>
+            </div>
+
+            {/* Verification Icons Footer */}
+            <div className="mt-12 flex justify-center gap-10 opacity-30 grayscale hover:opacity-60 hover:grayscale-0 transition-all duration-700">
+                <Shield className="w-6 h-6 text-text-tertiary" />
+                <Lock className="w-6 h-6 text-text-tertiary" />
+                <Zap className="w-6 h-6 text-text-tertiary" />
             </div>
         </div>
     );

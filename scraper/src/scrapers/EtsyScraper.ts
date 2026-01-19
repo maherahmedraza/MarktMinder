@@ -12,6 +12,29 @@ export class EtsyScraper extends BaseScraper {
         super('etsy', 'EtsyScraper');
     }
 
+    /**
+     * Override scrape to prioritize Official API
+     */
+    async scrape(url: string): Promise<any> {
+        const parsed = this.parseUrl(url);
+
+        // Try Official API first if listingId is found and API key is present
+        if (parsed?.marketplaceId && config.etsy.apiKey) {
+            logger.info(`[EtsyScraper] Attempting official API for: ${parsed.marketplaceId}`);
+            const apiResult = await this.scrapeViaApi(parsed.marketplaceId);
+            if (apiResult) {
+                return {
+                    success: true,
+                    product: apiResult,
+                    duration: 0 // API is fast
+                };
+            }
+            logger.warn(`[EtsyScraper] Official API failed or listing not found, falling back to scraping`);
+        }
+
+        return super.scrape(url);
+    }
+
     getUrlPatterns(): RegExp[] {
         return [
             /etsy\.com\/listing\/(\d+)/i,
@@ -187,52 +210,62 @@ export class EtsyScraper extends BaseScraper {
     }
 
     /**
-     * Alternative: Use Etsy Open API if configured
+     * Official Etsy Open API v3 Implementation
+     * Provides high-fidelity data without scraping blocks.
      */
     async scrapeViaApi(listingId: string): Promise<ScrapedProduct | null> {
-        if (!config.etsy.apiKey) {
-            return null;
-        }
+        if (!config.etsy.apiKey) return null;
 
         try {
+            // 1. Fetch Listing Details
             const response = await fetch(
                 `https://openapi.etsy.com/v3/application/listings/${listingId}`,
                 {
-                    headers: {
-                        'x-api-key': config.etsy.apiKey,
-                    },
+                    headers: { 'x-api-key': config.etsy.apiKey },
                 }
             );
 
             if (!response.ok) {
-                logger.warn(`Etsy API returned ${response.status}`);
+                logger.warn(`[EtsyScraper] API returned status ${response.status} for ${listingId}`);
                 return null;
             }
 
-            interface EtsyApiResponse {
-                url: string;
-                title: string;
-                description?: string;
-                price?: { amount: number; divisor: number; currency_code?: string };
-                state: string;
-            }
+            const data = await response.json() as any;
 
-            const data = await response.json() as EtsyApiResponse;
+            // 2. Fetch Images (API v3 requires separate call for images)
+            let imageUrl: string | undefined;
+            try {
+                const imgResponse = await fetch(
+                    `https://openapi.etsy.com/v3/application/listings/${listingId}/images`,
+                    { headers: { 'x-api-key': config.etsy.apiKey } }
+                );
+                if (imgResponse.ok) {
+                    const imgData = await imgResponse.ok ? await imgResponse.json() as any : { results: [] };
+                    imageUrl = imgData.results?.[0]?.url_fullxfull || imgData.results?.[0]?.url_570xN;
+                }
+            } catch (err) {
+                logger.warn(`[EtsyScraper] Failed to fetch images via API: ${err}`);
+            }
 
             return {
                 marketplace: 'etsy',
                 marketplaceId: listingId,
-                url: data.url,
-                title: data.title,
-                description: data.description?.substring(0, 1000),
+                url: data.url || `https://www.etsy.com/listing/${listingId}`,
+                title: this.cleanText(data.title),
+                description: this.cleanText(data.description)?.substring(0, 1000),
                 price: data.price ? data.price.amount / data.price.divisor : undefined,
-                currency: data.price?.currency_code || 'USD',
+                currency: data.price?.currency_code || 'EUR',
+                imageUrl: imageUrl,
                 availability: data.state === 'active' ? 'in_stock' : 'out_of_stock',
+                category: data.taxonomy_id?.toString(), // Simple mapping
                 sellerType: 'third_party_new',
+                sellerName: data.shop_id?.toString(), // Shop name usually needs another call, but shop_id is a start
+                rating: data.rating_average,
+                reviewCount: data.rating_count,
                 scrapedAt: new Date(),
             };
         } catch (error) {
-            logger.error('Etsy API error:', error);
+            logger.error(`[EtsyScraper] API Integration error: ${error}`);
             return null;
         }
     }

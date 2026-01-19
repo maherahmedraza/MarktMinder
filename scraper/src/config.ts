@@ -59,6 +59,11 @@ export const config = {
         apiSecret: process.env.ETSY_API_SECRET,
     },
 
+    // Otto API
+    otto: {
+        apiKey: process.env.OTTO_API_KEY,
+    },
+
     // Logging
     logLevel: process.env.LOG_LEVEL || 'info',
 };

@@ -10,8 +10,13 @@ import {
     FileText,
     Loader2,
     AlertCircle,
-    CheckCircle
+    CheckCircle,
+    Plus,
+    Target,
+    Zap
 } from 'lucide-react';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 export default function AddProductPage() {
     const router = useRouter();
@@ -52,44 +57,56 @@ export default function AddProductPage() {
 
     if (success) {
         return (
-            <div className="max-w-lg mx-auto">
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-8 text-center">
-                    <CheckCircle className="w-16 h-16 text-green-500 dark:text-green-400 mx-auto mb-4" />
-                    <h2 className="text-xl font-semibold text-green-800 dark:text-green-200 mb-2">Product Added!</h2>
-                    <p className="text-green-600 dark:text-green-300">Redirecting to product page...</p>
-                </div>
+            <div className="max-w-xl mx-auto flex flex-col items-center justify-center min-h-[60vh]">
+                <GlassCard variant="pro" className="p-12 text-center animate-scale-in">
+                    <div className="w-20 h-20 bg-success/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glow-sm">
+                        <CheckCircle className="w-10 h-10 text-success" />
+                    </div>
+                    <h2 className="heading-2 text-text-primary mb-3">Asset Calibrated!</h2>
+                    <p className="text-text-tertiary font-bold uppercase tracking-widest text-[11px] animate-pulse">
+                        Redirecting to Neural Projection...
+                    </p>
+                </GlassCard>
             </div>
         );
     }
 
     return (
-        <div className="max-w-lg mx-auto">
+        <div className="max-w-xl mx-auto animate-fade-in">
             <Link
                 href="/dashboard/products"
-                className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors mb-6"
+                className="inline-flex items-center gap-2 text-text-tertiary hover:text-primary font-bold uppercase tracking-widest text-[10px] transition-colors mb-8 group"
             >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 Back to products
             </Link>
 
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Add Product to Track</h1>
+            <GlassCard variant="pro" className="p-8 shadow-2xl">
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center shadow-glow-sm">
+                        <Plus className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                        <h1 className="heading-3 text-text-primary">Asset Integration</h1>
+                        <p className="text-[10px] font-black text-text-tertiary tracking-[0.2em] uppercase">Phase 1: Source Acquisition</p>
+                    </div>
+                </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-8">
                     {error && (
-                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg flex items-center gap-2">
+                        <div className="bg-error/10 border border-error/20 text-error px-4 py-3 rounded-xl flex items-center gap-3 animate-shake">
                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                            <span className="text-sm">{error}</span>
+                            <span className="text-xs font-bold uppercase tracking-wide">{error}</span>
                         </div>
                     )}
 
-                    <div>
-                        <label htmlFor="url" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Product URL
+                    <div className="space-y-2">
+                        <label htmlFor="url" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
+                            Product Target URL
                         </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <LinkIcon className="h-5 w-5 text-gray-400" />
+                        <div className="relative group">
+                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <LinkIcon className="h-5 w-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
                             </div>
                             <input
                                 id="url"
@@ -98,73 +115,87 @@ export default function AddProductPage() {
                                 onChange={(e) => setUrl(e.target.value)}
                                 placeholder="https://www.amazon.de/dp/B0..."
                                 required
-                                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                                className="input-themed h-14"
                             />
                         </div>
                         {url && (
-                            <div className="mt-2">
+                            <div className="mt-3 px-1">
                                 {marketplace ? (
-                                    <span className={`inline-flex items-center gap-1.5 text-sm ${marketplace === 'amazon' ? 'text-amber-600 dark:text-amber-400' :
-                                        marketplace === 'etsy' ? 'text-orange-600 dark:text-orange-400' :
-                                            'text-red-600 dark:text-red-400'
-                                        }`}>
-                                        <CheckCircle className="w-4 h-4" />
-                                        {marketplace.charAt(0).toUpperCase() + marketplace.slice(1)} product detected
-                                    </span>
+                                    <div className="flex items-center gap-2 bg-success/10 border border-success/20 px-3 py-2 rounded-lg">
+                                        <Target className="w-3.5 h-3.5 text-success" />
+                                        <span className="text-[10px] font-black text-success uppercase tracking-widest">
+                                            {marketplace} Protocol Detected
+                                        </span>
+                                    </div>
                                 ) : (
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">
-                                        Supported: Amazon, Etsy, Otto.de
-                                    </span>
+                                    <div className="flex items-center gap-2 bg-surface-hover/30 px-3 py-2 rounded-lg border border-border/10">
+                                        <Zap className="w-3.5 h-3.5 text-text-tertiary" />
+                                        <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest leading-none">
+                                            Scanning for Marketplace Signature...
+                                        </span>
+                                    </div>
                                 )}
                             </div>
                         )}
                     </div>
 
-                    <div>
-                        <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Notes (optional)
+                    <div className="space-y-2">
+                        <label htmlFor="notes" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
+                            Operational Notes (optional)
                         </label>
-                        <div className="relative">
-                            <div className="absolute top-3 left-3 pointer-events-none">
-                                <FileText className="h-5 w-5 text-gray-400" />
+                        <div className="relative group">
+                            <div className="absolute top-4 left-4 pointer-events-none">
+                                <FileText className="h-5 w-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
                             </div>
                             <textarea
                                 id="notes"
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
-                                placeholder="Add a note about this product..."
-                                rows={3}
-                                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none"
+                                placeholder="Add technical metadata or tracking notes..."
+                                rows={4}
+                                className="input-themed pt-4 resize-none"
                             />
                         </div>
                     </div>
 
-                    <button
+                    <GlowButton
                         type="submit"
                         disabled={isLoading || !marketplace}
-                        className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-primary-800 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="w-full h-14"
                     >
                         {isLoading ? (
                             <>
-                                <Loader2 className="w-5 h-5 animate-spin" />
-                                . Adding product...
+                                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                                INITIALIZING SCRAPER...
                             </>
                         ) : (
-                            'Add Product'
+                            <>
+                                <Target className="w-5 h-5 mr-2" />
+                                INITIATE TRACKING
+                            </>
                         )}
-                    </button>
+                    </GlowButton>
                 </form>
 
-                {/* Tips */}
-                <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Tips</h3>
-                    <ul className="text-sm text-gray-500 dark:text-gray-400 space-y-2">
-                        <li>• Copy the full product URL from your browser</li>
-                        <li>• We'll automatically fetch product details and start tracking</li>
-                        <li>• Price updates happen every 4-24 hours depending on activity</li>
+                {/* Protocol Guidelines */}
+                <div className="mt-10 pt-8 border-t border-border/10">
+                    <h3 className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em] mb-4">Protocol Guidelines</h3>
+                    <ul className="space-y-3">
+                        <li className="flex items-start gap-3">
+                            <div className="w-1 h-1 rounded-full bg-primary mt-1.5"></div>
+                            <p className="text-[11px] text-text-tertiary font-medium">Capture the absolute target URL from the browser's identity bar.</p>
+                        </li>
+                        <li className="flex items-start gap-3">
+                            <div className="w-1 h-1 rounded-full bg-primary mt-1.5"></div>
+                            <p className="text-[11px] text-text-tertiary font-medium">MarktMinder Neural engine will auto-verify product metadata.</p>
+                        </li>
+                        <li className="flex items-start gap-3">
+                            <div className="w-1 h-1 rounded-full bg-primary mt-1.5"></div>
+                            <p className="text-[11px] text-text-tertiary font-medium">Standard scan frequency calibrated to 4-24 hour intervals.</p>
+                        </li>
                     </ul>
                 </div>
-            </div>
+            </GlassCard>
         </div>
     );
 }
