@@ -13,7 +13,7 @@ const pool = new Pool({
 
 async function runMigration() {
     try {
-        const migrationFile = path.resolve(process.cwd(), '../database/migrations/003_oauth_providers.sql');
+        const migrationFile = path.resolve(process.cwd(), '../database/migrations/004_push_subscriptions.sql');
         logger.info(`Running migration: ${migrationFile}`);
 
         if (!fs.existsSync(migrationFile)) {

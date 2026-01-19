@@ -5,6 +5,7 @@ import { EVENTS } from '../config/events.js';
 import { logger } from '../utils/logger.js';
 import { AlertModel } from '../models/index.js';
 import { emailService } from './email.service.js';
+import { pushService } from './push.service.js';
 import { query } from '../config/database.js';
 
 let subscriber: Redis;
@@ -124,6 +125,19 @@ async function processAlerts(data: ScrapeCompletedData) {
                     });
 
                     logger.info(`Price alert email sent to ${user.email} for product ${data.productId}`);
+                }
+
+                // Send push notification if enabled
+                if (alert.notify_push) {
+                    await pushService.sendPriceAlert(user.id, {
+                        productName: data.title,
+                        newPrice: data.price,
+                        oldPrice: data.oldPrice,
+                        url: `${config.frontendUrl}/dashboard/products/${data.productId}`,
+                        imageUrl: data.imageUrl,
+                    });
+
+                    logger.info(`Push notification sent to user ${alert.user_id} for product ${data.productId}`);
                 }
 
                 // Emit socket event for real-time notification

@@ -28,7 +28,8 @@ This document tracks all features in MarktMinder, their status, and planned enha
 | Password Reset | ✅ Released | 1.0.0 | Free |
 | Profile Management | ✅ Released | 1.0.0 | Free |
 | Admin User Management | ✅ Released | 1.0.0 | Admin |
-| OAuth (Google/GitHub) | 📋 Planned | 1.2.0 | Free |
+| OAuth (Google) | ✅ Released | 1.2.0 | Free |
+| GitHub OAuth | 📋 Planned | 1.2.0 | Free |
 | 2FA Support | 💡 Proposed | TBD | Pro |
 
 ### Product Tracking
@@ -55,8 +56,9 @@ This document tracks all features in MarktMinder, their status, and planned enha
 | All-Time Low Alert | ✅ Released | 1.0.0 | Pro |
 | Human-Readable Labels | ✅ Released | 1.1.0 | Free |
 | Duplicate Prevention | ✅ Released | 1.1.0 | Free |
+| Notification Toggle | ✅ Released | 1.2.0 | All |
 | Email Notifications | ✅ Released | 1.2.0 | Free |
-| Push Notifications | 📋 Planned | 1.2.0 | Pro |
+| Push Notifications | ✅ Released | 1.2.0 | Pro |
 | SMS Notifications | 💡 Proposed | TBD | Business |
 
 ### AI Features

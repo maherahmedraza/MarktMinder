@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/auth';
 import api from '@/lib/api';
 import { Settings, User, Bell, Shield, Trash2, Save, Loader2, CheckCircle, AlertCircle, Cookie, CreditCard, Zap, ExternalLink, Crown } from 'lucide-react';
 import { resetConsent, getConsentSettings } from '@/components/CookieConsent';
+import { subscribeToPush } from '@/lib/push';
 
 export default function SettingsPage() {
     const { user, logout } = useAuth();
@@ -18,6 +19,7 @@ export default function SettingsPage() {
 
     // Notification settings
     const [emailAlerts, setEmailAlerts] = useState(true);
+    const [pushAlerts, setPushAlerts] = useState(false);
     const [priceDropAlerts, setPriceDropAlerts] = useState(true);
     const [weeklyDigest, setWeeklyDigest] = useState(false);
 
@@ -141,20 +143,26 @@ export default function SettingsPage() {
             )}
 
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                <div className="flex border-b border-gray-200 dark:border-gray-700">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`flex items-center gap-2 px-6 py-4 text-sm font-medium transition-colors ${activeTab === tab.id
-                                ? 'text-primary-800 dark:text-primary-100 border-b-2 border-primary-800 dark:border-primary-500 bg-primary-50/50 dark:bg-primary-900/20'
-                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
-                                }`}
-                        >
-                            <tab.icon className="w-4 h-4" />
-                            {tab.label}
-                        </button>
-                    ))}
+                <div className="relative">
+                    <div className="overflow-x-auto">
+                        <div className="flex border-b border-gray-200 dark:border-gray-700 min-w-full w-max">
+                            {tabs.map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`flex items-center gap-2 px-6 py-4 text-sm font-medium transition-colors whitespace-nowrap ${activeTab === tab.id
+                                        ? 'text-primary-800 dark:text-primary-100 border-b-2 border-primary-800 dark:border-primary-500 bg-primary-50/50 dark:bg-primary-900/20'
+                                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
+                                        }`}
+                                >
+                                    <tab.icon className="w-4 h-4" />
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    {/* Scroll Indicator Gradient (right side) */}
+                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white dark:from-gray-800 to-transparent pointer-events-none md:hidden" />
                 </div>
 
                 <div className="p-6">
@@ -249,6 +257,34 @@ export default function SettingsPage() {
                                         className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                                     />
                                 </label>
+
+                                <label className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div>
+                                        <p className="font-medium text-gray-900 dark:text-white">Push Notifications</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">Receive alerts directly in your browser</p>
+                                    </div>
+                                    <input
+                                        type="checkbox"
+                                        checked={pushAlerts}
+                                        onChange={async (e) => {
+                                            const checked = e.target.checked;
+                                            if (checked) {
+                                                try {
+                                                    await subscribeToPush();
+                                                    setPushAlerts(true);
+                                                    setMessage({ type: 'success', text: 'Push notifications enabled!' });
+                                                } catch (err) {
+                                                    console.error(err);
+                                                    setPushAlerts(false);
+                                                    setMessage({ type: 'error', text: 'Failed to enable push notifications. Check browser permissions.' });
+                                                }
+                                            } else {
+                                                setPushAlerts(false);
+                                            }
+                                        }}
+                                        className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                                    />
+                                </label>
                             </div>
 
                             <button
@@ -282,12 +318,12 @@ export default function SettingsPage() {
                                 <>
                                     {/* Current Plan */}
                                     <div className={`rounded-xl p-6 text-white relative overflow-hidden ${subscription.subscription.tier === 'free'
-                                            ? 'bg-gradient-to-br from-gray-700 to-gray-900'
-                                            : subscription.subscription.tier === 'pro'
-                                                ? 'bg-gradient-to-br from-primary-800 to-primary-900'
-                                                : subscription.subscription.tier === 'power'
-                                                    ? 'bg-gradient-to-br from-yellow-600 to-orange-700'
-                                                    : 'bg-gradient-to-br from-purple-700 to-indigo-900'
+                                        ? 'bg-gradient-to-br from-gray-700 to-gray-900'
+                                        : subscription.subscription.tier === 'pro'
+                                            ? 'bg-gradient-to-br from-primary-800 to-primary-900'
+                                            : subscription.subscription.tier === 'power'
+                                                ? 'bg-gradient-to-br from-yellow-600 to-orange-700'
+                                                : 'bg-gradient-to-br from-purple-700 to-indigo-900'
                                         }`}>
                                         <div className="relative z-10 flex items-start justify-between">
                                             <div>

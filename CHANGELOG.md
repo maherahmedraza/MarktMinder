@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **OAuth Authentication**: "Sign in with Google" via Passport.js configuration.
+- **Push Notifications**: Web Push integration for immediate price alerts.
+- **Settings Page**: Updated with "Push Notifications" toggle and scrollable tabs.
 - Swagger/OpenAPI documentation at `/api/docs`
 - Toast notification component for frontend
 - CI/CD pipeline with GitHub Actions

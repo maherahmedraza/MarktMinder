@@ -8,7 +8,7 @@ import { logger } from './utils/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/index.js';
 import { checkHealth as checkDbHealth, closePool } from './config/database.js';
 import { checkHealth as checkRedisHealth, closeRedis } from './config/redis.js';
-import { authRoutes, productsRoutes, alertsRoutes, adminRoutes, billingRoutes } from './routes/index.js';
+import { authRoutes, productsRoutes, alertsRoutes, adminRoutes, billingRoutes, notificationRoutes } from './routes/index.js';
 import apiV1Routes from './routes/api-v1.routes.js';
 import { swaggerSpec } from './config/swagger.js';
 import passport, { initializePassport } from './config/passport.js';
@@ -98,6 +98,7 @@ app.get('/health/ready', async (req: Request, res: Response) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/alerts', alertsRoutes);
+app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/billing', billingRoutes);  // Subscription & Payments
 app.use('/api/v1', apiV1Routes);  // Public API
