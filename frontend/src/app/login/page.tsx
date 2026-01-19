@@ -134,6 +134,43 @@ export default function LoginPage() {
                             )}
                         </button>
                     </form>
+                    <div className="mt-6">
+                        <div className="relative">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-gray-300" />
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <a
+                                href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/auth/google`}
+                                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+                            >
+                                <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12.0003 20.45c4.6593 0 8.3604-3.882 8.3604-8.5995 0-.693-.0643-1.3695-.195-2.025h-8.1654v4.065h4.6862c-.2205 1.485-1.464 4.095-4.6863 4.095-2.775 0-5.1195-2.235-5.1195-5.535 0-3.3 2.3445-5.535 5.1195-5.535 1.566 0 2.871.615 3.8685 1.485l3.0135-2.925C17.1558 3.525 14.7738 2.55 12.0003 2.55 6.7803 2.55 2.5503 6.78 2.5503 12s4.23 9.45 9.45 9.45z"
+                                        fill="#4285F4"
+                                    />
+                                    <path
+                                        d="M2.5503 12c0-.825.132-1.62.378-2.37L6.5988 12.63c-.15.42-.2325.87-.2325 1.3425-.0015.006-.003.012-.003.018 0-.006.0015-.012.003-.018l-3.816 2.97c-.0015-.006-.003-.012-.003-.018-.0015-.018-.003-.036-.003-.054-.246-.75-.378-1.545-.378-2.37z"
+                                        fill="#FBBC05"
+                                    />
+                                    <path
+                                        d="M12.0003 20.45c2.583 0 4.8855-.891 6.6435-2.409l-3.237-2.673c-.8085.594-1.926 1.017-3.4065 1.017-2.6595 0-4.9605-1.74-5.787-4.143l-3.816 3.069c1.866 3.654 5.6295 6.1395 9.5985 6.1395z"
+                                        fill="#34A853"
+                                    />
+                                    <path
+                                        d="M6.2133 9.873c.423-1.2855 1.455-2.3445 2.766-2.934-.0555.228-.093.462-.111.7005-.018.2385-.0285.4785-.0285.72 0 1.2555.297 2.4435.8235 3.4995l-3.8175 2.97c-.0525-.0915-.1035-.1845-.153-.279-1.3965-2.5815-1.3965-5.703 0-8.2845l.5205.5205z"
+                                        fill="#EA4335"
+                                    />
+                                </svg>
+                                <span>Sign in with Google</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

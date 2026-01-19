@@ -6,6 +6,7 @@ import { bruteForceProtection, recordFailedAttempt, clearFailedAttempts, getRema
 import { BadRequestError, UnauthorizedError, ConflictError, NotFoundError } from '../utils/errors.js';
 import { query } from '../config/database.js';
 import { emailService } from '../services/email.service.js';
+import passport from '../config/passport.js';
 import crypto from 'crypto';
 
 const router = Router();
@@ -419,5 +420,78 @@ router.post(
         res.json({ message: 'Password reset successfully' });
     })
 );
+
+// ============================================
+// OAUTH ROUTES
+// ============================================
+
+/**
+ * @route   GET /api/auth/google
+ * @desc    Initiate Google OAuth authentication
+ * @access  Public
+ */
+router.get('/google',
+    passport.authenticate('google', {
+        scope: ['profile', 'email'],
+        session: false,
+    })
+);
+
+/**
+ * @route   GET /api/auth/google/callback
+ * @desc    Handle Google OAuth callback
+ * @access  Public
+ */
+router.get('/google/callback',
+    passport.authenticate('google', {
+        session: false,
+        failureRedirect: `${process.env.FRONTEND_URL}/login?error=oauth_failed`,
+    }),
+    asyncHandler(async (req: Request, res: Response) => {
+        const user = req.user as any;
+        if (!user) {
+            return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_failed`);
+        }
+
+        // Generate tokens
+        const accessToken = generateAccessToken({
+            id: user.id,
+            email: user.email,
+            name: user.name
+        });
+        const refreshToken = generateRefreshToken({ id: user.id });
+
+        // Store refresh token hash
+        const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+        await query(
+            `INSERT INTO refresh_tokens (user_id, token_hash, expires_at) 
+             VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
+            [user.id, tokenHash]
+        );
+
+        // Redirect to frontend with tokens
+        const redirectUrl = new URL(`${process.env.FRONTEND_URL}/auth/callback`);
+        redirectUrl.searchParams.set('accessToken', accessToken);
+        redirectUrl.searchParams.set('refreshToken', refreshToken);
+        redirectUrl.searchParams.set('expiresIn', '900');
+
+        res.redirect(redirectUrl.toString());
+    })
+);
+
+/**
+ * @route   GET /api/auth/providers
+ * @desc    Get available authentication providers
+ * @access  Public
+ */
+router.get('/providers', (req: Request, res: Response) => {
+    const providers: string[] = ['local'];
+
+    if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+        providers.push('google');
+    }
+
+    res.json({ providers });
+});
 
 export default router;

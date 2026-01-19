@@ -11,13 +11,18 @@ import { checkHealth as checkRedisHealth, closeRedis } from './config/redis.js';
 import { authRoutes, productsRoutes, alertsRoutes, adminRoutes, billingRoutes } from './routes/index.js';
 import apiV1Routes from './routes/api-v1.routes.js';
 import { swaggerSpec } from './config/swagger.js';
+import passport, { initializePassport } from './config/passport.js';
 
 // Create Express application
 const app: Application = express();
 
+// Initialize Passport Strategies
+initializePassport();
+
 // ======================
 // Security Middleware
 // ======================
+app.use(passport.initialize());
 app.use(helmet());
 app.use(cors({
     origin: config.frontendUrl,
