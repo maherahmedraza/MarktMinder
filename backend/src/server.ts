@@ -110,6 +110,10 @@ app.use('/api/gamification', gamificationRoutes);
 import telegramRoutes from './routes/telegram.routes.js';
 app.use('/api/telegram', telegramRoutes);
 
+// Conditional Alerts (Smart Alerts)
+import conditionalAlertsRoutes from './routes/conditional-alerts.routes.js';
+app.use('/api/conditional-alerts', conditionalAlertsRoutes);
+
 app.use('/api/v1', apiV1Routes);  // Public API
 
 // ======================
