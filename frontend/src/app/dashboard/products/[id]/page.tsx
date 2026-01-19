@@ -26,6 +26,7 @@ import {
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { StatCard } from '@/components/ui/StatCard';
+import { TrustScoreBadge } from '@/components/products/TrustScoreBadge';
 
 // Lazy load PriceChart for better performance
 const PriceChart = dynamic(
@@ -425,6 +426,9 @@ export default function ProductDetailPage() {
 
             {/* Bottom Details Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Trust Score / Fake Discount Detector */}
+                <TrustScoreBadge productId={productId} />
+
                 {/* Price Records Table */}
                 <GlassCard padding="none" className="overflow-hidden">
                     <div className="p-6 border-b border-border/50 flex items-center justify-between bg-surface-hover/30">

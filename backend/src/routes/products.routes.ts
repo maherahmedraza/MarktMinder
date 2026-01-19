@@ -208,6 +208,43 @@ router.get(
     })
 );
 
+// ==========================================
+// DISCOUNT ANALYSIS ENDPOINTS
+// ==========================================
+
+/**
+ * @route   GET /api/products/:id/discount-analysis
+ * @desc    Analyze discount authenticity (fake discount detection)
+ * @access  Private
+ */
+router.get(
+    '/:id/discount-analysis',
+    authenticate,
+    [param('id').isUUID()],
+    validate,
+    asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+
+        // Get current product data
+        const product = await ProductModel.findById(id);
+        if (!product) {
+            throw new NotFoundError('Product not found');
+        }
+
+        // Import discount analysis service
+        const { analyzeDiscount } = await import('../services/discount-analysis.service.js');
+
+        // Analyze the discount
+        const analysis = await analyzeDiscount(
+            id,
+            product.current_price || 0,
+            undefined // claimedOriginalPrice - could be passed from frontend
+        );
+
+        res.json({ analysis });
+    })
+);
+
 /**
  * @route   POST /api/products
  * @desc    Add a product to track
