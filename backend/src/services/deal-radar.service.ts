@@ -326,7 +326,7 @@ export async function getUserDeals(userId: string, limit: number = 10): Promise<
 
     // Boost score for matching categories
     const boostedDeals = uniqueDeals.map(deal => {
-        let boost = 0;
+        const boost = 0;
         // This would use deal.category if we had it
         return { ...deal, dealScore: Math.min(100, deal.dealScore + boost) };
     });

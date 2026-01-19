@@ -719,6 +719,72 @@ router.get(
     })
 );
 
+// ==========================================
+// AI SHOPPING ASSISTANT ENDPOINTS
+// ==========================================
+
+/**
+ * @route   GET /api/products/:id/recommendation
+ * @desc    Get AI buy/wait recommendation for a product
+ * @access  Private
+ */
+router.get(
+    '/:id/recommendation',
+    authenticate,
+    [param('id').isUUID()],
+    validate,
+    asyncHandler(async (req: Request, res: Response) => {
+        // Check feature access - AI Assistant requires Pro tier or higher
+        const hasAccess = await hasFeatureAccess(req.user!.id, 'ai_predictions');
+        if (!hasAccess) {
+            return res.status(403).json({
+                error: 'Upgrade to Pro to access AI Shopping Assistant',
+                upgradeRequired: true,
+                requiredTier: 'pro'
+            });
+        }
+
+        const { id } = req.params;
+
+        const { getBuyWaitRecommendation } = await import('../services/shopping-assistant.service.js');
+        const recommendation = await getBuyWaitRecommendation(id);
+
+        res.json({ recommendation });
+    })
+);
+
+/**
+ * @route   POST /api/products/recommendations/batch
+ * @desc    Get AI recommendations for multiple products
+ * @access  Private
+ */
+router.post(
+    '/recommendations/batch',
+    authenticate,
+    validate([
+        body('productIds').isArray({ min: 1, max: 10 }).withMessage('Provide 1-10 product IDs'),
+        body('productIds.*').isUUID(),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        // Check feature access
+        const hasAccess = await hasFeatureAccess(req.user!.id, 'ai_predictions');
+        if (!hasAccess) {
+            return res.status(403).json({
+                error: 'Upgrade to Pro to access AI Shopping Assistant',
+                upgradeRequired: true,
+                requiredTier: 'pro'
+            });
+        }
+
+        const { productIds } = req.body;
+
+        const { getBatchRecommendations } = await import('../services/shopping-assistant.service.js');
+        const recommendations = await getBatchRecommendations(productIds);
+
+        res.json({ recommendations });
+    })
+);
+
 
 
 /**

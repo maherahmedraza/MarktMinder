@@ -76,7 +76,7 @@ export default function LoginPage() {
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="block w-full pl-12 pr-4 py-4 bg-surface/50 border border-border/50 rounded-xl text-text-primary placeholder:text-text-tertiary font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+                                        className="input-themed"
                                         placeholder="user@marktminder.de"
                                     />
                                 </div>
@@ -98,7 +98,7 @@ export default function LoginPage() {
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="block w-full pl-12 pr-4 py-4 bg-surface/50 border border-border/50 rounded-xl text-text-primary placeholder:text-text-tertiary font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+                                        className="input-themed"
                                         placeholder="••••••••"
                                     />
                                 </div>

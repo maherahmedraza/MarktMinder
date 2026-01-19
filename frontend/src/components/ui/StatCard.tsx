@@ -19,33 +19,44 @@ export function StatCard({
     return (
         <GlassCard
             variant={isHighlight ? 'pro' : 'default'}
-            className="flex items-center gap-5 transition-all hover:scale-[1.02] hover:-translate-y-1 duration-300 group overflow-hidden"
+            className="flex items-center gap-5 transition-all hover:scale-[1.02] hover:-translate-y-1 duration-300 group overflow-hidden border-border/40"
         >
-            {/* Background Watermark Icon */}
-            <div className="absolute -right-6 -bottom-6 w-24 h-24 text-primary/5 transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-12 pointer-events-none">
+            {/* Background Decorative Element */}
+            <div className={`absolute -right-4 -bottom-4 w-20 h-20 opacity-[0.03] transition-transform duration-700 group-hover:scale-150 group-hover:rotate-12 pointer-events-none ${isHighlight ? 'text-primary' : 'text-text-primary'}`}>
                 {icon}
             </div>
 
-            <div className={`relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center border-2 transition-transform duration-500 group-hover:rotate-6 ${isHighlight
-                ? 'bg-primary text-text-inverse border-primary/50 shadow-glow'
-                : 'bg-surface-hover text-primary border-border'
+            <div className={`relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 group-hover:rotate-6 group-hover:shadow-glow-sm ${isHighlight
+                ? 'bg-primary/20 text-primary border-primary/30 shadow-glow-sm'
+                : 'bg-surface-hover/50 text-text-tertiary border-border/50 group-hover:text-primary group-hover:border-primary/30'
                 }`}>
                 {icon}
             </div>
 
-            <div className="relative z-10">
-                <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest mb-1">{title}</p>
-                <p className="text-2xl font-black font-mono tracking-tight leading-none text-text-primary">
+            <div className="relative z-10 flex-1">
+                <p className="text-[9px] font-black text-text-tertiary uppercase tracking-[0.3em] mb-1.5 opacity-70 group-hover:opacity-100 transition-opacity">
+                    {title}
+                </p>
+                <p className="text-2xl font-black font-mono tracking-tighter leading-none text-text-primary group-hover:text-primary transition-colors">
                     {value}
                 </p>
-                {trend && (
-                    <p className="text-[10px] text-success font-black mt-2 flex items-center gap-2 uppercase tracking-wide">
-                        <span className="relative flex h-2 w-2">
+                {trend ? (
+                    <div className="mt-2 flex items-center gap-2">
+                        <div className="flex h-1.5 w-1.5 relative">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-success"></span>
+                        </div>
+                        <span className="text-[9px] font-black text-success uppercase tracking-widest opacity-80 group-hover:opacity-100">
+                            {trend}
                         </span>
-                        {trend}
-                    </p>
+                    </div>
+                ) : (
+                    <div className="mt-2 flex items-center gap-2">
+                        <div className="h-[2px] w-6 bg-border/30 rounded-full" />
+                        <span className="text-[8px] font-black text-text-tertiary uppercase tracking-widest opacity-30">
+                            NOMINAL_STATE
+                        </span>
+                    </div>
                 )}
             </div>
         </GlassCard>

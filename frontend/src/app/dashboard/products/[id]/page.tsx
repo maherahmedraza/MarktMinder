@@ -29,6 +29,7 @@ import { StatCard } from '@/components/ui/StatCard';
 import { TrustScoreBadge } from '@/components/products/TrustScoreBadge';
 import { CrossMarketplaceWidget } from '@/components/dashboard/CrossMarketplaceWidget';
 import { SmartAlertBuilder } from '@/components/alerts/SmartAlertBuilder';
+import { AIRecommendation } from '@/components/dashboard/AIRecommendation';
 
 // Lazy load PriceChart for better performance
 const PriceChart = dynamic(
@@ -428,6 +429,9 @@ export default function ProductDetailPage() {
 
             {/* Bottom Details Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* AI Shopping Assistant - Buy/Wait Recommendation */}
+                <AIRecommendation productId={productId} className="lg:col-span-2" />
+
                 {/* Trust Score / Fake Discount Detector */}
                 <TrustScoreBadge productId={productId} />
 

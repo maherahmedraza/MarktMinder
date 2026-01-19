@@ -28,7 +28,7 @@ const createTransporter = () => {
     });
 };
 
-let transporter = createTransporter();
+const transporter = createTransporter();
 
 // Email templates
 const templates = {

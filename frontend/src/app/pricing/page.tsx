@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import api from '@/lib/api';
 import { TrendingDown, ArrowLeft, Check, Sparkles, Shield, Zap, Loader2 } from 'lucide-react';
+import PriceParticles from '@/components/PriceParticles';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 export default function PricingPage() {
     const { isAuthenticated, isLoading } = useAuth();
@@ -37,253 +39,227 @@ export default function PricingPage() {
         }
     }
 
-    const features = {
-        free: [
-            'Track up to 10 products',
-            'Price history for 30 days',
-            'Email notifications',
-            'Basic price alerts',
-            'Amazon, Etsy & Otto support',
-        ],
-        premium: [
-            'Unlimited product tracking',
-            'Full price history',
-            'Priority notifications',
-            'Advanced AI insights',
-            'Browser extension',
-            'API access',
-            'Priority support',
-        ],
-    };
-
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <header className="bg-primary-800 text-white py-6">
-                <div className="container mx-auto px-6">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="flex items-center gap-2">
-                            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                                <TrendingDown className="w-6 h-6 text-primary-800" />
+        <div className="min-h-screen bg-background relative transition-colors duration-500 overflow-hidden">
+            {/* Interactive Background */}
+            <div className="fixed inset-0 z-0">
+                <div className="absolute inset-0 bg-background transition-colors duration-500" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(91,108,255,0.12),transparent_70%)] dark:opacity-100 opacity-0 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(91,108,255,0.03),transparent_60%)] dark:opacity-0 opacity-100 transition-opacity duration-700" />
+
+                <PriceParticles
+                    className="dark:opacity-[0.25] opacity-[0.12] mix-blend-multiply dark:mix-blend-screen"
+                    particleCount={30}
+                />
+
+                <div className="absolute inset-0 bg-grid-pattern dark:opacity-[0.03] opacity-[0.04] pointer-events-none transition-opacity duration-500" />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col min-h-screen">
+                {/* Header */}
+                <header className="border-b border-border/10 dark:border-white/[0.05] backdrop-blur-md sticky top-0 z-50 transition-all duration-500">
+                    <div className="container mx-auto px-6 py-4">
+                        <div className="flex items-center justify-between">
+                            <Link href="/" className="group flex items-center gap-3">
+                                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20 group-hover:border-primary/50 transition-all">
+                                    <TrendingDown className="w-6 h-6 text-primary" />
+                                </div>
+                                <span className="text-xl font-black text-text-primary uppercase italic tracking-tighter">
+                                    Markt<span className="text-primary">Minder</span>
+                                </span>
+                            </Link>
+                            <Link href="/" className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-colors uppercase text-[10px] font-black tracking-[0.2em]">
+                                <ArrowLeft className="w-4 h-4" />
+                                Return_To_Base
+                            </Link>
+                        </div>
+                    </div>
+                </header>
+
+                <main className="flex-1 container mx-auto px-6 py-16 max-w-7xl">
+                    {/* Hero */}
+                    <div className="text-center mb-20 animate-reveal">
+                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4 text-center">Protocol_Access</div>
+                        <h1 className="text-4xl md:text-6xl font-black text-text-primary mb-6 uppercase italic leading-none">
+                            System <span className="text-primary">Subscription</span>
+                        </h1>
+                        <p className="text-lg text-text-tertiary max-w-2xl mx-auto uppercase tracking-widest opacity-80 decoration-primary/30">
+                            Select your tier for advanced asset monitoring.
+                        </p>
+                    </div>
+
+                    {/* Pricing Cards */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+                        {/* Free Tier */}
+                        <GlassCard className="p-8 flex flex-col group border-border/10 dark:border-white/10 hover:border-primary/30 transition-all">
+                            <div className="mb-6">
+                                <h2 className="text-xl font-black text-text-primary uppercase italic">Free</h2>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Standard Access</p>
                             </div>
-                            <span className="text-xl font-bold">MarktMinder</span>
-                        </Link>
-                        <Link href="/" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
-                            <ArrowLeft className="w-4 h-4" />
-                            Back to Home
-                        </Link>
-                    </div>
-                </div>
-            </header>
+                            <div className="mb-8">
+                                <span className="text-4xl font-black text-text-primary">€0</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                            </div>
+                            <ul className="space-y-4 mb-10 flex-1">
+                                {[
+                                    '5 Tracked Products',
+                                    '3 Active Alerts',
+                                    '30-Day History',
+                                    'Standard Latency'
+                                ].map((feature) => (
+                                    <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
+                                        <Check className="w-4 h-4 text-primary shrink-0" />
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+                            <Link href="/register" className="w-full">
+                                <GlowButton className="w-full text-[12px]" variant="outline">
+                                    INITIALIZE
+                                </GlowButton>
+                            </Link>
+                        </GlassCard>
 
-            {/* Hero */}
-            <section className="bg-gradient-to-b from-primary-800 to-primary-900 text-white py-16">
-                <div className="container mx-auto px-6 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                        Simple, Transparent Pricing
-                    </h1>
-                    <p className="text-xl text-white/80 max-w-2xl mx-auto">
-                        Start tracking prices for free. Upgrade when you need more power.
-                    </p>
-                </div>
-            </section>
+                        {/* Pro Tier */}
+                        <GlassCard className="p-8 flex flex-col group border-primary/20 bg-primary/[0.02] hover:bg-primary/[0.04] transition-all">
+                            <div className="mb-6">
+                                <h2 className="text-xl font-black text-text-primary uppercase italic">Pro</h2>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Enhanced Intel</p>
+                            </div>
+                            <div className="mb-8">
+                                <span className="text-4xl font-black text-text-primary">€4.99</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                            </div>
+                            <ul className="space-y-4 mb-10 flex-1">
+                                {[
+                                    '50 Tracked Products',
+                                    '25 Active Alerts',
+                                    'Full Price History',
+                                    'AI Predictions',
+                                    'Priority Queuing'
+                                ].map((feature) => (
+                                    <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
+                                        <Check className="w-4 h-4 text-primary shrink-0" />
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+                            <GlowButton
+                                onClick={() => handlePlanClick('pro')}
+                                disabled={!!isCheckingOut}
+                                className="w-full text-[12px]"
+                            >
+                                {isCheckingOut === 'pro' ? 'PROCESSING...' : 'INITIALIZE_PRO'}
+                            </GlowButton>
+                        </GlassCard>
 
-            {/* Pricing Cards */}
-            <main className="container mx-auto px-6 py-16 max-w-5xl">
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {/* Free Tier */}
-                    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col">
-                        <div className="mb-4">
-                            <h2 className="text-xl font-bold text-gray-900">Free</h2>
-                            <p className="text-gray-500 text-sm">For casual tracking</p>
-                        </div>
-                        <div className="mb-6">
-                            <span className="text-3xl font-bold text-gray-900">€0</span>
-                            <span className="text-gray-500">/mo</span>
-                        </div>
-                        <ul className="space-y-3 mb-8 flex-1">
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                5 Tracked Products
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                3 Active Alerts
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                30-Day History
-                            </li>
-                        </ul>
-                        <Link href="/register" className="block w-full py-2.5 text-center border-2 border-primary-800 text-primary-800 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
-                            Get Started
-                        </Link>
-                    </div>
+                        {/* Power Tier */}
+                        <GlassCard className="p-8 flex flex-col group border-yellow-500/20 bg-yellow-500/[0.02] hover:bg-yellow-500/[0.04] relative transition-all">
+                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-yellow-950 text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-lg shadow-yellow-500/20">
+                                OptimaL_Ratio
+                            </div>
+                            <div className="mb-6">
+                                <h2 className="text-xl font-black text-text-primary uppercase italic flex items-center gap-2">
+                                    Power <Zap className="w-4 h-4 text-yellow-500" />
+                                </h2>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Elite Monitoring</p>
+                            </div>
+                            <div className="mb-8">
+                                <span className="text-4xl font-black text-text-primary">€9.99</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                            </div>
+                            <ul className="space-y-4 mb-10 flex-1">
+                                {[
+                                    '200 Tracked Products',
+                                    '100 Active Alerts',
+                                    'Deal Radar & Price DNA',
+                                    'Priority Scraping',
+                                    'Custom Triggers'
+                                ].map((feature) => (
+                                    <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
+                                        <Check className="w-4 h-4 text-yellow-500 shrink-0" />
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+                            <GlowButton
+                                onClick={() => handlePlanClick('power')}
+                                disabled={!!isCheckingOut}
+                                className="w-full text-[12px] bg-yellow-500 hover:bg-yellow-400 text-yellow-950 shadow-yellow-500/20"
+                            >
+                                {isCheckingOut === 'power' ? 'PROCESSING...' : 'INITIALIZE_POWER'}
+                            </GlowButton>
+                        </GlassCard>
 
-                    {/* Pro Tier */}
-                    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col relative overflow-hidden">
-                        <div className="mb-4">
-                            <h2 className="text-xl font-bold text-gray-900">Pro</h2>
-                            <p className="text-gray-500 text-sm">For smart shoppers</p>
-                        </div>
-                        <div className="mb-6">
-                            <span className="text-3xl font-bold text-gray-900">€4.99</span>
-                            <span className="text-gray-500">/mo</span>
-                        </div>
-                        <ul className="space-y-3 mb-8 flex-1">
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                50 Tracked Products
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                25 Active Alerts
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                Full Price History
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                AI Predictions
-                            </li>
-                        </ul>
-                        <button
-                            onClick={() => handlePlanClick('pro')}
-                            disabled={!!isCheckingOut}
-                            className="block w-full py-2.5 text-center bg-primary-800 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50"
-                        >
-                            {isCheckingOut === 'pro' ? (
-                                <span className="flex items-center justify-center gap-2">
-                                    <Loader2 className="w-4 h-4 animate-spin" /> Processing...
-                                </span>
-                            ) : (
-                                'Start Free Trial'
-                            )}
-                        </button>
-                    </div>
-
-                    {/* Power Tier */}
-                    <div className="bg-gradient-to-br from-primary-900 to-gray-900 rounded-2xl p-6 shadow-xl flex flex-col text-white relative transform md:-translate-y-4">
-                        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-yellow-400 to-orange-500"></div>
-                        <div className="absolute top-4 right-4 bg-yellow-500 text-yellow-950 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
-                            Best Value
-                        </div>
-                        <div className="mb-4">
-                            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                                Power <Zap className="w-4 h-4 text-yellow-400" />
-                            </h2>
-                            <p className="text-gray-400 text-sm">For serious trackers</p>
-                        </div>
-                        <div className="mb-6">
-                            <span className="text-3xl font-bold text-white">€9.99</span>
-                            <span className="text-gray-400">/mo</span>
-                        </div>
-                        <ul className="space-y-3 mb-8 flex-1">
-                            <li className="flex items-center gap-2 text-sm text-gray-300">
-                                <Check className="w-4 h-4 text-yellow-400 shrink-0" />
-                                200 Tracked Products
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-300">
-                                <Check className="w-4 h-4 text-yellow-400 shrink-0" />
-                                100 Active Alerts
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-300">
-                                <Check className="w-4 h-4 text-yellow-400 shrink-0" />
-                                Deal Radar & Price DNA
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-300">
-                                <Check className="w-4 h-4 text-yellow-400 shrink-0" />
-                                Priority Scraping
-                            </li>
-                        </ul>
-                        <button
-                            onClick={() => handlePlanClick('power')}
-                            disabled={!!isCheckingOut}
-                            className="block w-full py-2.5 text-center bg-yellow-500 text-yellow-950 rounded-lg font-bold hover:bg-yellow-400 transition-colors disabled:opacity-50"
-                        >
-                            {isCheckingOut === 'power' ? (
-                                <span className="flex items-center justify-center gap-2">
-                                    <Loader2 className="w-4 h-4 animate-spin" /> Processing...
-                                </span>
-                            ) : (
-                                'Get Power'
-                            )}
-                        </button>
+                        {/* Business Tier */}
+                        <GlassCard className="p-8 flex flex-col group border-border/10 dark:border-white/10 hover:border-primary/30 transition-all">
+                            <div className="mb-6">
+                                <h2 className="text-xl font-black text-text-primary uppercase italic">Enterprise</h2>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Full Protocol</p>
+                            </div>
+                            <div className="mb-8">
+                                <span className="text-4xl font-black text-text-primary">€29.99</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                            </div>
+                            <ul className="space-y-4 mb-10 flex-1">
+                                {[
+                                    'Unlimited Products',
+                                    'Unlimited Alerts',
+                                    'API Access (10k/day)',
+                                    'White-label Embeds',
+                                    'Dedicated Support'
+                                ].map((feature) => (
+                                    <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
+                                        <Check className="w-4 h-4 text-primary shrink-0" />
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+                            <Link href="/contact" className="w-full">
+                                <GlowButton className="w-full text-[12px]" variant="outline">
+                                    CONTACT_SALES
+                                </GlowButton>
+                            </Link>
+                        </GlassCard>
                     </div>
 
-                    {/* Business Tier */}
-                    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col">
-                        <div className="mb-4">
-                            <h2 className="text-xl font-bold text-gray-900">Business</h2>
-                            <p className="text-gray-500 text-sm">For resellers & teams</p>
+                    {/* FAQ Section */}
+                    <div className="mt-32 max-w-4xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl font-black text-text-primary uppercase italic">Common_Inquiries</h2>
                         </div>
-                        <div className="mb-6">
-                            <span className="text-3xl font-bold text-gray-900">€29.99</span>
-                            <span className="text-gray-500">/mo</span>
-                        </div>
-                        <ul className="space-y-3 mb-8 flex-1">
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                Unlimited Products
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                Unlimited Alerts
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                API Access (10k/day)
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-gray-600">
-                                <Check className="w-4 h-4 text-green-500 shrink-0" />
-                                White-label Embeds
-                            </li>
-                        </ul>
-                        <Link href="/contact" className="block w-full py-2.5 text-center border-2 border-gray-200 text-gray-700 rounded-lg font-semibold hover:border-gray-300 hover:bg-gray-50 transition-colors">
-                            Contact Sales
-                        </Link>
-                    </div>
-                </div>
-
-                {/* FAQ Section */}
-                <div className="mt-16">
-                    <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
-                    <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                        <div className="bg-white rounded-xl p-6 border border-gray-200">
-                            <h3 className="font-semibold text-gray-900 mb-2">Can I cancel anytime?</h3>
-                            <p className="text-gray-600">Yes! You can cancel your subscription at any time. No questions asked.</p>
-                        </div>
-                        <div className="bg-white rounded-xl p-6 border border-gray-200">
-                            <h3 className="font-semibold text-gray-900 mb-2">What payment methods do you accept?</h3>
-                            <p className="text-gray-600">We accept all major credit cards, PayPal, and SEPA direct debit.</p>
-                        </div>
-                        <div className="bg-white rounded-xl p-6 border border-gray-200">
-                            <h3 className="font-semibold text-gray-900 mb-2">Is my data secure?</h3>
-                            <p className="text-gray-600">Absolutely. We use industry-standard encryption and never sell your data.</p>
-                        </div>
-                        <div className="bg-white rounded-xl p-6 border border-gray-200">
-                            <h3 className="font-semibold text-gray-900 mb-2">Do you offer refunds?</h3>
-                            <p className="text-gray-600">Yes, we offer a 30-day money-back guarantee for all paid plans.</p>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            {[
+                                { q: 'Can I cancel anytime?', a: 'Yes. Termination of sub-routine is available without penalty at any cycle interval.' },
+                                { q: 'Payment Methods?', a: 'All major credit protocols, PayPal, and SEPA direct debit supported.' },
+                                { q: 'Data Security?', a: 'AES-256 encryption applied to all asset identifiers and user metrics.' },
+                                { q: 'Refund Policy?', a: '30-day performance guarantee for all paid subscription tiers.' }
+                            ].map((faq, i) => (
+                                <GlassCard key={i} className="p-6 border-border/5 dark:border-white/5 bg-surface/10">
+                                    <h3 className="font-black text-text-primary mb-2 uppercase text-sm tracking-widest italic">{faq.q}</h3>
+                                    <p className="text-text-tertiary text-sm leading-relaxed">{faq.a}</p>
+                                </GlassCard>
+                            ))}
                         </div>
                     </div>
-                </div>
 
-                {/* Trust Section */}
-                <div className="mt-16 text-center">
-                    <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium">
-                        <Shield className="w-4 h-4" />
-                        GDPR Compliant • SSL Encrypted • Made in Germany
+                    {/* Security Footer */}
+                    <div className="mt-32 text-center">
+                        <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] bg-primary/5 text-primary border border-primary/20 backdrop-blur-sm">
+                            <Shield className="w-4 h-4" />
+                            GDPR_VALID • SSL_ENCRYPTED • MADE_IN_GERMANY
+                        </div>
                     </div>
-                </div>
-            </main>
+                </main>
 
-            {/* Footer */}
-            <footer className="bg-gray-100 border-t border-gray-200 py-8 mt-12">
-                <div className="container mx-auto px-6 text-center text-gray-500 text-sm">
-                    © 2026 MarktMinder. All rights reserved.
-                </div>
-            </footer>
+                {/* Footer */}
+                <footer className="border-t border-border/10 dark:border-white/[0.05] py-12 bg-surface/50 dark:bg-black/20 transition-colors duration-500">
+                    <div className="container mx-auto px-6 text-center text-text-tertiary text-[10px] font-black uppercase tracking-[0.2em]">
+                        © 2026 MarktMinder // All rights reserved.
+                    </div>
+                </footer>
+            </div>
         </div>
     );
 }

@@ -95,14 +95,18 @@ export default function AlertsPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
+            <div className="flex flex-col items-center justify-center py-32">
+                <div className="relative">
+                    <div className="w-20 h-20 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+                    <Bell className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
+                </div>
+                <p className="mt-8 text-xs font-black text-text-tertiary uppercase tracking-[0.4em] animate-pulse">Syncing Alert Nodes...</p>
             </div>
         );
     }
 
     return (
-        <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
+        <div className="space-y-10">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
@@ -110,18 +114,18 @@ export default function AlertsPage() {
                         <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-glow-sm">
                             <Bell className="w-6 h-6 text-primary" />
                         </div>
-                        <h1 className="text-4xl font-black text-text-primary tracking-tight uppercase">
-                            Neural <span className="text-gradient">Alerts</span>
+                        <h1 className="text-4xl font-black text-text-primary tracking-tight uppercase italic">
+                            Signal <span className="text-gradient">Alerts</span>
                         </h1>
                     </div>
                     <p className="text-text-secondary max-w-2xl text-lg font-medium leading-relaxed">
-                        Active price discovery triggers. Real-time notifications for market imbalances.
+                        Active market imbalance triggers. Real-time interception protocols for high-yield discovery.
                     </p>
                 </div>
                 <Link href="/dashboard/products" className="hidden sm:block">
                     <GlowButton variant="outline">
                         <Plus className="w-4 h-4 mr-2" />
-                        Create Alert
+                        INITIALIZE_ALERT
                     </GlowButton>
                 </Link>
             </div>
@@ -134,11 +138,11 @@ export default function AlertsPage() {
             )}
 
             {alerts.length === 0 ? (
-                <GlassCard className="text-center py-20 border-dashed">
-                    <div className="w-20 h-20 bg-surface-hover rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Bell className="w-10 h-10 text-text-tertiary" />
+                <GlassCard className="text-center py-24 border-dashed border-2 border-border/50">
+                    <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mx-auto mb-8 border border-border shadow-inner">
+                        <Bell className="w-10 h-10 text-text-tertiary opacity-20" />
                     </div>
-                    <h3 className="heading-3 text-text-primary mb-2">No alerts active</h3>
+                    <h3 className="text-2xl font-black text-text-primary mb-4 tracking-tight uppercase">No Signals Active</h3>
                     <p className="text-text-secondary mb-8 max-w-md mx-auto">
                         Track price movements with precision. Create an alert from any product page to get notifications direct to your dashboard.
                     </p>

@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { TrendingDown, ArrowLeft, Mail, MessageSquare, Send, Loader2, CheckCircle } from 'lucide-react';
+import { TrendingDown, ArrowLeft, Mail, MessageSquare, Send, Loader2, CheckCircle, Smartphone } from 'lucide-react';
+import PriceParticles from '@/components/PriceParticles';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 export default function ContactPage() {
     const [name, setName] = useState('');
@@ -17,201 +20,211 @@ export default function ContactPage() {
         setIsLoading(true);
 
         // Simulate form submission
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1500));
 
         setIsSubmitted(true);
         setIsLoading(false);
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <header className="bg-primary-800 text-white py-6">
-                <div className="container mx-auto px-6">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="flex items-center gap-2">
-                            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                                <TrendingDown className="w-6 h-6 text-primary-800" />
-                            </div>
-                            <span className="text-xl font-bold">MarktMinder</span>
-                        </Link>
-                        <Link href="/" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
-                            <ArrowLeft className="w-4 h-4" />
-                            Back to Home
-                        </Link>
-                    </div>
-                </div>
-            </header>
+        <div className="min-h-screen bg-background relative transition-colors duration-500 overflow-hidden">
+            {/* Interactive Background */}
+            <div className="fixed inset-0 z-0">
+                <div className="absolute inset-0 bg-background transition-colors duration-500" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(91,108,255,0.12),transparent_70%)] dark:opacity-100 opacity-0 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(91,108,255,0.03),transparent_60%)] dark:opacity-0 opacity-100 transition-opacity duration-700" />
+
+                <PriceParticles
+                    className="dark:opacity-[0.25] opacity-[0.12] mix-blend-multiply dark:mix-blend-screen"
+                    particleCount={30}
+                />
+
+                <div className="absolute inset-0 bg-grid-pattern dark:opacity-[0.03] opacity-[0.04] pointer-events-none transition-opacity duration-500" />
+            </div>
 
             {/* Content */}
-            <main className="container mx-auto px-6 py-12 max-w-4xl">
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
-                    <p className="text-lg text-gray-600">
-                        Have a question or feedback? We'd love to hear from you.
-                    </p>
-                </div>
+            <div className="relative z-10 flex flex-col min-h-screen">
+                {/* Header */}
+                <header className="border-b border-border/10 dark:border-white/[0.05] backdrop-blur-md sticky top-0 z-50 transition-all duration-500">
+                    <div className="container mx-auto px-6 py-4">
+                        <div className="flex items-center justify-between">
+                            <Link href="/" className="group flex items-center gap-3">
+                                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20 group-hover:border-primary/50 transition-all">
+                                    <TrendingDown className="w-6 h-6 text-primary" />
+                                </div>
+                                <span className="text-xl font-black text-text-primary uppercase italic tracking-tighter">
+                                    Markt<span className="text-primary">Minder</span>
+                                </span>
+                            </Link>
+                            <Link href="/" className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-colors uppercase text-[10px] font-black tracking-[0.2em]">
+                                <ArrowLeft className="w-4 h-4" />
+                                Return_To_Base
+                            </Link>
+                        </div>
+                    </div>
+                </header>
 
-                <div className="grid md:grid-cols-2 gap-12">
-                    {/* Contact Info */}
-                    <div>
-                        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Get in Touch</h2>
+                <main className="flex-1 container mx-auto px-6 py-16 max-w-6xl">
+                    <div className="text-center mb-16 animate-reveal">
+                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4">Comms_Interface</div>
+                        <h1 className="text-4xl md:text-6xl font-black text-text-primary mb-6 uppercase italic leading-none">
+                            Establish <span className="text-primary">Contact</span>
+                        </h1>
+                        <p className="text-lg text-text-tertiary max-w-2xl mx-auto uppercase tracking-widest opacity-80 font-medium">
+                            Initialize a message relay to our technical support cluster.
+                        </p>
+                    </div>
 
-                        <div className="space-y-6">
-                            <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <Mail className="w-6 h-6 text-primary-600" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                                    <p className="text-gray-600">
-                                        <a href="mailto:support@marktminder.de" className="text-primary-600 hover:text-primary-700">
-                                            support@marktminder.de
-                                        </a>
-                                    </p>
-                                    <p className="text-sm text-gray-500 mt-1">We typically respond within 24 hours</p>
-                                </div>
-                            </div>
+                    <div className="grid lg:grid-cols-5 gap-12 items-start">
+                        {/* Status Panel */}
+                        <div className="lg:col-span-2 space-y-6">
+                            <GlassCard className="p-8">
+                                <h3 className="text-xs font-black text-primary uppercase tracking-[0.2em] mb-8">Node_Information</h3>
 
-                            <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <MessageSquare className="w-6 h-6 text-primary-600" />
+                                <div className="space-y-10">
+                                    <div className="flex gap-4">
+                                        <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 shrink-0">
+                                            <Mail className="w-6 h-6 text-primary" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-black text-text-primary uppercase italic mb-1">Support_Relay</h4>
+                                            <a href="mailto:support@marktminder.de" className="text-primary font-mono text-sm hover:underline italic">support@marktminder.de</a>
+                                            <p className="text-[10px] text-text-tertiary uppercase mt-2 font-black tracking-widest">Latency: &lt; 24h</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-4">
+                                        <div className="w-12 h-12 bg-surface-hover/50 rounded-xl flex items-center justify-center border border-white/[0.05] shrink-0">
+                                            <MessageSquare className="w-6 h-6 text-text-secondary" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-black text-text-primary uppercase italic mb-1">Technical_Bulletins</h4>
+                                            <p className="text-text-tertiary text-sm leading-relaxed">Include system logs or account identifiers for expedited resolution cycles.</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-4">
+                                        <div className="w-12 h-12 bg-surface-hover/50 rounded-xl flex items-center justify-center border border-white/[0.05] shrink-0">
+                                            <Smartphone className="w-6 h-6 text-text-secondary" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-black text-text-primary uppercase italic mb-1">Mobile_Ops</h4>
+                                            <p className="text-text-tertiary text-sm leading-relaxed">Our field modules are optimized for mobile communication protocols.</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="font-semibold text-gray-900 mb-1">Support</h3>
-                                    <p className="text-gray-600">
-                                        For technical issues, please include your account email and a detailed description of the problem.
-                                    </p>
-                                </div>
+                            </GlassCard>
+
+                            <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 flex items-center gap-4">
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
+                                <span className="text-[10px] font-black text-text-tertiary uppercase tracking-[0.2em]">Operational_Status: ACTIVE</span>
                             </div>
                         </div>
 
-                        <div className="mt-8 p-6 bg-primary-50 rounded-xl">
-                            <h3 className="font-semibold text-gray-900 mb-2">Business Inquiries</h3>
-                            <p className="text-gray-600 text-sm">
-                                For partnership opportunities or business inquiries, please contact us at{' '}
-                                <a href="mailto:business@marktminder.de" className="text-primary-600 hover:text-primary-700">
-                                    business@marktminder.de
-                                </a>
-                            </p>
+                        {/* Message Terminal */}
+                        <div className="lg:col-span-3">
+                            <GlassCard variant="interactive" className="p-8 md:p-12">
+                                {isSubmitted ? (
+                                    <div className="text-center py-12 animate-reveal">
+                                        <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20 shadow-glow-green">
+                                            <CheckCircle className="w-10 h-10 text-green-500" />
+                                        </div>
+                                        <h3 className="text-2xl font-black text-text-primary mb-4 uppercase italic">Transmission_Successful</h3>
+                                        <p className="text-text-tertiary mb-10 max-w-sm mx-auto uppercase tracking-widest text-sm">
+                                            Your message has been queued for processing. Establish new relay?
+                                        </p>
+                                        <GlowButton
+                                            variant="outline"
+                                            onClick={() => {
+                                                setIsSubmitted(false);
+                                                setName('');
+                                                setEmail('');
+                                                setSubject('');
+                                                setMessage('');
+                                            }}
+                                        >
+                                            REINITIALIZE_REPORTER
+                                        </GlowButton>
+                                    </div>
+                                ) : (
+                                    <form onSubmit={handleSubmit} className="space-y-6">
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            <div className="space-y-2">
+                                                <label htmlFor="name" className="block text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">Entity_Identifier</label>
+                                                <input
+                                                    id="name"
+                                                    type="text"
+                                                    required
+                                                    value={name}
+                                                    onChange={(e) => setName(e.target.value)}
+                                                    className="w-full bg-surface-hover/50 border border-white/[0.08] rounded-xl px-5 py-3 text-text-primary focus:outline-none focus:border-primary/50 focus:bg-surface-hover transition-all font-mono"
+                                                    placeholder="NAME_OR_ID"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label htmlFor="email" className="block text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">Comms_Endpoint</label>
+                                                <input
+                                                    id="email"
+                                                    type="email"
+                                                    required
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    className="w-full bg-surface-hover/50 border border-white/[0.08] rounded-xl px-5 py-3 text-text-primary focus:outline-none focus:border-primary/50 focus:bg-surface-hover transition-all font-mono"
+                                                    placeholder="EMAIL_ADDRESS"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label htmlFor="subject" className="block text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">Protocol_Subject</label>
+                                            <input
+                                                id="subject"
+                                                type="text"
+                                                required
+                                                value={subject}
+                                                onChange={(e) => setSubject(e.target.value)}
+                                                className="w-full bg-surface-hover/50 border border-white/[0.08] rounded-xl px-5 py-3 text-text-primary focus:outline-none focus:border-primary/50 focus:bg-surface-hover transition-all font-mono"
+                                                placeholder="SYSTEM_QUERY_TYPE"
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label htmlFor="message" className="block text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">Transmission_Payload</label>
+                                            <textarea
+                                                id="message"
+                                                required
+                                                rows={6}
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)}
+                                                className="w-full bg-surface-hover/50 border border-white/[0.08] rounded-xl px-5 py-3 text-text-primary focus:outline-none focus:border-primary/50 focus:bg-surface-hover transition-all font-mono resize-none"
+                                                placeholder="ENTER_MESSAGE_CONTENTS..."
+                                            />
+                                        </div>
+
+                                        <div className="pt-4">
+                                            <GlowButton
+                                                type="submit"
+                                                disabled={isLoading}
+                                                className="w-full"
+                                                isLoading={isLoading}
+                                            >
+                                                EXECUTE_TRANSMISSION
+                                            </GlowButton>
+                                        </div>
+                                    </form>
+                                )}
+                            </GlassCard>
                         </div>
                     </div>
+                </main>
 
-                    {/* Contact Form */}
-                    <div className="bg-white rounded-xl shadow-lg p-8">
-                        {isSubmitted ? (
-                            <div className="text-center py-8">
-                                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <CheckCircle className="w-8 h-8 text-green-600" />
-                                </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent!</h3>
-                                <p className="text-gray-600 mb-6">
-                                    Thank you for reaching out. We'll get back to you soon.
-                                </p>
-                                <button
-                                    onClick={() => {
-                                        setIsSubmitted(false);
-                                        setName('');
-                                        setEmail('');
-                                        setSubject('');
-                                        setMessage('');
-                                    }}
-                                    className="text-primary-600 hover:text-primary-700 font-medium"
-                                >
-                                    Send another message
-                                </button>
-                            </div>
-                        ) : (
-                            <form onSubmit={handleSubmit} className="space-y-5">
-                                <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Name
-                                    </label>
-                                    <input
-                                        id="name"
-                                        type="text"
-                                        required
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                        placeholder="Your name"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Email
-                                    </label>
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        required
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                        placeholder="you@example.com"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Subject
-                                    </label>
-                                    <input
-                                        id="subject"
-                                        type="text"
-                                        required
-                                        value={subject}
-                                        onChange={(e) => setSubject(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                        placeholder="How can we help?"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Message
-                                    </label>
-                                    <textarea
-                                        id="message"
-                                        required
-                                        rows={5}
-                                        value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none"
-                                        placeholder="Your message..."
-                                    />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className="w-full flex items-center justify-center gap-2 bg-primary-800 text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2 className="w-5 h-5 animate-spin" />
-                                            Sending...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Send className="w-5 h-5" />
-                                            Send Message
-                                        </>
-                                    )}
-                                </button>
-                            </form>
-                        )}
+                {/* Footer */}
+                <footer className="border-t border-border/10 dark:border-white/[0.05] py-12 bg-surface/50 dark:bg-black/20 transition-colors duration-500 mt-12">
+                    <div className="container mx-auto px-6 text-center text-text-tertiary text-[10px] font-black uppercase tracking-[0.2em]">
+                        © 2026 MarktMinder // Comms_Core_v1.0.2
                     </div>
-                </div>
-            </main>
-
-            {/* Footer */}
-            <footer className="bg-gray-100 border-t border-gray-200 py-8 mt-12">
-                <div className="container mx-auto px-6 text-center text-gray-500 text-sm">
-                    © 2026 MarktMinder. All rights reserved.
-                </div>
-            </footer>
+                </footer>
+            </div>
         </div>
     );
 }
