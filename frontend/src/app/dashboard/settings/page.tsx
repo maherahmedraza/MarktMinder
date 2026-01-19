@@ -8,6 +8,7 @@ import { resetConsent, getConsentSettings } from '@/components/CookieConsent';
 import { subscribeToPush } from '@/lib/push';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { TelegramSettings } from '@/components/settings/TelegramSettings';
 
 export default function SettingsPage() {
     const { user, logout } = useAuth();
@@ -228,80 +229,87 @@ export default function SettingsPage() {
 
                     {/* Notifications Tab */}
                     {activeTab === 'notifications' && (
-                        <form onSubmit={handleSaveNotifications} className="max-w-xl space-y-8">
-                            <div className="grid grid-cols-1 gap-4">
-                                {[
-                                    { id: 'email', label: 'Email Alerts', sub: 'Receive price alerts via email', checked: emailAlerts, set: setEmailAlerts },
-                                    { id: 'price', label: 'Instant Drops', sub: 'Neural notifications on price delta', checked: priceDropAlerts, set: setPriceDropAlerts },
-                                    { id: 'weekly', label: 'Weekly Summary', sub: 'Consolidated market intelligence', checked: weeklyDigest, set: setWeeklyDigest },
-                                ].map((item) => (
-                                    <label key={item.id} className="group flex items-center justify-between p-5 bg-surface/30 border border-border/50 rounded-2xl cursor-pointer hover:bg-surface-hover/50 hover:border-primary/30 transition-all">
+                        <>
+                            <form onSubmit={handleSaveNotifications} className="max-w-xl space-y-8">
+                                <div className="grid grid-cols-1 gap-4">
+                                    {[
+                                        { id: 'email', label: 'Email Alerts', sub: 'Receive price alerts via email', checked: emailAlerts, set: setEmailAlerts },
+                                        { id: 'price', label: 'Instant Drops', sub: 'Neural notifications on price delta', checked: priceDropAlerts, set: setPriceDropAlerts },
+                                        { id: 'weekly', label: 'Weekly Summary', sub: 'Consolidated market intelligence', checked: weeklyDigest, set: setWeeklyDigest },
+                                    ].map((item) => (
+                                        <label key={item.id} className="group flex items-center justify-between p-5 bg-surface/30 border border-border/50 rounded-2xl cursor-pointer hover:bg-surface-hover/50 hover:border-primary/30 transition-all">
+                                            <div>
+                                                <p className="text-sm font-bold text-text-primary uppercase tracking-wide mb-1">{item.label}</p>
+                                                <p className="text-xs text-text-tertiary font-medium">{item.sub}</p>
+                                            </div>
+                                            <div className={`w-12 h-6 rounded-full relative transition-colors ${item.checked ? 'bg-primary' : 'bg-surface-elevated'}`}>
+                                                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${item.checked ? 'left-7' : 'left-1 shadow-sm'}`} />
+                                            </div>
+                                            <input
+                                                type="checkbox"
+                                                checked={item.checked}
+                                                onChange={(e) => item.set(e.target.checked)}
+                                                className="hidden"
+                                            />
+                                        </label>
+                                    ))}
+
+                                    <label className="group flex items-center justify-between p-5 bg-surface/30 border border-border/50 rounded-2xl cursor-pointer hover:bg-surface-hover/50 hover:border-primary/30 transition-all">
                                         <div>
-                                            <p className="text-sm font-bold text-text-primary uppercase tracking-wide mb-1">{item.label}</p>
-                                            <p className="text-xs text-text-tertiary font-medium">{item.sub}</p>
+                                            <p className="text-sm font-bold text-text-primary uppercase tracking-wide mb-1">Push Notifications</p>
+                                            <p className="text-xs text-text-tertiary font-medium">Browser-level deal alerts</p>
                                         </div>
-                                        <div className={`w-12 h-6 rounded-full relative transition-colors ${item.checked ? 'bg-primary' : 'bg-surface-elevated'}`}>
-                                            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${item.checked ? 'left-7' : 'left-1 shadow-sm'}`} />
+                                        <div className={`w-12 h-6 rounded-full relative transition-colors ${pushAlerts ? 'bg-primary' : 'bg-surface-elevated'}`}>
+                                            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${pushAlerts ? 'left-7' : 'left-1 shadow-sm'}`} />
                                         </div>
                                         <input
                                             type="checkbox"
-                                            checked={item.checked}
-                                            onChange={(e) => item.set(e.target.checked)}
+                                            checked={pushAlerts}
+                                            onChange={async (e) => {
+                                                const checked = e.target.checked;
+                                                if (checked) {
+                                                    try {
+                                                        await subscribeToPush();
+                                                        setPushAlerts(true);
+                                                        setMessage({ type: 'success', text: 'Protocol initialized: Push active' });
+                                                    } catch (err) {
+                                                        console.error(err);
+                                                        setPushAlerts(false);
+                                                        setMessage({ type: 'error', text: 'Protocol failed: Check permissions' });
+                                                    }
+                                                } else {
+                                                    setPushAlerts(false);
+                                                }
+                                            }}
                                             className="hidden"
                                         />
                                     </label>
-                                ))}
+                                </div>
 
-                                <label className="group flex items-center justify-between p-5 bg-surface/30 border border-border/50 rounded-2xl cursor-pointer hover:bg-surface-hover/50 hover:border-primary/30 transition-all">
-                                    <div>
-                                        <p className="text-sm font-bold text-text-primary uppercase tracking-wide mb-1">Push Notifications</p>
-                                        <p className="text-xs text-text-tertiary font-medium">Browser-level deal alerts</p>
-                                    </div>
-                                    <div className={`w-12 h-6 rounded-full relative transition-colors ${pushAlerts ? 'bg-primary' : 'bg-surface-elevated'}`}>
-                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${pushAlerts ? 'left-7' : 'left-1 shadow-sm'}`} />
-                                    </div>
-                                    <input
-                                        type="checkbox"
-                                        checked={pushAlerts}
-                                        onChange={async (e) => {
-                                            const checked = e.target.checked;
-                                            if (checked) {
-                                                try {
-                                                    await subscribeToPush();
-                                                    setPushAlerts(true);
-                                                    setMessage({ type: 'success', text: 'Protocol initialized: Push active' });
-                                                } catch (err) {
-                                                    console.error(err);
-                                                    setPushAlerts(false);
-                                                    setMessage({ type: 'error', text: 'Protocol failed: Check permissions' });
-                                                }
-                                            } else {
-                                                setPushAlerts(false);
-                                            }
-                                        }}
-                                        className="hidden"
-                                    />
-                                </label>
+                                <GlowButton
+                                    type="submit"
+                                    disabled={isSaving}
+                                    className="w-full sm:w-auto"
+                                >
+                                    {isSaving ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                            Processing...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Save className="w-4 h-4 mr-2" />
+                                            Commit Settings
+                                        </>
+                                    )}
+                                </GlowButton>
+                            </form>
+
+                            {/* Telegram Integration */}
+                            <div className="mt-8 pt-8 border-t border-border/20 max-w-xl">
+                                <TelegramSettings />
                             </div>
-
-                            <GlowButton
-                                type="submit"
-                                disabled={isSaving}
-                                className="w-full sm:w-auto"
-                            >
-                                {isSaving ? (
-                                    <>
-                                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                                        Processing...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Save className="w-4 h-4 mr-2" />
-                                        Commit Settings
-                                    </>
-                                )}
-                            </GlowButton>
-                        </form>
+                        </>
                     )}
 
                     {/* Billing Tab */}

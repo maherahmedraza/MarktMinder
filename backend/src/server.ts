@@ -106,6 +106,10 @@ app.use('/api/billing', billingRoutes);  // Subscription & Payments
 import gamificationRoutes from './routes/gamification.routes.js';
 app.use('/api/gamification', gamificationRoutes);
 
+// Telegram Bot routes
+import telegramRoutes from './routes/telegram.routes.js';
+app.use('/api/telegram', telegramRoutes);
+
 app.use('/api/v1', apiV1Routes);  // Public API
 
 // ======================

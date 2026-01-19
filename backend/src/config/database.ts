@@ -56,6 +56,17 @@ export async function query<T extends QueryResultRow = QueryResultRow>(
 }
 
 /**
+ * Execute a query and return the first row or null
+ */
+export async function queryOne<T extends QueryResultRow = QueryResultRow>(
+    text: string,
+    params?: any[]
+): Promise<T | null> {
+    const result = await query<T>(text, params);
+    return result.rows[0] || null;
+}
+
+/**
  * Get a client from the pool for transactions
  */
 export async function getClient(): Promise<PoolClient> {
