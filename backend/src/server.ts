@@ -101,6 +101,11 @@ app.use('/api/alerts', alertsRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/billing', billingRoutes);  // Subscription & Payments
+
+// Gamification routes (dynamic import to avoid circular dependencies)
+import gamificationRoutes from './routes/gamification.routes.js';
+app.use('/api/gamification', gamificationRoutes);
+
 app.use('/api/v1', apiV1Routes);  // Public API
 
 // ======================
