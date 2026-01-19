@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Schema.org structured data for LLM-friendly SEO
 - Web Design Best Practices documentation (`WEB_DESIGN_BEST_PRACTICES.md`)
 - QA Testing documentation (`TESTING.md`)
+- **Email notification service** with Nodemailer
+  - Welcome emails on registration
+  - Price drop alert emails
+  - Password reset emails
+  - Professional HTML email templates
+- Mobile hamburger menu for landing page header
 
 ### Changed
 - Updated API info endpoint to include documentation link

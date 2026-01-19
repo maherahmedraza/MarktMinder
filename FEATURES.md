@@ -55,7 +55,7 @@ This document tracks all features in MarktMinder, their status, and planned enha
 | All-Time Low Alert | ✅ Released | 1.0.0 | Pro |
 | Human-Readable Labels | ✅ Released | 1.1.0 | Free |
 | Duplicate Prevention | ✅ Released | 1.1.0 | Free |
-| Email Notifications | 📋 Planned | 1.2.0 | Free |
+| Email Notifications | ✅ Released | 1.2.0 | Free |
 | Push Notifications | 📋 Planned | 1.2.0 | Pro |
 | SMS Notifications | 💡 Proposed | TBD | Business |
 
@@ -166,4 +166,4 @@ This document tracks all features in MarktMinder, their status, and planned enha
 
 ---
 
-*Last updated: 2026-01-18*
+*Last updated: 2026-01-19*

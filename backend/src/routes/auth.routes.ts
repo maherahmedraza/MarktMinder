@@ -5,6 +5,7 @@ import { asyncHandler, validate, authenticate, generateAccessToken, generateRefr
 import { bruteForceProtection, recordFailedAttempt, clearFailedAttempts, getRemainingAttempts } from '../middleware/bruteForce.js';
 import { BadRequestError, UnauthorizedError, ConflictError, NotFoundError } from '../utils/errors.js';
 import { query } from '../config/database.js';
+import { emailService } from '../services/email.service.js';
 import crypto from 'crypto';
 
 const router = Router();
@@ -93,6 +94,15 @@ router.post(
        VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
             [user.id, tokenHash]
         );
+
+        // Send welcome email (async, don't block response)
+        emailService.sendWelcome({
+            to: user.email,
+            name: user.name || user.email.split('@')[0],
+        }).catch(err => {
+            // Log but don't fail registration
+            console.error('Failed to send welcome email:', err);
+        });
 
         res.status(201).json({
             message: 'User registered successfully',
