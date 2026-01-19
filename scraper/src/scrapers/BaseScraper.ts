@@ -116,6 +116,8 @@ export abstract class BaseScraper {
             const result = await scraperApi.fetch(url, {
                 render: true, // Enable JavaScript rendering
                 country: country,
+                premium: this.marketplace === 'etsy' || this.marketplace === 'otto',
+                ultraPremium: this.marketplace === 'etsy' || this.marketplace === 'otto',
             });
 
             if (!result.success || !result.html) {
@@ -225,6 +227,7 @@ export abstract class BaseScraper {
         if (url.includes('amazon.it')) return 'it';
         if (url.includes('amazon.es')) return 'es';
         if (url.includes('etsy.com')) return 'us';
+        if (url.includes('otto.de')) return 'de';
         return 'us'; // Default
     }
 

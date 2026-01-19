@@ -18,6 +18,7 @@ export interface ScraperApiOptions {
     render?: boolean;        // Enable JavaScript rendering
     country?: string;        // Country code (us, de, uk, etc.)
     premium?: boolean;       // Use premium proxies
+    ultraPremium?: boolean;  // Use ultra-premium proxies (e.g. for Etsy/Otto)
     sessionNumber?: number;  // Sticky session for multi-page scraping
 }
 
@@ -52,6 +53,14 @@ export class ScraperApiClient {
             return true;
         }
 
+        if (marketplace === 'etsy' && config.scraperApi.useForEtsy) {
+            return true;
+        }
+
+        if (marketplace === 'otto' && config.scraperApi.useForOtto) {
+            return true;
+        }
+
         return false;
     }
 
@@ -74,6 +83,10 @@ export class ScraperApiClient {
 
         if (options.premium) {
             params.append('premium', 'true');
+        }
+
+        if (options.ultraPremium) {
+            params.append('ultra_premium', 'true');
         }
 
         if (options.sessionNumber) {

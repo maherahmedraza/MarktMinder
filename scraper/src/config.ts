@@ -42,6 +42,8 @@ export const config = {
         apiKey: process.env.SCRAPER_API_KEY || '',
         // Use ScraperAPI for specific marketplaces only
         useForAmazon: process.env.SCRAPER_API_AMAZON !== 'false',
+        useForEtsy: process.env.SCRAPER_API_ETSY !== 'false',
+        useForOtto: process.env.SCRAPER_API_OTTO !== 'false',
     },
 
     // Rate Limits (per minute) - reduced for stealth
