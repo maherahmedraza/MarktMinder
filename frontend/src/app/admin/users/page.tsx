@@ -53,8 +53,8 @@ function ConfirmationModal({ isOpen, onClose, onConfirm, title, message, isDestr
                         onClick={onConfirm}
                         disabled={isLoading}
                         className={`px-4 py-2 text-white rounded-lg transition-colors font-medium flex items-center gap-2 ${isDestructive
-                                ? 'bg-red-600 hover:bg-red-700 disabled:hover:bg-red-600'
-                                : 'bg-primary-600 hover:bg-primary-700 disabled:hover:bg-primary-600'
+                            ? 'bg-red-600 hover:bg-red-700 disabled:hover:bg-red-600'
+                            : 'bg-primary-600 hover:bg-primary-700 disabled:hover:bg-primary-600'
                             } disabled:opacity-50`}
                     >
                         {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -202,126 +202,204 @@ export default function AdminUsersPage() {
                 </div>
             </div>
 
-            {/* Users Table */}
+            {/* Users List */}
             <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                 {isLoading ? (
                     <div className="flex items-center justify-center py-20">
                         <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
                     </div>
                 ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-gray-50 dark:bg-gray-900/50">
-                                <tr>
-                                    <th className="px-6 py-4 w-12">
-                                        <button
-                                            onClick={toggleSelectAll}
-                                            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                                        >
-                                            {selectedUsers.size === users.length && users.length > 0 ? (
-                                                <CheckSquare className="w-5 h-5 text-primary-600" />
-                                            ) : (
-                                                <Square className="w-5 h-5" />
-                                            )}
-                                        </button>
-                                    </th>
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">User</th>
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Status</th>
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Products</th>
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Alerts</th>
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Joined</th>
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Last Login</th>
-                                    <th className="text-right px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                {users.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={8} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                                            No users found.
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    users.map((user) => (
-                                        <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
-                                            <td className="px-6 py-4">
-                                                <button
-                                                    onClick={() => toggleSelectUser(user.id)}
-                                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                                                >
-                                                    {selectedUsers.has(user.id) ? (
-                                                        <CheckSquare className="w-5 h-5 text-primary-600" />
-                                                    ) : (
-                                                        <Square className="w-5 h-5" />
-                                                    )}
-                                                </button>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold">
-                                                        {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-gray-900 dark:text-white font-medium">{user.name || 'No name'}</p>
-                                                        <p className="text-gray-500 dark:text-gray-400 text-sm">{user.email}</p>
-                                                    </div>
+                    <>
+                        {/* Mobile Card Layout */}
+                        <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-700">
+                            {users.length === 0 ? (
+                                <div className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+                                    No users found.
+                                </div>
+                            ) : (
+                                users.map((user) => (
+                                    <div key={user.id} className="p-4">
+                                        <div className="flex items-start gap-3">
+                                            <button
+                                                onClick={() => toggleSelectUser(user.id)}
+                                                className="mt-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                            >
+                                                {selectedUsers.has(user.id) ? (
+                                                    <CheckSquare className="w-5 h-5 text-primary-600" />
+                                                ) : (
+                                                    <Square className="w-5 h-5" />
+                                                )}
+                                            </button>
+                                            <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
+                                                {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center justify-between gap-2">
+                                                    <p className="text-gray-900 dark:text-white font-medium truncate">
+                                                        {user.name || 'No name'}
+                                                    </p>
+                                                    <button
+                                                        onClick={() => confirmDelete(user.id)}
+                                                        className="text-red-600 dark:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg flex-shrink-0"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex flex-col gap-1">
+                                                <p className="text-gray-500 dark:text-gray-400 text-sm truncate">{user.email}</p>
+
+                                                <div className="flex flex-wrap items-center gap-2 mt-2">
                                                     {user.email_verified ? (
-                                                        <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded text-xs border border-green-200 dark:border-green-900">
+                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded text-xs border border-green-200 dark:border-green-900">
                                                             <Mail className="w-3 h-3" />
                                                             Verified
                                                         </span>
                                                     ) : (
-                                                        <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 rounded text-xs border border-yellow-200 dark:border-yellow-900">
+                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 rounded text-xs border border-yellow-200 dark:border-yellow-900">
                                                             Pending
                                                         </span>
                                                     )}
                                                     {user.role === 'admin' && (
-                                                        <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-purple-500/10 text-purple-700 dark:text-purple-400 rounded text-xs border border-purple-200 dark:border-purple-900">
+                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-500/10 text-purple-700 dark:text-purple-400 rounded text-xs border border-purple-200 dark:border-purple-900">
                                                             Admin
                                                         </span>
                                                     )}
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="inline-flex items-center gap-1 text-gray-900 dark:text-gray-300">
-                                                    <Package className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                                                    {user.products_count}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="inline-flex items-center gap-1 text-gray-900 dark:text-gray-300">
-                                                    <Bell className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                                                    {user.alerts_count}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 text-gray-500 dark:text-gray-400 text-sm">
-                                                {new Date(user.created_at).toLocaleDateString()}
-                                            </td>
-                                            <td className="px-6 py-4 text-gray-500 dark:text-gray-400 text-sm">
-                                                {user.last_login_at
-                                                    ? new Date(user.last_login_at).toLocaleDateString()
-                                                    : 'Never'
-                                                }
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <button
-                                                    onClick={() => confirmDelete(user.id)}
-                                                    className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
-                                                    title="Delete User"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
+
+                                                <div className="flex items-center gap-4 mt-3 text-sm text-gray-500 dark:text-gray-400">
+                                                    <span className="inline-flex items-center gap-1">
+                                                        <Package className="w-4 h-4" />
+                                                        {user.products_count}
+                                                    </span>
+                                                    <span className="inline-flex items-center gap-1">
+                                                        <Bell className="w-4 h-4" />
+                                                        {user.alerts_count}
+                                                    </span>
+                                                    <span>
+                                                        Joined {new Date(user.created_at).toLocaleDateString()}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Desktop Table Layout */}
+                        <div className="hidden md:block overflow-x-auto">
+                            <table className="w-full">
+                                <thead className="bg-gray-50 dark:bg-gray-900/50">
+                                    <tr>
+                                        <th className="px-6 py-4 w-12">
+                                            <button
+                                                onClick={toggleSelectAll}
+                                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                            >
+                                                {selectedUsers.size === users.length && users.length > 0 ? (
+                                                    <CheckSquare className="w-5 h-5 text-primary-600" />
+                                                ) : (
+                                                    <Square className="w-5 h-5" />
+                                                )}
+                                            </button>
+                                        </th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">User</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Status</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Products</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Alerts</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Joined</th>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Last Login</th>
+                                        <th className="text-right px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                    {users.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={8} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+                                                No users found.
                                             </td>
                                         </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                    ) : (
+                                        users.map((user) => (
+                                            <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
+                                                <td className="px-6 py-4">
+                                                    <button
+                                                        onClick={() => toggleSelectUser(user.id)}
+                                                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                                    >
+                                                        {selectedUsers.has(user.id) ? (
+                                                            <CheckSquare className="w-5 h-5 text-primary-600" />
+                                                        ) : (
+                                                            <Square className="w-5 h-5" />
+                                                        )}
+                                                    </button>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold">
+                                                            {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-gray-900 dark:text-white font-medium">{user.name || 'No name'}</p>
+                                                            <p className="text-gray-500 dark:text-gray-400 text-sm">{user.email}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex flex-col gap-1">
+                                                        {user.email_verified ? (
+                                                            <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded text-xs border border-green-200 dark:border-green-900">
+                                                                <Mail className="w-3 h-3" />
+                                                                Verified
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 rounded text-xs border border-yellow-200 dark:border-yellow-900">
+                                                                Pending
+                                                            </span>
+                                                        )}
+                                                        {user.role === 'admin' && (
+                                                            <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-purple-500/10 text-purple-700 dark:text-purple-400 rounded text-xs border border-purple-200 dark:border-purple-900">
+                                                                Admin
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <span className="inline-flex items-center gap-1 text-gray-900 dark:text-gray-300">
+                                                        <Package className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                                                        {user.products_count}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <span className="inline-flex items-center gap-1 text-gray-900 dark:text-gray-300">
+                                                        <Bell className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                                                        {user.alerts_count}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 text-gray-500 dark:text-gray-400 text-sm">
+                                                    {new Date(user.created_at).toLocaleDateString()}
+                                                </td>
+                                                <td className="px-6 py-4 text-gray-500 dark:text-gray-400 text-sm">
+                                                    {user.last_login_at
+                                                        ? new Date(user.last_login_at).toLocaleDateString()
+                                                        : 'Never'
+                                                    }
+                                                </td>
+                                                <td className="px-6 py-4 text-right">
+                                                    <button
+                                                        onClick={() => confirmDelete(user.id)}
+                                                        className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
+                                                        title="Delete User"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
                 )}
 
                 {/* Pagination */}
