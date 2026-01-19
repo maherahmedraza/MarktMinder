@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Bell, Package, Trash2, ToggleLeft, ToggleRight, Loader2, AlertCircle } from 'lucide-react';
+import { Bell, Package, Trash2, ToggleLeft, ToggleRight, Loader2, AlertCircle, Plus, Sparkles } from 'lucide-react';
 import api, { Alert } from '@/lib/api';
 import ConfirmationModal from '@/components/ui/ConfirmationModal';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 export default function AlertsPage() {
     const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -100,173 +102,119 @@ export default function AlertsPage() {
     }
 
     return (
-        <div>
+        <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Price Alerts</h1>
-                    <p className="text-gray-500 dark:text-gray-400 mt-1">Get notified when prices change</p>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-glow-sm">
+                            <Bell className="w-6 h-6 text-primary" />
+                        </div>
+                        <h1 className="text-4xl font-black text-text-primary tracking-tight uppercase">
+                            Neural <span className="text-gradient">Alerts</span>
+                        </h1>
+                    </div>
+                    <p className="text-text-secondary max-w-2xl text-lg font-medium leading-relaxed">
+                        Active price discovery triggers. Real-time notifications for market imbalances.
+                    </p>
                 </div>
+                <Link href="/dashboard/products" className="hidden sm:block">
+                    <GlowButton variant="outline">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Alert
+                    </GlowButton>
+                </Link>
             </div>
 
             {error && (
-                <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg flex items-center gap-2">
+                <div className="mb-6 bg-error/10 border border-error/20 text-error px-4 py-3 rounded-xl flex items-center gap-3">
                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                    <span>{error}</span>
+                    <span className="font-medium">{error}</span>
                 </div>
             )}
 
             {alerts.length === 0 ? (
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
-                    <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Bell className="w-8 h-8 text-gray-400 dark:text-gray-500" />
+                <GlassCard className="text-center py-20 border-dashed">
+                    <div className="w-20 h-20 bg-surface-hover rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Bell className="w-10 h-10 text-text-tertiary" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No alerts yet</h3>
-                    <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
-                        Create alerts on your tracked products to get notified when prices drop or reach your target.
+                    <h3 className="heading-3 text-text-primary mb-2">No alerts active</h3>
+                    <p className="text-text-secondary mb-8 max-w-md mx-auto">
+                        Track price movements with precision. Create an alert from any product page to get notifications direct to your dashboard.
                     </p>
-                    <Link
-                        href="/dashboard/products"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-800 text-white rounded-lg hover:bg-primary-700 transition-colors"
-                    >
-                        <Package className="w-4 h-4" />
-                        View Products
+                    <Link href="/dashboard/products">
+                        <GlowButton>
+                            <Package className="w-4 h-4 mr-2" />
+                            Browse Products
+                        </GlowButton>
                     </Link>
-                </div>
+                </GlassCard>
             ) : (
-                <>
-                    {/* Mobile Card Layout */}
-                    <div className="md:hidden space-y-4">
-                        {alerts.map((alert) => (
-                            <div
-                                key={alert.id}
-                                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4"
-                            >
-                                <div className="flex items-start gap-3 mb-3">
-                                    {alert.product?.imageUrl ? (
-                                        <img
-                                            src={alert.product.imageUrl}
-                                            alt={alert.product.title || 'Product'}
-                                            className="w-16 h-16 rounded-lg object-cover bg-gray-100 dark:bg-gray-700 flex-shrink-0"
-                                        />
-                                    ) : (
-                                        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <Package className="w-8 h-8 text-gray-400 dark:text-gray-500" />
-                                        </div>
-                                    )}
-                                    <div className="min-w-0 flex-1">
-                                        <Link
-                                            href={`/dashboard/products/${alert.productId}`}
-                                            className="text-sm font-medium text-gray-900 dark:text-white hover:text-primary-600 line-clamp-2"
-                                        >
-                                            {alert.product?.title || 'Unknown Product'}
-                                        </Link>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                            Current: €{alert.product?.currentPrice ? Number(alert.product.currentPrice).toFixed(2) : 'N/A'}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center justify-between gap-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-                                    <div className="flex items-center gap-3">
-                                        <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${getAlertTypeColor(alert.alertType)}`}>
-                                            {getAlertTypeLabel(alert.alertType)}
-                                        </span>
-                                        {alert.targetPrice && (
-                                            <span className="text-sm text-gray-600 dark:text-gray-300">
-                                                €{Number(alert.targetPrice).toFixed(2)}
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleToggle(alert.id)}
-                                            className="p-1.5"
-                                        >
-                                            {alert.isActive ? (
-                                                <ToggleRight className="w-6 h-6 text-green-600" />
-                                            ) : (
-                                                <ToggleLeft className="w-6 h-6 text-gray-400" />
-                                            )}
-                                        </button>
-                                        <button
-                                            onClick={() => confirmDelete(alert.id)}
-                                            className="p-1.5 text-red-600 hover:text-red-700"
-                                        >
-                                            <Trash2 className="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
+                <div className="space-y-6">
                     {/* Desktop Table Layout */}
-                    <div className="hidden md:block bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                        <div className="overflow-x-auto">
+                    <div className="hidden md:block">
+                        <GlassCard padding="none" className="overflow-hidden">
                             <table className="w-full">
-                                <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
+                                <thead className="bg-surface-hover/50 border-b border-border/50">
                                     <tr>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Product</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Alert Type</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Target Price</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Status</th>
-                                        <th className="text-right px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">Actions</th>
+                                        <th className="text-left px-6 py-4 text-xs font-bold text-text-tertiary uppercase tracking-widest">Product</th>
+                                        <th className="text-left px-6 py-4 text-xs font-bold text-text-tertiary uppercase tracking-widest">Trigger Type</th>
+                                        <th className="text-left px-6 py-4 text-xs font-bold text-text-tertiary uppercase tracking-widest">Target Price</th>
+                                        <th className="text-left px-6 py-4 text-xs font-bold text-text-tertiary uppercase tracking-widest">Status</th>
+                                        <th className="text-right px-6 py-4 text-xs font-bold text-text-tertiary uppercase tracking-widest">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody className="divide-y divide-border/20">
                                     {alerts.map((alert) => (
-                                        <tr key={alert.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                        <tr key={alert.id} className="hover:bg-surface-hover/30 transition-colors">
                                             <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    {/* Ensure product exists before accessing */}
+                                                <div className="flex items-center gap-4">
                                                     {alert.product?.imageUrl ? (
                                                         <img
                                                             src={alert.product.imageUrl}
                                                             alt={alert.product.title || 'Product'}
-                                                            className="w-12 h-12 rounded-lg object-cover bg-gray-100 dark:bg-gray-700"
+                                                            className="w-12 h-12 rounded-xl object-cover border border-border/50"
                                                         />
                                                     ) : (
-                                                        <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                                            <Package className="w-6 h-6 text-gray-400 dark:text-gray-500" />
+                                                        <div className="w-12 h-12 bg-surface rounded-xl flex items-center justify-center border border-border/50">
+                                                            <Package className="w-6 h-6 text-text-tertiary/50" />
                                                         </div>
                                                     )}
                                                     <div className="min-w-0">
                                                         <Link
                                                             href={`/dashboard/products/${alert.productId}`}
-                                                            className="text-sm font-medium text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 line-clamp-1"
+                                                            className="text-sm font-bold text-text-primary hover:text-primary transition-colors line-clamp-1"
                                                         >
                                                             {alert.product?.title || 'Unknown Product'}
                                                         </Link>
-                                                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                            Current: €{alert.product?.currentPrice ? Number(alert.product.currentPrice).toFixed(2) : 'N/A'}
+                                                        <p className="text-xs text-text-tertiary mt-0.5 font-mono">
+                                                            CURRENT: €{alert.product?.currentPrice ? Number(alert.product.currentPrice).toFixed(2) : 'N/A'}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${getAlertTypeColor(alert.alertType)}`}>
+                                                <span className={`inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${getAlertTypeColor(alert.alertType)}`}>
                                                     {getAlertTypeLabel(alert.alertType)}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
-                                                {alert.targetPrice ? `€${Number(alert.targetPrice).toFixed(2)}` : '-'}
+                                            <td className="px-6 py-4 text-sm font-black text-text-primary font-mono antialiased">
+                                                {alert.targetPrice ? `€${Number(alert.targetPrice).toFixed(2)}` : '---'}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <button
                                                     onClick={() => handleToggle(alert.id)}
-                                                    className="flex items-center gap-2"
+                                                    className="flex items-center gap-3 group transition-colors"
                                                 >
                                                     {alert.isActive ? (
                                                         <>
-                                                            <ToggleRight className="w-6 h-6 text-green-600 dark:text-green-500" />
-                                                            <span className="text-sm text-green-600 dark:text-green-500 font-medium">Active</span>
+                                                            <ToggleRight className="w-7 h-7 text-success group-hover:drop-shadow-glow transition-all" />
+                                                            <span className="text-xs font-bold text-success uppercase tracking-widest">Active</span>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <ToggleLeft className="w-6 h-6 text-gray-400 dark:text-gray-500" />
-                                                            <span className="text-sm text-gray-500 dark:text-gray-400">Paused</span>
+                                                            <ToggleLeft className="w-7 h-7 text-text-tertiary" />
+                                                            <span className="text-xs font-bold text-text-tertiary uppercase tracking-widest">Paused</span>
                                                         </>
                                                     )}
                                                 </button>
@@ -274,7 +222,7 @@ export default function AlertsPage() {
                                             <td className="px-6 py-4 text-right">
                                                 <button
                                                     onClick={() => confirmDelete(alert.id)}
-                                                    className="p-2 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                                    className="p-2 text-text-tertiary hover:text-error hover:bg-error/5 rounded-xl transition-all"
                                                     title="Delete alert"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
@@ -284,30 +232,102 @@ export default function AlertsPage() {
                                     ))}
                                 </tbody>
                             </table>
-                        </div>
+                        </GlassCard>
                     </div>
 
-                    {/* Info Card */}
-                    <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6">
-                        <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2">
-                            <Bell className="w-5 h-5" />
-                            How alerts work
-                        </h3>
-                        <ul className="text-sm text-blue-800 dark:text-blue-200/80 space-y-2">
-                            <li>• <strong>Price Drop:</strong> Get notified when the price decreases by any amount</li>
-                            <li>• <strong>Target Price:</strong> Get notified when the price reaches or goes below your target</li>
-                            <li>• <strong>Back in Stock:</strong> Get notified when an out-of-stock item becomes available</li>
-                        </ul>
+                    {/* Mobile Card Layout */}
+                    <div className="md:hidden space-y-4">
+                        {alerts.map((alert) => (
+                            <GlassCard key={alert.id} padding="default">
+                                <div className="flex items-start gap-4 mb-4">
+                                    {alert.product?.imageUrl ? (
+                                        <img
+                                            src={alert.product.imageUrl}
+                                            alt={alert.product.title || 'Product'}
+                                            className="w-16 h-16 rounded-xl object-cover border border-border/50"
+                                        />
+                                    ) : (
+                                        <div className="w-16 h-16 bg-surface rounded-xl flex items-center justify-center border border-border/50">
+                                            <Package className="w-8 h-8 text-text-tertiary/50" />
+                                        </div>
+                                    )}
+                                    <div className="min-w-0 flex-1">
+                                        <Link
+                                            href={`/dashboard/products/${alert.productId}`}
+                                            className="text-sm font-bold text-text-primary hover:text-primary line-clamp-2"
+                                        >
+                                            {alert.product?.title || 'Unknown Product'}
+                                        </Link>
+                                        <p className="text-xs text-text-tertiary mt-1 font-mono uppercase">
+                                            CURRENT: €{alert.product?.currentPrice ? Number(alert.product.currentPrice).toFixed(2) : 'N/A'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center justify-between gap-4 pt-4 border-t border-border/10">
+                                    <div className="flex flex-col gap-1">
+                                        <span className={`inline-flex px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider border w-fit ${getAlertTypeColor(alert.alertType)}`}>
+                                            {getAlertTypeLabel(alert.alertType)}
+                                        </span>
+                                        {alert.targetPrice && (
+                                            <span className="text-sm font-black text-text-primary font-mono mt-1">
+                                                €{Number(alert.targetPrice).toFixed(2)}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div className="flex items-center gap-3">
+                                        <button onClick={() => handleToggle(alert.id)}>
+                                            {alert.isActive ? (
+                                                <ToggleRight className="w-8 h-8 text-success" />
+                                            ) : (
+                                                <ToggleLeft className="w-8 h-8 text-text-tertiary" />
+                                            )}
+                                        </button>
+                                        <button
+                                            onClick={() => confirmDelete(alert.id)}
+                                            className="p-2 text-error hover:bg-error/5 rounded-xl"
+                                        >
+                                            <Trash2 className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </GlassCard>
+                        ))}
                     </div>
-                </>
+
+                    {/* How Alerts Work - Info Card */}
+                    <GlassCard variant="pro" className="!bg-primary/5 border-primary/20">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <Bell className="w-5 h-5 text-primary" />
+                            </div>
+                            <h3 className="heading-3 text-text-primary">How alerts work</h3>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            <div className="space-y-2">
+                                <p className="text-sm font-bold text-text-primary">Price Target</p>
+                                <p className="text-xs text-text-secondary leading-relaxed">Notifications trigger only when a product reaches or goes below your specified limit.</p>
+                            </div>
+                            <div className="space-y-2">
+                                <p className="text-sm font-bold text-text-primary">Global Tracking</p>
+                                <p className="text-xs text-text-secondary leading-relaxed">Our scrapers monitor all supported marketplaces 24/7 to ensure you never miss a deal.</p>
+                            </div>
+                            <div className="space-y-2">
+                                <p className="text-sm font-bold text-text-primary">Zero Lag</p>
+                                <p className="text-xs text-text-secondary leading-relaxed">Get instant dashboard notifications and optional emails the moment a target is hit.</p>
+                            </div>
+                        </div>
+                    </GlassCard>
+                </div>
             )}
 
             <ConfirmationModal
                 isOpen={deleteModal.isOpen}
                 onClose={() => setDeleteModal({ isOpen: false })}
                 onConfirm={handleConfirmDelete}
-                title="Delete Alert?"
-                message="Are you sure you want to delete this alert? You will no longer receive notifications."
+                title="Deactivate Price Alert?"
+                message="This action will permanently stop monitoring for this price target. You can re-enable it at any time from the product page."
                 isDestructive={true}
                 isLoading={isDeleting}
             />

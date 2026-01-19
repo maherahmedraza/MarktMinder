@@ -18,8 +18,14 @@ import {
     Loader2,
     Brain,
     Plus,
-    Check
+    Check,
+    Sparkles,
+    Package
 } from 'lucide-react';
+
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
+import { StatCard } from '@/components/ui/StatCard';
 
 // Lazy load PriceChart for better performance
 const PriceChart = dynamic(
@@ -192,387 +198,310 @@ export default function ProductDetailPage() {
     };
 
     return (
-        <div className="space-y-6">
-            {/* Back button */}
-            <Link
-                href="/dashboard/products"
-                className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
-            >
-                <ArrowLeft className="w-4 h-4" />
-                Back to products
-            </Link>
+        <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
+            {/* Action Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <Link
+                    href="/dashboard/products"
+                    className="inline-flex items-center gap-2 text-text-tertiary hover:text-primary font-bold uppercase tracking-widest text-[10px] transition-colors"
+                >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to products
+                </Link>
 
-            {/* Product header */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                <div className="flex flex-col lg:flex-row gap-6">
-                    {/* Image */}
-                    {product.imageUrl && (
-                        <div className="w-full lg:w-48 flex-shrink-0">
+                <div className="flex flex-wrap gap-3">
+                    {product.isTracked ? (
+                        <>
+                            <GlowButton
+                                onClick={() => setShowAlertModal(true)}
+                                variant="outline"
+                                className="flex-1 sm:flex-none"
+                            >
+                                <Bell className="w-4 h-4 mr-2" />
+                                Set Alert
+                            </GlowButton>
+                            <GlowButton
+                                onClick={() => setShowDeleteConfirm(true)}
+                                disabled={isDeleting}
+                                variant="danger"
+                                className="flex-1 sm:flex-none"
+                            >
+                                {isDeleting ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <Trash2 className="w-4 h-4 mr-2" />
+                                )}
+                                Stop Tracking
+                            </GlowButton>
+                        </>
+                    ) : (
+                        <GlowButton
+                            onClick={handleAddToWatchlist}
+                            disabled={isAdding}
+                            className="flex-1 sm:flex-none"
+                        >
+                            {isAdding ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                                <Plus className="w-4 h-4 mr-2" />
+                            )}
+                            Add to Watchlist
+                        </GlowButton>
+                    )}
+
+                    <a
+                        href={product.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 sm:flex-none"
+                    >
+                        <GlowButton variant="secondary" className="w-full">
+                            <ExternalLink className="w-4 h-4 mr-2" />
+                            Official Site
+                        </GlowButton>
+                    </a>
+                </div>
+            </div>
+
+            {/* Product Hero Section */}
+            <div className="flex flex-col lg:flex-row gap-8">
+                {/* Left: Product Image */}
+                <GlassCard padding="none" className="lg:w-80 flex-shrink-0 overflow-hidden group">
+                    <div className="relative aspect-square">
+                        {product.imageUrl ? (
                             <img
                                 src={product.imageUrl}
                                 alt={product.title}
-                                className="w-full h-48 object-cover rounded-xl bg-gray-100 dark:bg-gray-700"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                             />
-                        </div>
-                    )}
-
-                    {/* Info */}
-                    <div className="flex-1">
-                        <div className="flex items-start justify-between gap-4">
-                            <div>
-                                <span className={`inline-block px-2 py-0.5 text-xs font-medium rounded ${marketplaceColors[product.marketplace]}`}>
-                                    {product.marketplace}
-                                </span>
-                                <h1 className="text-xl font-bold text-gray-900 dark:text-white mt-2">{product.title}</h1>
-                                {product.brand && (
-                                    <p className="text-gray-500 dark:text-gray-400 mt-1">by {product.brand}</p>
-                                )}
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-surface">
+                                <Package className="w-16 h-16 text-text-tertiary/20" />
                             </div>
-
-                            {/* Actions */}
-                            <div className="flex gap-2 flex-shrink-0">
-                                {product.isTracked ? (
-                                    <>
-                                        <button
-                                            onClick={() => setShowAlertModal(true)}
-                                            className="flex items-center gap-2 px-4 py-2 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors text-sm font-medium"
-                                        >
-                                            <Bell className="w-4 h-4" />
-                                            Set Alert
-                                        </button>
-                                        <button
-                                            onClick={() => setShowDeleteConfirm(true)}
-                                            disabled={isDeleting}
-                                            className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors text-sm font-medium disabled:opacity-50"
-                                        >
-                                            {isDeleting ? (
-                                                <Loader2 className="w-4 h-4 animate-spin" />
-                                            ) : (
-                                                <Trash2 className="w-4 h-4" />
-                                            )}
-                                            Stop Tracking
-                                        </button>
-                                    </>
-                                ) : (
-                                    <button
-                                        onClick={handleAddToWatchlist}
-                                        disabled={isAdding}
-                                        className="flex items-center gap-2 px-4 py-2 bg-primary-800 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium disabled:opacity-50"
-                                    >
-                                        {isAdding ? (
-                                            <Loader2 className="w-4 h-4 animate-spin" />
-                                        ) : (
-                                            <Plus className="w-4 h-4" />
-                                        )}
-                                        Add to Watchlist
-                                    </button>
-                                )}
-
-                                <a
-                                    href={product.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm font-medium"
-                                >
-                                    <ExternalLink className="w-4 h-4" />
-                                    View
-                                </a>
-                            </div>
+                        )}
+                        <div className="absolute top-4 right-4">
+                            <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-lg border backdrop-blur-md shadow-xl ${marketplaceColors[product.marketplace] || 'bg-surface/80 text-text-primary'}`}>
+                                {product.marketplace}
+                            </span>
                         </div>
+                    </div>
+                </GlassCard>
 
-                        {/* Price stats */}
-                        <div className="mt-6 flex flex-wrap gap-6">
-                            <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Current Price</p>
-                                <p className="text-3xl font-bold text-gray-900 dark:text-white">
-                                    {product.currentPrice ? (
-                                        `€${Number(product.currentPrice).toFixed(2)}`
-                                    ) : (
-                                        <span className="text-lg text-gray-400 animate-pulse font-normal">Fetching price...</span>
-                                    )}
+                {/* Right: Info & Primary Stats */}
+                <div className="flex-1 space-y-6">
+                    <div>
+                        <h1 className="heading-1 text-text-primary leading-tight mb-2">{product.title}</h1>
+                        {product.brand && (
+                            <p className="text-text-tertiary font-bold uppercase tracking-[0.2em] text-xs">BRAND: {product.brand}</p>
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                        <StatCard
+                            title="Current Price"
+                            value={product.currentPrice ? `€${Number(product.currentPrice).toFixed(2)}` : 'FETCHING...'}
+                            icon={<TrendingDown className="w-6 h-6" />}
+                            isHighlight={true}
+                            trend={priceChange !== 0 ? `${priceChange < 0 ? '-' : '+'}${Math.abs(priceChange).toFixed(1)}% (30d)` : undefined}
+                        />
+                        {stats && (
+                            <>
+                                <StatCard
+                                    title="Lowest Ever"
+                                    value={`€${Number(stats.minPrice).toFixed(2)}`}
+                                    icon={<Check className="w-6 h-6" />}
+                                />
+                                <StatCard
+                                    title="Highest Ever"
+                                    value={`€${Number(stats.maxPrice).toFixed(2)}`}
+                                    icon={<TrendingUp className="w-6 h-6" />}
+                                />
+                                <StatCard
+                                    title="Target Price"
+                                    value={product.currentPrice ? `€${(Number(product.currentPrice) * 0.95).toFixed(2)}` : 'N/A'}
+                                    icon={<Bell className="w-6 h-6" />}
+                                />
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* AI Insight Section */}
+            <GlassCard variant="pro" className="relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-8 text-primary/10 group-hover:text-primary/20 transition-colors pointer-events-none">
+                    <Brain className="w-32 h-32 rotate-12" />
+                </div>
+
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center shadow-glow">
+                        <Sparkles className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                        <h2 className="heading-3 text-text-primary">AI Neural Projection</h2>
+                        <p className="text-xs font-bold text-text-tertiary tracking-widest uppercase mt-1">Status: Operational // Data Confidence: {prediction?.confidence || 0}%</p>
+                    </div>
+                </div>
+
+                {!prediction && !predictionError ? (
+                    <div className="flex flex-col items-center justify-center py-10">
+                        <p className="text-text-secondary mb-6 text-center max-w-md">Our neural network hasn't analyzed this price curve yet. Generate a prediction to see localized trends.</p>
+                        <GlowButton onClick={handlePredict} disabled={loadingPrediction}>
+                            {loadingPrediction ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Sparkles className="w-4 h-4 mr-2" />}
+                            Initialize Analysis
+                        </GlowButton>
+                    </div>
+                ) : predictionError ? (
+                    <div className="bg-warning/5 border border-warning/20 p-6 rounded-2xl flex gap-4">
+                        <AlertCircle className="w-6 h-6 text-warning flex-shrink-0" />
+                        <div>
+                            <p className="text-warning font-bold uppercase tracking-widest text-xs mb-1">Insufficient Data</p>
+                            <p className="text-text-secondary text-sm">{predictionError}</p>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+                        <div className="space-y-6">
+                            <div className="bg-surface-hover/50 p-6 rounded-2xl border border-border/50">
+                                <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest mb-4 font-mono">NEURAL RECOMMENDATION</p>
+                                <p className="text-text-primary text-sm leading-relaxed font-medium italic">
+                                    "{prediction!.analysis.recommendation}"
                                 </p>
-                                {priceChange !== 0 && (
-                                    <div className={`flex items-center gap-1 mt-1 text-sm ${priceChange < 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                                        {priceChange < 0 ? <TrendingDown className="w-4 h-4" /> : <TrendingUp className="w-4 h-4" />}
-                                        <span>{Math.abs(Number(priceChange)).toFixed(1)}% vs 30 days ago</span>
-                                    </div>
-                                )}
                             </div>
-
-                            {stats && (
-                                <>
-                                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Lowest</p>
-                                        <p className="text-xl font-semibold text-green-600 dark:text-green-400">
-                                            €{Number(stats.minPrice).toFixed(2)}
-                                        </p>
-                                    </div>
-                                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Highest</p>
-                                        <p className="text-xl font-semibold text-red-600 dark:text-red-400">
-                                            €{Number(stats.maxPrice).toFixed(2)}
-                                        </p>
-                                    </div>
-                                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Average</p>
-                                        <p className="text-xl font-semibold text-gray-700 dark:text-gray-300">
-                                            €{Number(stats.avgPrice).toFixed(2)}
-                                        </p>
-                                    </div>
-                                </>
-                            )}
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            {/* AI Prediction Section */}
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800 p-6">
-                <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/40 rounded-lg flex items-center justify-center">
-                            <Brain className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                        </div>
-                        <div>
-                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">AI Price Projection</h2>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Powered by historical data analysis</p>
-                        </div>
-                    </div>
-                    {!prediction && !predictionError && (
-                        <button
-                            onClick={handlePredict}
-                            disabled={loadingPrediction}
-                            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50"
-                        >
-                            {loadingPrediction ? <Loader2 className="w-4 h-4 animate-spin" /> : <SparklesIcon className="w-4 h-4" />}
-                            {loadingPrediction ? 'Analyzing...' : 'Generate Prediction'}
-                        </button>
-                    )}
-                </div>
-
-                {predictionError && (
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 flex items-start gap-3">
-                        <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                        <div>
-                            <p className="text-amber-800 dark:text-amber-200 font-medium">Prediction Unavailable</p>
-                            <p className="text-amber-600 dark:text-amber-300 text-sm mt-1">{predictionError}</p>
+                        <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            {[
+                                { label: 'FORECAST', val: prediction!.trend, highlight: true },
+                                { label: 'STRENGTH', val: `${prediction!.trendStrength}%` },
+                                { label: 'AVG PRICE', val: `€${prediction!.analysis.averagePrice.toFixed(2)}` },
+                                { label: 'CONFIDENCE', val: `${prediction!.confidence}%` }
+                            ].map((item, idx) => (
+                                <div key={idx} className="bg-surface/30 p-4 rounded-xl border border-border/20">
+                                    <p className="text-[9px] font-bold text-text-tertiary uppercase tracking-widest mb-1">{item.label}</p>
+                                    <p className={`text-lg font-black font-mono uppercase ${item.highlight ? 'text-primary' : 'text-text-primary'}`}>
+                                        {item.val}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}
-
-                {prediction && (
-                    <div className="bg-white/50 dark:bg-gray-900/50 backdrop-blur rounded-xl p-6 border border-indigo-100 dark:border-indigo-900/50 transition-all animate-in fade-in slide-in-from-bottom-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="space-y-4">
-                                <div>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Forecast Trend</p>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        {prediction.trend === 'falling' ? (
-                                            <TrendingDown className="w-6 h-6 text-green-500" />
-                                        ) : prediction.trend === 'rising' ? (
-                                            <TrendingUp className="w-6 h-6 text-red-500" />
-                                        ) : (
-                                            <ArrowRightIcon className="w-6 h-6 text-gray-400" />
-                                        )}
-                                        <span className={`text-2xl font-bold ${prediction.trend === 'falling' ? 'text-green-600 dark:text-green-400' :
-                                            prediction.trend === 'rising' ? 'text-red-600 dark:text-red-400' :
-                                                'text-gray-600 dark:text-gray-300'
-                                            }`}>
-                                            {prediction.trend.charAt(0).toUpperCase() + prediction.trend.slice(1)}
-                                        </span>
-                                    </div>
-                                    {prediction.predictions[0] && (
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                            7-Day Forecast: <strong>€{prediction.predictions[prediction.predictions.length - 1]?.predictedPrice.toFixed(2)}</strong>
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Confidence Score</p>
-                                    <div className="flex items-center gap-3">
-                                        <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                            <div
-                                                className="bg-indigo-600 h-2.5 rounded-full transition-all duration-1000"
-                                                style={{ width: `${prediction.confidence}%` }}
-                                            ></div>
-                                        </div>
-                                        <span className="font-medium text-gray-900 dark:text-white">{prediction.confidence}%</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="md:col-span-2 space-y-4">
-                                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-indigo-100 dark:border-indigo-900/30">
-                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                                        <TargetIcon className="w-4 h-4 text-indigo-500" />
-                                        recommendation
-                                    </h4>
-                                    <p className="text-gray-700 dark:text-gray-300">{prediction.analysis.recommendation}</p>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Volatility</p>
-                                        <p className="text-lg font-semibold text-gray-900 dark:text-white">{prediction.analysis.volatility}%</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Average Price</p>
-                                        <p className="text-lg font-semibold text-gray-900 dark:text-white">€{prediction.analysis.averagePrice.toFixed(2)}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Price Range</p>
-                                        <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                                            €{prediction.analysis.priceRange.min.toFixed(2)} - €{prediction.analysis.priceRange.max.toFixed(2)}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Trend Strength</p>
-                                        <p className="text-lg font-semibold text-gray-900 dark:text-white">{prediction.trendStrength}%</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
+            </GlassCard>
 
             {/* Price Chart */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 relative">
-                {isChartLoading && (
-                    <div className="absolute inset-0 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-xl transition-all duration-200">
-                        <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
+            <GlassCard padding="default">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                    <div className="flex items-center gap-3">
+                        <div className="w-1 bg-primary h-6 rounded-full"></div>
+                        <h2 className="heading-3 text-text-primary">Market History</h2>
                     </div>
-                )}
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Price History</h2>
-                    <div className="flex gap-1">
+
+                    <div className="flex gap-1 bg-surface-hover/80 p-1.5 rounded-xl border border-border/50">
                         {(['7d', '30d', '90d', '1y', 'all'] as TimeRange[]).map((range) => (
                             <button
                                 key={range}
                                 onClick={() => setTimeRange(range)}
-                                className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${timeRange === range
-                                    ? 'bg-primary-800 text-white'
-                                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${timeRange === range
+                                    ? 'bg-primary text-text-inverse shadow-glow'
+                                    : 'text-text-tertiary hover:text-text-secondary hover:bg-surface/50'
                                     }`}
                             >
-                                {range.toUpperCase()}
+                                {range}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                <div className="h-80">
+                <div className="h-96 relative">
+                    {isChartLoading && (
+                        <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] z-10 flex items-center justify-center rounded-2xl">
+                            <Loader2 className="w-10 h-10 animate-spin text-primary" />
+                        </div>
+                    )}
                     <PriceChart data={priceHistory} />
                 </div>
-            </div>
+            </GlassCard>
 
-            {/* Price History Table */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Price Records</h2>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300">
-                            <tr>
-                                <th className="px-6 py-3 font-medium">Date</th>
-                                <th className="px-6 py-3 font-medium">Price</th>
-                                <th className="px-6 py-3 font-medium">Availability</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                            {priceHistory.map((point, index) => (
-                                <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-900 dark:text-gray-100">
-                                    <td className="px-6 py-4">
-                                        {new Date(point.time).toLocaleString()}
-                                    </td>
-                                    <td className="px-6 py-4 font-medium">
-                                        €{Number(point.price).toFixed(2)}
-                                    </td>
-                                    <td className="px-6 py-4 text-gray-500 dark:text-gray-400 capitalize">
-                                        {point.availability?.replace('_', ' ') || 'In Stock'}
-                                    </td>
-                                </tr>
-                            ))}
-                            {priceHistory.length === 0 && (
+            {/* Bottom Details Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Price Records Table */}
+                <GlassCard padding="none" className="overflow-hidden">
+                    <div className="p-6 border-b border-border/50 flex items-center justify-between bg-surface-hover/30">
+                        <h2 className="text-sm font-bold text-text-primary uppercase tracking-widest">Pricing Records</h2>
+                    </div>
+                    <div className="max-h-[400px] overflow-y-auto">
+                        <table className="w-full text-left">
+                            <thead className="sticky top-0 bg-surface/90 backdrop-blur-md border-b border-border/20 z-10">
                                 <tr>
-                                    <td colSpan={3} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                                        No price history available for this period.
-                                    </td>
+                                    <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Timestamp</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Price</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Status</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className="divide-y divide-border/10">
+                                {priceHistory.map((point, index) => (
+                                    <tr key={index} className="hover:bg-surface-hover/30 transition-colors">
+                                        <td className="px-6 py-4 text-xs font-mono text-text-secondary">
+                                            {new Date(point.time).toLocaleString()}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm font-black text-text-primary font-mono antialiased">
+                                            €{Number(point.price).toFixed(2)}
+                                        </td>
+                                        <td className="px-6 py-4 text-[10px] font-bold">
+                                            <span className={`px-2 py-0.5 rounded-md ${point.availability === 'in_stock' ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>
+                                                {point.availability?.replace('_', ' ').toUpperCase() || 'IN STOCK'}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </GlassCard>
+
+                {/* Tracking Details */}
+                <GlassCard className="flex flex-col h-full">
+                    <div className="p-0 flex items-center justify-between mb-8">
+                        <h2 className="text-sm font-bold text-text-primary uppercase tracking-widest">Asset Details</h2>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-12">
+                        {[
+                            { label: 'Asset Category', value: product.category || 'GENERAL PRODUCTS' },
+                            { label: 'Last Scan', value: product.lastScrapedAt ? new Date(product.lastScrapedAt).toLocaleString() : 'PENDING' },
+                            { label: 'Tracking Initiated', value: product.createdAt ? new Date(product.createdAt).toLocaleDateString() : 'N/A' },
+                            { label: 'Tracking Status', value: product.isTracked ? 'OPERATIONAL' : 'INACTIVE', highlight: product.isTracked }
+                        ].map((item, i) => (
+                            <div key={i} className="space-y-1.5">
+                                <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest font-mono">{item.label}</p>
+                                <p className={`text-sm font-bold uppercase tracking-wide ${item.highlight ? 'text-success' : 'text-text-primary'}`}>{item.value}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {product.notes && (
+                        <div className="mt-auto pt-8 border-t border-border/10">
+                            <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest font-mono mb-2">Internal Notes</p>
+                            <p className="text-sm text-text-secondary italic leading-relaxed">"{product.notes}"</p>
+                        </div>
+                    )}
+                </GlassCard>
             </div>
 
-            {/* Product Details */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Details</h2>
-                <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <dt className="text-sm text-gray-500 dark:text-gray-400">Category</dt>
-                        <dd className="text-gray-900 dark:text-white">{product.category || '-'}</dd>
-                    </div>
-                    <div>
-                        <dt className="text-sm text-gray-500 dark:text-gray-400">Availability</dt>
-                        <dd className="text-gray-900 dark:text-white capitalize">{product.availability?.replace('_', ' ') || '-'}</dd>
-                    </div>
-                    <div>
-                        <dt className="text-sm text-gray-500 dark:text-gray-400">Last Updated</dt>
-                        <dd className="text-gray-900 dark:text-white flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-gray-400" />
-                            {product.lastScrapedAt
-                                ? new Date(product.lastScrapedAt).toLocaleString()
-                                : '-'
-                            }
-                        </dd>
-                    </div>
-                    <div>
-                        <dt className="text-sm text-gray-500 dark:text-gray-400">Tracking Since</dt>
-                        <dd className="text-gray-900 dark:text-white">
-                            {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : '-'}
-                        </dd>
-                    </div>
-                    <div>
-                        <dt className="text-sm text-gray-500 dark:text-gray-400">Status</dt>
-                        <dd className="text-gray-900 dark:text-white flex items-center gap-2">
-                            {product.isTracked ? (
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
-                                    Tracked
-                                </span>
-                            ) : (
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                    Not Tracked
-                                </span>
-                            )}
-                        </dd>
-                    </div>
-                </dl>
-
-                {product.notes && (
-                    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <dt className="text-sm text-gray-500 dark:text-gray-400">Notes</dt>
-                        <dd className="text-gray-900 dark:text-white mt-1">{product.notes}</dd>
-                    </div>
-                )}
-            </div>
-
-            {/* Delete Confirmation Dialog */}
+            {/* Deletion Dialog */}
             <ConfirmDialog
                 isOpen={showDeleteConfirm}
                 onClose={() => setShowDeleteConfirm(false)}
                 onConfirm={handleDelete}
-                title="Stop Tracking Product?"
-                message={`Are you sure you want to stop tracking "${product.title}"? You can always add it back later.`}
-                confirmText="Stop Tracking"
-                cancelText="Keep Tracking"
+                title="Stop Tracking Asset?"
+                message={`Are you sure you want to stop tracking "${product.title}"? Neural history will be archived.`}
+                confirmText="Terminate Tracking"
+                cancelText="Maintain Status"
                 isLoading={isDeleting}
                 variant="danger"
             />
 
-            {/* Alert Modal */}
+            {/* Alert System Modal */}
             {showAlertModal && (
                 <AlertModal
                     productId={productId}

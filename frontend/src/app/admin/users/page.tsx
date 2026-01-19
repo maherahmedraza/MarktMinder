@@ -1,8 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Users, Search, Mail, Package, Bell, Loader2, Trash2, X, AlertTriangle, CheckSquare, Square } from 'lucide-react';
+import { Users, Search, Mail, Package, Bell, Loader2, Trash2, X, AlertTriangle, CheckSquare, Square, Shield, Activity, Users2, Database } from 'lucide-react';
 import api from '@/lib/api';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
+import ConfirmationModal from '@/components/ui/ConfirmationModal';
 
 interface AdminUser {
     id: string;
@@ -14,56 +17,6 @@ interface AdminUser {
     role?: string;
     products_count: number;
     alerts_count: number;
-}
-
-interface ConfirmationModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
-    title: string;
-    message: string;
-    isDestructive?: boolean;
-    isLoading?: boolean;
-}
-
-function ConfirmationModal({ isOpen, onClose, onConfirm, title, message, isDestructive = false, isLoading = false }: ConfirmationModalProps) {
-    if (!isOpen) return null;
-
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full p-6 shadow-xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-200">
-                <div className="flex items-start gap-4">
-                    <div className={`p-3 rounded-full ${isDestructive ? 'bg-red-100 dark:bg-red-900/30 text-red-600' : 'bg-primary-100 dark:bg-primary-900/30 text-primary-600'}`}>
-                        {isDestructive ? <AlertTriangle className="w-6 h-6" /> : <Bell className="w-6 h-6" />}
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
-                        <p className="mt-2 text-gray-500 dark:text-gray-400">{message}</p>
-                    </div>
-                </div>
-                <div className="mt-6 flex justify-end gap-3">
-                    <button
-                        onClick={onClose}
-                        disabled={isLoading}
-                        className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium disabled:opacity-50"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={onConfirm}
-                        disabled={isLoading}
-                        className={`px-4 py-2 text-white rounded-lg transition-colors font-medium flex items-center gap-2 ${isDestructive
-                            ? 'bg-red-600 hover:bg-red-700 disabled:hover:bg-red-600'
-                            : 'bg-primary-600 hover:bg-primary-700 disabled:hover:bg-primary-600'
-                            } disabled:opacity-50`}
-                    >
-                        {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {isDestructive ? 'Delete' : 'Confirm'}
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 export default function AdminUsersPage() {
@@ -172,110 +125,127 @@ export default function AdminUsersPage() {
     };
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-10">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Users</h1>
-                    <p className="text-gray-500 dark:text-gray-400">{total} registered users</p>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-glow-sm">
+                            <Users2 className="w-6 h-6 text-primary" />
+                        </div>
+                        <h1 className="text-4xl font-black text-text-primary tracking-tight uppercase">
+                            Entity <span className="text-gradient">Database</span>
+                        </h1>
+                    </div>
+                    <p className="text-text-secondary max-w-2xl text-lg font-medium leading-relaxed">
+                        Authorized personnel records. Access control and entity lifecycle management: <span className="text-primary font-bold">{total} registered nodes</span>.
+                    </p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-4">
                     {selectedUsers.size > 0 && (
-                        <button
+                        <GlowButton
+                            variant="danger"
                             onClick={confirmBulkDelete}
-                            className="flex items-center gap-2 px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors font-medium"
                         >
-                            <Trash2 className="w-4 h-4" />
-                            Delete ({selectedUsers.size})
-                        </button>
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Purge Records ({selectedUsers.size})
+                        </GlowButton>
                     )}
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <GlassCard variant="default" padding="none" className="h-12 relative overflow-hidden group min-w-[280px]">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none group-focus-within:text-primary transition-colors">
+                            <Search className="w-4 h-4 text-text-tertiary" />
+                        </div>
                         <input
                             type="text"
-                            placeholder="Search users..."
+                            placeholder="Identify entity by email/name..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 w-full sm:w-64"
+                            className="w-full h-full pl-11 pr-4 bg-transparent text-sm text-text-primary placeholder:text-text-tertiary font-medium focus:outline-none"
                         />
-                    </div>
+                    </GlassCard>
                 </div>
             </div>
 
             {/* Users List */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <GlassCard variant="default" padding="none" className="overflow-hidden border-border/50">
                 {isLoading ? (
-                    <div className="flex items-center justify-center py-20">
-                        <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
+                    <div className="flex flex-col items-center justify-center py-32">
+                        <div className="relative">
+                            <div className="w-20 h-20 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+                            <Shield className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
+                        </div>
+                        <p className="mt-8 text-[10px] font-black text-text-tertiary uppercase tracking-[0.4em] animate-pulse">Scanning Neural Network...</p>
                     </div>
                 ) : (
                     <>
                         {/* Mobile Card Layout */}
-                        <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-700">
+                        <div className="md:hidden divide-y divide-border/30">
                             {users.length === 0 ? (
-                                <div className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                                    No users found.
+                                <div className="px-6 py-20 text-center">
+                                    <Database className="w-10 h-10 text-text-tertiary/20 mx-auto mb-4" />
+                                    <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest leading-relaxed">No entity records matched the query parameters.</p>
                                 </div>
                             ) : (
                                 users.map((user) => (
-                                    <div key={user.id} className="p-4">
-                                        <div className="flex items-start gap-3">
+                                    <div key={user.id} className="p-6 hover:bg-primary/5 transition-colors group">
+                                        <div className="flex items-start gap-4">
                                             <button
                                                 onClick={() => toggleSelectUser(user.id)}
-                                                className="mt-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                                className="mt-1 transition-colors"
                                             >
                                                 {selectedUsers.has(user.id) ? (
-                                                    <CheckSquare className="w-5 h-5 text-primary-600" />
+                                                    <CheckSquare className="w-5 h-5 text-primary" />
                                                 ) : (
-                                                    <Square className="w-5 h-5" />
+                                                    <Square className="w-5 h-5 text-text-tertiary" />
                                                 )}
                                             </button>
-                                            <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
+                                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-black border border-primary/20 shadow-glow-sm flex-shrink-0">
                                                 {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center justify-between gap-2">
-                                                    <p className="text-gray-900 dark:text-white font-medium truncate">
-                                                        {user.name || 'No name'}
+                                                    <p className="text-sm font-black text-text-primary uppercase tracking-tight truncate group-hover:text-primary transition-colors">
+                                                        {user.name || 'Anonymous_Node'}
                                                     </p>
                                                     <button
                                                         onClick={() => confirmDelete(user.id)}
-                                                        className="text-red-600 dark:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg flex-shrink-0"
+                                                        className="text-error/60 hover:text-error p-1.5 transition-colors"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
                                                 </div>
-                                                <p className="text-gray-500 dark:text-gray-400 text-sm truncate">{user.email}</p>
+                                                <p className="text-xs font-mono text-text-tertiary truncate">{user.email}</p>
 
-                                                <div className="flex flex-wrap items-center gap-2 mt-2">
+                                                <div className="flex flex-wrap items-center gap-2 mt-3">
                                                     {user.email_verified ? (
-                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded text-xs border border-green-200 dark:border-green-900">
-                                                            <Mail className="w-3 h-3" />
+                                                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-success/10 text-success border border-success/20 rounded text-[9px] font-black uppercase tracking-widest shadow-glow-sm">
+                                                            <Mail className="w-2.5 h-2.5" />
                                                             Verified
                                                         </span>
                                                     ) : (
-                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 rounded text-xs border border-yellow-200 dark:border-yellow-900">
+                                                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-warning/10 text-warning border border-warning/20 rounded text-[9px] font-black uppercase tracking-widest shadow-glow-sm">
                                                             Pending
                                                         </span>
                                                     )}
                                                     {user.role === 'admin' && (
-                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-500/10 text-purple-700 dark:text-purple-400 rounded text-xs border border-purple-200 dark:border-purple-900">
-                                                            Admin
+                                                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded text-[9px] font-black uppercase tracking-widest shadow-glow-sm">
+                                                            Root_Admin
                                                         </span>
                                                     )}
                                                 </div>
 
-                                                <div className="flex items-center gap-4 mt-3 text-sm text-gray-500 dark:text-gray-400">
-                                                    <span className="inline-flex items-center gap-1">
-                                                        <Package className="w-4 h-4" />
+                                                <div className="flex items-center gap-4 mt-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">
+                                                    <span className="inline-flex items-center gap-1.5 group/stat hover:text-text-primary transition-colors">
+                                                        <Package className="w-3.5 h-3.5" />
                                                         {user.products_count}
                                                     </span>
-                                                    <span className="inline-flex items-center gap-1">
-                                                        <Bell className="w-4 h-4" />
+                                                    <span className="inline-flex items-center gap-1.5 group/stat hover:text-text-primary transition-colors">
+                                                        <Bell className="w-3.5 h-3.5" />
                                                         {user.alerts_count}
                                                     </span>
                                                     <span>
-                                                        Joined {new Date(user.created_at).toLocaleDateString()}
+                                                        Init: {new Date(user.created_at).toLocaleDateString()}
                                                     </span>
                                                 </div>
                                             </div>
@@ -287,108 +257,111 @@ export default function AdminUsersPage() {
 
                         {/* Desktop Table Layout */}
                         <div className="hidden md:block overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50 dark:bg-gray-900/50">
-                                    <tr>
-                                        <th className="px-6 py-4 w-12">
+                            <table className="w-full border-collapse">
+                                <thead>
+                                    <tr className="bg-surface/50 border-b border-border/50">
+                                        <th className="px-8 py-5 w-12">
                                             <button
                                                 onClick={toggleSelectAll}
-                                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                                className="transition-colors"
                                             >
                                                 {selectedUsers.size === users.length && users.length > 0 ? (
-                                                    <CheckSquare className="w-5 h-5 text-primary-600" />
+                                                    <CheckSquare className="w-5 h-5 text-primary" />
                                                 ) : (
-                                                    <Square className="w-5 h-5" />
+                                                    <Square className="w-5 h-5 text-text-tertiary" />
                                                 )}
                                             </button>
                                         </th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">User</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Status</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Products</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Alerts</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Joined</th>
-                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Last Login</th>
-                                        <th className="text-right px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300">Actions</th>
+                                        <th className="text-left px-8 py-5 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Entity</th>
+                                        <th className="text-left px-8 py-5 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Auth_Status</th>
+                                        <th className="text-center px-8 py-5 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Assets</th>
+                                        <th className="text-center px-8 py-5 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Triggers</th>
+                                        <th className="text-left px-8 py-5 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Initialized</th>
+                                        <th className="text-left px-8 py-5 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Sync_State</th>
+                                        <th className="text-right px-8 py-5 text-[10px] font-black text-text-tertiary uppercase tracking-widest text-error/80">Override</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody className="divide-y divide-border/30">
                                     {users.length === 0 ? (
                                         <tr>
-                                            <td colSpan={8} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                                                No users found.
+                                            <td colSpan={8} className="px-8 py-20 text-center">
+                                                <Database className="w-10 h-10 text-text-tertiary/20 mx-auto mb-4" />
+                                                <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest leading-relaxed">No entity records matched the query parameters.</p>
                                             </td>
                                         </tr>
                                     ) : (
                                         users.map((user) => (
-                                            <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
-                                                <td className="px-6 py-4">
+                                            <tr key={user.id} className="hover:bg-primary/5 transition-colors group">
+                                                <td className="px-8 py-5">
                                                     <button
                                                         onClick={() => toggleSelectUser(user.id)}
-                                                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                                        className="transition-colors"
                                                     >
                                                         {selectedUsers.has(user.id) ? (
-                                                            <CheckSquare className="w-5 h-5 text-primary-600" />
+                                                            <CheckSquare className="w-5 h-5 text-primary" />
                                                         ) : (
-                                                            <Square className="w-5 h-5" />
+                                                            <Square className="w-5 h-5 text-text-tertiary" />
                                                         )}
                                                     </button>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold">
+                                                <td className="px-8 py-5">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-black border border-primary/20 shadow-glow-sm group-hover:scale-105 transition-transform">
                                                             {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
                                                         </div>
-                                                        <div>
-                                                            <p className="text-gray-900 dark:text-white font-medium">{user.name || 'No name'}</p>
-                                                            <p className="text-gray-500 dark:text-gray-400 text-sm">{user.email}</p>
+                                                        <div className="min-w-0">
+                                                            <p className="text-sm font-black text-text-primary uppercase tracking-tight truncate group-hover:text-primary transition-colors">
+                                                                {user.name || 'Anonymous_Node'}
+                                                            </p>
+                                                            <p className="text-[10px] font-mono text-text-tertiary mt-1 truncate">{user.email}</p>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex flex-col gap-1">
+                                                <td className="px-8 py-5">
+                                                    <div className="flex flex-col gap-1.5">
                                                         {user.email_verified ? (
-                                                            <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded text-xs border border-green-200 dark:border-green-900">
-                                                                <Mail className="w-3 h-3" />
+                                                            <span className="inline-flex w-fit items-center gap-1.5 px-2 py-0.5 bg-success/10 text-success border border-success/20 rounded text-[9px] font-black uppercase tracking-widest">
+                                                                <Mail className="w-2.5 h-2.5" />
                                                                 Verified
                                                             </span>
                                                         ) : (
-                                                            <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 rounded text-xs border border-yellow-200 dark:border-yellow-900">
+                                                            <span className="inline-flex w-fit items-center gap-1.5 px-2 py-0.5 bg-warning/10 text-warning border border-warning/20 rounded text-[9px] font-black uppercase tracking-widest">
                                                                 Pending
                                                             </span>
                                                         )}
                                                         {user.role === 'admin' && (
-                                                            <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 bg-purple-500/10 text-purple-700 dark:text-purple-400 rounded text-xs border border-purple-200 dark:border-purple-900">
-                                                                Admin
+                                                            <span className="inline-flex w-fit items-center gap-1.5 px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded text-[9px] font-black uppercase tracking-widest">
+                                                                Root_Admin
                                                             </span>
                                                         )}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    <span className="inline-flex items-center gap-1 text-gray-900 dark:text-gray-300">
-                                                        <Package className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                                                <td className="px-8 py-5 text-center">
+                                                    <span className="inline-flex items-center gap-1.5 text-xs font-black text-text-primary">
+                                                        <Package className="w-3.5 h-3.5 text-text-tertiary" />
                                                         {user.products_count}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    <span className="inline-flex items-center gap-1 text-gray-900 dark:text-gray-300">
-                                                        <Bell className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                                                <td className="px-8 py-5 text-center">
+                                                    <span className="inline-flex items-center gap-1.5 text-xs font-black text-text-primary">
+                                                        <Bell className="w-3.5 h-3.5 text-text-tertiary" />
                                                         {user.alerts_count}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 text-gray-500 dark:text-gray-400 text-sm">
+                                                <td className="px-8 py-5 text-[11px] font-mono text-text-tertiary">
                                                     {new Date(user.created_at).toLocaleDateString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-gray-500 dark:text-gray-400 text-sm">
+                                                <td className="px-8 py-5 text-[11px] font-mono text-text-tertiary">
                                                     {user.last_login_at
                                                         ? new Date(user.last_login_at).toLocaleDateString()
-                                                        : 'Never'
+                                                        : 'Never_Logged'
                                                     }
                                                 </td>
-                                                <td className="px-6 py-4 text-right">
+                                                <td className="px-8 py-5 text-right">
                                                     <button
                                                         onClick={() => confirmDelete(user.id)}
-                                                        className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
-                                                        title="Delete User"
+                                                        className="text-error/60 hover:text-error transition-all p-2 hover:bg-error/5 rounded-xl border border-transparent hover:border-error/20"
+                                                        title="Immediate Purge"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
@@ -404,37 +377,39 @@ export default function AdminUsersPage() {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-                        <button
+                    <div className="flex items-center justify-between px-8 py-6 bg-surface/30 border-t border-border/50">
+                        <GlowButton
+                            variant="outline"
                             onClick={() => setPage(p => Math.max(1, p - 1))}
                             disabled={page === 1}
-                            className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 dark:hover:bg-gray-600"
                         >
-                            Previous
-                        </button>
-                        <span className="text-gray-500 dark:text-gray-400">
-                            Page {page} of {totalPages}
-                        </span>
-                        <button
+                            PREVIOUS PHASE
+                        </GlowButton>
+                        <div className="flex items-center gap-4">
+                            <span className="text-[10px] font-black text-text-tertiary uppercase tracking-[0.2em]">
+                                SECTOR {page} // {totalPages}
+                            </span>
+                        </div>
+                        <GlowButton
+                            variant="outline"
                             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                             disabled={page === totalPages}
-                            className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 dark:hover:bg-gray-600"
                         >
-                            Next
-                        </button>
+                            NEXT PHASE
+                        </GlowButton>
                     </div>
                 )}
-            </div>
+            </GlassCard>
 
             {/* Confirmation Modal */}
             <ConfirmationModal
                 isOpen={deleteModal.isOpen}
                 onClose={() => setDeleteModal({ isOpen: false })}
                 onConfirm={handleConfirmDelete}
-                title={deleteModal.isBulk ? `Delete ${selectedUsers.size} Users?` : 'Delete User?'}
+                title={deleteModal.isBulk ? `PURGE ${selectedUsers.size} ENTITY RECORDS?` : 'PURGE ENTITY RECORD?'}
                 message={deleteModal.isBulk
-                    ? `Are you sure you want to delete ${selectedUsers.size} users? This action cannot be undone.`
-                    : "Are you sure you want to delete this user? This action cannot be undone."
+                    ? `Initiating mass record deletion. Are you sure you want to permanently purge ${selectedUsers.size} entity nodes from the database? This action is irreversible.`
+                    : "Are you sure you want to permanently purge this entity record from the secure database? All associated trackers and alerts will be terminated."
                 }
                 isDestructive={true}
                 isLoading={isDeleting}

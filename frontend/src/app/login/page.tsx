@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
-import { TrendingDown, Mail, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { TrendingDown, Mail, Lock, AlertCircle, Loader2, Target, Zap, Shield } from 'lucide-react';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 export default function LoginPage() {
     const { login } = useAuth();
@@ -27,75 +29,79 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <Link href="/" className="flex items-center justify-center gap-2">
-                    <div className="w-12 h-12 bg-primary-800 rounded-xl flex items-center justify-center">
-                        <TrendingDown className="w-7 h-7 text-white" />
+        <div className="min-h-screen bg-background relative overflow-hidden flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+            <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px] animate-pulse-slow" />
+            <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-accent/10 rounded-full blur-[100px] animate-pulse-slow" />
+
+            <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+                <Link href="/" className="flex items-center justify-center gap-3 group">
+                    <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-glow-sm group-hover:scale-110 transition-transform">
+                        <TrendingDown className="w-8 h-8 text-primary" />
                     </div>
                 </Link>
-                <h1 className="mt-6 text-center text-3xl font-bold text-gray-900">
-                    Sign in to your account
+                <h1 className="mt-8 text-center text-4xl font-black text-text-primary tracking-tight uppercase">
+                    Access <span className="text-gradient">Portal</span>
                 </h1>
-                <p className="mt-2 text-center text-sm text-gray-600">
-                    Or{' '}
-                    <Link href="/register" className="text-primary-600 hover:text-primary-500 font-medium">
-                        create a new account
-                    </Link>
+                <p className="mt-3 text-center text-text-tertiary font-bold uppercase tracking-[0.2em] text-[10px]">
+                    Synchronizing Neural Interface
                 </p>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow-lg sm:rounded-xl sm:px-10">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+                <GlassCard variant="pro" className="py-10 px-6 sm:px-10 border-border/50 shadow-2xl">
+                    <form onSubmit={handleSubmit} className="space-y-8">
                         {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
+                            <div className="bg-error/10 border border-error/20 text-error px-4 py-3 rounded-xl flex items-center gap-3 animate-shake">
                                 <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                                <span className="text-sm">{error}</span>
+                                <span className="text-xs font-black uppercase tracking-widest">{error}</span>
                             </div>
                         )}
 
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Email address
-                            </label>
-                            <div className="mt-1 relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400" />
+                        <div className="space-y-6">
+                            <div className="space-y-2">
+                                <label htmlFor="email" className="block text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
+                                    Entity Identifier
+                                </label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none group-focus-within:text-primary transition-colors">
+                                        <Mail className="h-5 w-5 text-text-tertiary" />
+                                    </div>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        required
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="block w-full pl-12 pr-4 py-4 bg-surface/50 border border-border/50 rounded-xl text-text-primary placeholder:text-text-tertiary font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+                                        placeholder="user@marktminder.de"
+                                    />
                                 </div>
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                    placeholder="you@example.com"
-                                />
                             </div>
-                        </div>
 
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                Password
-                            </label>
-                            <div className="mt-1 relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
+                            <div className="space-y-2">
+                                <label htmlFor="password" className="block text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
+                                    Decryption Key
+                                </label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none group-focus-within:text-primary transition-colors">
+                                        <Lock className="h-5 w-5 text-text-tertiary" />
+                                    </div>
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="block w-full pl-12 pr-4 py-4 bg-surface/50 border border-border/50 rounded-xl text-text-primary placeholder:text-text-tertiary font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+                                        placeholder="••••••••"
+                                    />
                                 </div>
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                    placeholder="••••••••"
-                                />
                             </div>
                         </div>
 
@@ -105,73 +111,71 @@ export default function LoginPage() {
                                     id="remember-me"
                                     name="remember-me"
                                     type="checkbox"
-                                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                                    className="h-4 w-4 bg-surface border-border text-primary focus:ring-primary rounded cursor-pointer transition-all"
                                 />
-                                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                                    Remember me
+                                <label htmlFor="remember-me" className="ml-2 block text-[10px] font-black text-text-secondary uppercase tracking-widest cursor-pointer hover:text-text-primary transition-colors">
+                                    Persistent Session
                                 </label>
                             </div>
 
-                            <div className="text-sm">
-                                <Link href="/forgot-password" className="text-primary-600 hover:text-primary-500 font-medium">
-                                    Forgot password?
-                                </Link>
-                            </div>
+                            <Link href="/forgot-password" title="Recover Access" className="text-[10px] font-black text-primary hover:text-primary-hover uppercase tracking-widest transition-all">
+                                Lost Key?
+                            </Link>
                         </div>
 
-                        <button
+                        <GlowButton
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-primary-800 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="w-full h-14"
                         >
                             {isLoading ? (
-                                <>
+                                <div className="flex items-center gap-3">
                                     <Loader2 className="w-5 h-5 animate-spin" />
-                                    Signing in...
-                                </>
+                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Authenticating...</span>
+                                </div>
                             ) : (
-                                'Sign in'
+                                <span className="text-xs font-black uppercase tracking-[0.2em]">Initialize Interface</span>
                             )}
-                        </button>
+                        </GlowButton>
                     </form>
-                    <div className="mt-6">
+
+                    <div className="mt-10">
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300" />
+                                <div className="w-full border-t border-border/30" />
                             </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                            <div className="relative flex justify-center text-[9px] font-black uppercase tracking-[0.3em]">
+                                <span className="px-4 bg-surface-elevated text-text-tertiary">External Protocols</span>
                             </div>
                         </div>
 
-                        <div className="mt-6">
+                        <div className="mt-8">
                             <a
                                 href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/auth/google`}
-                                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+                                className="w-full flex items-center justify-center gap-4 h-14 bg-surface/50 border border-border/50 rounded-xl text-xs font-black text-text-primary uppercase tracking-widest hover:bg-surface-hover hover:border-primary/30 transition-all shadow-sm group"
                             >
-                                <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12.0003 20.45c4.6593 0 8.3604-3.882 8.3604-8.5995 0-.693-.0643-1.3695-.195-2.025h-8.1654v4.065h4.6862c-.2205 1.485-1.464 4.095-4.6863 4.095-2.775 0-5.1195-2.235-5.1195-5.535 0-3.3 2.3445-5.535 5.1195-5.535 1.566 0 2.871.615 3.8685 1.485l3.0135-2.925C17.1558 3.525 14.7738 2.55 12.0003 2.55 6.7803 2.55 2.5503 6.78 2.5503 12s4.23 9.45 9.45 9.45z"
-                                        fill="#4285F4"
-                                    />
-                                    <path
-                                        d="M2.5503 12c0-.825.132-1.62.378-2.37L6.5988 12.63c-.15.42-.2325.87-.2325 1.3425-.0015.006-.003.012-.003.018 0-.006.0015-.012.003-.018l-3.816 2.97c-.0015-.006-.003-.012-.003-.018-.0015-.018-.003-.036-.003-.054-.246-.75-.378-1.545-.378-2.37z"
-                                        fill="#FBBC05"
-                                    />
-                                    <path
-                                        d="M12.0003 20.45c2.583 0 4.8855-.891 6.6435-2.409l-3.237-2.673c-.8085.594-1.926 1.017-3.4065 1.017-2.6595 0-4.9605-1.74-5.787-4.143l-3.816 3.069c1.866 3.654 5.6295 6.1395 9.5985 6.1395z"
-                                        fill="#34A853"
-                                    />
-                                    <path
-                                        d="M6.2133 9.873c.423-1.2855 1.455-2.3445 2.766-2.934-.0555.228-.093.462-.111.7005-.018.2385-.0285.4785-.0285.72 0 1.2555.297 2.4435.8235 3.4995l-3.8175 2.97c-.0525-.0915-.1035-.1845-.153-.279-1.3965-2.5815-1.3965-5.703 0-8.2845l.5205.5205z"
-                                        fill="#EA4335"
-                                    />
-                                </svg>
-                                <span>Sign in with Google</span>
+                                <div className="w-6 h-6 flex items-center justify-center bg-white rounded-lg p-1 group-hover:scale-110 transition-transform shadow-sm">
+                                    <svg viewBox="0 0 24 24" className="w-full h-full">
+                                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
+                                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335" />
+                                    </svg>
+                                </div>
+                                <span className="group-hover:text-primary transition-colors">Neural Sync (Google)</span>
                             </a>
                         </div>
                     </div>
-                </div>
+
+                    <div className="mt-8 text-center px-4">
+                        <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest leading-relaxed">
+                            New operative?{' '}
+                            <Link href="/register" className="text-primary hover:text-primary-hover underline underline-offset-4 transition-all">
+                                Register Credentials
+                            </Link>
+                        </p>
+                    </div>
+                </GlassCard>
             </div>
         </div>
     );

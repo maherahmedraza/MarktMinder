@@ -22,6 +22,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Schema.org structured data for LLM-friendly SEO
 - Web Design Best Practices documentation (`WEB_DESIGN_BEST_PRACTICES.md`)
 - QA Testing documentation (`TESTING.md`)
+
+## [1.2.0] - 2026-01-19
+
+### Added
+- **Admin Panel Refactor**: Unified design system across all admin screens.
+  - Consistent header style (Icon + Gradient Title).
+  - Specialized nomenclature: "Asset Ledger", "Entity Database", "Neural Metrics".
+  - Integration of `GlassCard` and `StatCard` for all admin metrics and tables.
+- **Login UI Overhaul**: Refactored the login page as "Access Portal".
+  - Modernized aesthetics with grid patterns, glowing borders, and specialized inputs.
+  - Refined Google Sign-in button with high-fidelity SVG and improved visibility.
+
+### Changed
+- **Admin Theme Consistency**: Fixed legacy white backgrounds in admin sub-pages for full Dark Mode support.
+- **Admin Dashboard**: Optimized stats layout with `StatCard` components.
+- **Login UX**: Improved button text visibility and overall aesthetic appeal.
+
+### Fixed
+- Invisible "Sign in" button text on the login page due to legacy class conflicts.
+- Dark mode inconsistencies in admin products, users, and analytics tables.
 - **Email notification service** with Nodemailer
   - Welcome emails on registration
   - Price drop alert emails
@@ -102,9 +122,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 1.2.0 | 2026-01-19 | Admin Panel & Login UI refactor, theme unification |
 | 1.1.0 | 2026-01-18 | Alert fixes, duplicate prevention, UI improvements |
 | 1.0.0 | 2025-12-31 | Initial release |
 
-[Unreleased]: https://github.com/maherahmedraza/MarktMinder/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/maherahmedraza/MarktMinder/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/maherahmedraza/MarktMinder/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/maherahmedraza/MarktMinder/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/maherahmedraza/MarktMinder/releases/tag/v1.0.0

@@ -10,12 +10,18 @@ import {
     TrendingUp,
     Activity,
     Database,
-    Clock,
     ArrowUpRight,
     ArrowDownRight,
-    Loader2
+    Loader2,
+    Shield,
+    Globe,
+    Zap,
+    Target
 } from 'lucide-react';
 import api from '@/lib/api';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { StatCard } from '@/components/ui/StatCard';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 interface AdminStats {
     overview: {
@@ -79,105 +85,126 @@ export default function AdminDashboard() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
+            <div className="flex flex-col items-center justify-center py-32">
+                <div className="relative">
+                    <div className="w-20 h-20 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+                    <Shield className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-primary animate-pulse" />
+                </div>
+                <p className="mt-8 text-xs font-black text-text-tertiary uppercase tracking-[0.4em] animate-pulse">Scanning Neural Network...</p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="bg-red-900/20 border border-red-500/50 text-red-400 px-6 py-4 rounded-xl">
-                {error}
-            </div>
+            <GlassCard variant="pro" className="bg-error/5 border-error/20 p-8 text-center">
+                <Shield className="w-12 h-12 text-error mx-auto mb-4" />
+                <h3 className="text-xl font-black text-text-primary uppercase tracking-tight mb-2">Access Interrupted</h3>
+                <p className="text-text-secondary mb-6 font-medium">{error}</p>
+                <GlowButton variant="danger" onClick={loadStats}>
+                    Retry Synchronization
+                </GlowButton>
+            </GlassCard>
         );
     }
 
     if (!stats) return null;
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             {/* Header */}
-            <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">Monitor your platform metrics and activity</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-glow-sm">
+                            <Shield className="w-6 h-6 text-primary" />
+                        </div>
+                        <h1 className="text-4xl font-black text-text-primary tracking-tight uppercase">
+                            System <span className="text-gradient">Control</span>
+                        </h1>
+                    </div>
+                    <p className="text-text-secondary max-w-2xl text-lg font-medium leading-relaxed">
+                        Platform-wide intelligence dashboard. Monitoring market synthesis and entity activity in real-time.
+                    </p>
+                </div>
             </div>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard
-                    title="Total Products"
-                    value={stats.overview.totalProducts}
+                    title="Total Assets"
+                    value={stats.overview.totalProducts.toLocaleString()}
                     icon={<Package className="w-6 h-6" />}
-                    color="blue"
-                    subtitle={`+${stats.growth.productsWeek} this week`}
+                    trend={`+${stats.growth.productsWeek} WEEKLY`}
                 />
                 <StatCard
-                    title="Total Users"
-                    value={stats.overview.totalUsers}
+                    title="Active Entities"
+                    value={stats.overview.totalUsers.toLocaleString()}
                     icon={<Users className="w-6 h-6" />}
-                    color="green"
-                    subtitle={`+${stats.growth.usersWeek} this week`}
+                    trend={`+${stats.growth.usersWeek} WEEKLY`}
+                    isHighlight
                 />
                 <StatCard
-                    title="Products Tracked"
-                    value={stats.overview.totalTracked}
+                    title="Network Flux"
+                    value={stats.overview.totalTracked.toLocaleString()}
                     icon={<Activity className="w-6 h-6" />}
-                    color="purple"
-                    subtitle="Total user trackings"
                 />
                 <StatCard
-                    title="Active Alerts"
-                    value={stats.overview.activeAlerts}
+                    title="Alert Nodes"
+                    value={stats.overview.activeAlerts.toLocaleString()}
                     icon={<Bell className="w-6 h-6" />}
-                    color="orange"
-                    subtitle="Monitoring prices"
                 />
             </div>
 
-            {/* Growth Metrics */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <Database className="w-5 h-5 text-blue-500 dark:text-blue-400" />
-                        Data Growth
-                    </h3>
-                    <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-500 dark:text-gray-400">Products Today</span>
-                            <span className="text-gray-900 dark:text-white font-semibold">{stats.growth.productsToday}</span>
+            {/* Growth Metrics & Quick Actions */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Data Growth */}
+                <GlassCard variant="default" className="flex flex-col">
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
+                            <Database className="w-5 h-5 text-primary" />
                         </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-500 dark:text-gray-400">Products This Week</span>
-                            <span className="text-gray-900 dark:text-white font-semibold">{stats.growth.productsWeek}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-500 dark:text-gray-400">Products This Month</span>
-                            <span className="text-gray-900 dark:text-white font-semibold">{stats.growth.productsMonth}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-500 dark:text-gray-400">Price Records Today</span>
-                            <span className="text-gray-900 dark:text-white font-semibold">{stats.growth.priceRecordsToday}</span>
-                        </div>
+                        <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">Data Expansion</h3>
                     </div>
-                </div>
+                    <div className="flex-1 space-y-6">
+                        {[
+                            { label: 'Ingested Today', value: stats.growth.productsToday, icon: <Zap className="w-3.5 h-3.5 text-warning" /> },
+                            { label: 'Weekly Delta', value: `+${stats.growth.productsWeek}`, icon: <TrendingUp className="w-3.5 h-3.5 text-success" /> },
+                            { label: 'Monthly Volume', value: stats.growth.productsMonth, icon: <Globe className="w-3.5 h-3.5 text-primary" /> },
+                            { label: 'Price Records', value: stats.growth.priceRecordsToday, icon: <Activity className="w-3.5 h-3.5 text-secondary" /> },
+                        ].map((item, idx) => (
+                            <div key={idx} className="flex justify-between items-center group">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-text-tertiary group-hover:text-primary transition-colors">{item.icon}</span>
+                                    <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">{item.label}</span>
+                                </div>
+                                <span className="text-sm font-black font-mono text-text-primary">{item.value}</span>
+                            </div>
+                        ))}
+                    </div>
+                </GlassCard>
 
                 {/* Marketplace Distribution */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Marketplace Distribution</h3>
-                    <div className="space-y-4">
+                <GlassCard variant="default" className="flex flex-col">
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center border border-secondary/20">
+                            <Globe className="w-5 h-5 text-secondary" />
+                        </div>
+                        <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">Market Distribution</h3>
+                    </div>
+                    <div className="flex-1 space-y-6">
                         {stats.marketplaceDistribution.map((mp) => {
                             const total = stats.marketplaceDistribution.reduce((sum, m) => sum + parseInt(m.count), 0);
                             const percentage = total > 0 ? (parseInt(mp.count) / total * 100).toFixed(1) : 0;
                             return (
-                                <div key={mp.marketplace}>
-                                    <div className="flex justify-between items-center mb-1">
-                                        <span className="text-gray-600 dark:text-gray-300 capitalize">{mp.marketplace}</span>
-                                        <span className="text-gray-900 dark:text-white font-semibold">{mp.count}</span>
+                                <div key={mp.marketplace} className="space-y-2">
+                                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                                        <span className="text-text-primary">{mp.marketplace}</span>
+                                        <span className="text-text-tertiary font-mono">{mp.count} ({percentage}%)</span>
                                     </div>
-                                    <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
+                                    <div className="w-full h-1.5 bg-surface-elevated rounded-full overflow-hidden border border-border/10">
                                         <div
-                                            className={`h-2 rounded-full ${mp.marketplace === 'amazon' ? 'bg-amazon' :
+                                            className={`h-full rounded-full shadow-glow-sm transition-all duration-1000 ${mp.marketplace === 'amazon' ? 'bg-amazon' :
                                                 mp.marketplace === 'etsy' ? 'bg-etsy' : 'bg-otto'
                                                 }`}
                                             style={{ width: `${percentage}%` }}
@@ -187,148 +214,118 @@ export default function AdminDashboard() {
                             );
                         })}
                     </div>
-                </div>
+                </GlassCard>
 
                 {/* Quick Actions */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
-                    <div className="space-y-3">
-                        <Link
-                            href="/admin/products"
-                            className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                        >
-                            <span className="text-gray-700 dark:text-gray-300">View All Products</span>
-                            <ArrowUpRight className="w-4 h-4 text-gray-400" />
-                        </Link>
-                        <Link
-                            href="/admin/users"
-                            className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                        >
-                            <span className="text-gray-700 dark:text-gray-300">Manage Users</span>
-                            <ArrowUpRight className="w-4 h-4 text-gray-400" />
-                        </Link>
-                        <Link
-                            href="/dashboard"
-                            className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                        >
-                            <span className="text-gray-700 dark:text-gray-300">Go to User Dashboard</span>
-                            <ArrowUpRight className="w-4 h-4 text-gray-400" />
-                        </Link>
+                <GlassCard variant="pro" className="flex flex-col">
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center border border-warning/20">
+                            <Zap className="w-5 h-5 text-warning" />
+                        </div>
+                        <h3 className="text-sm font-black text-text-primary uppercase tracking-widest">Fast Override</h3>
                     </div>
-                </div>
+                    <div className="flex-1 space-y-3">
+                        {[
+                            { label: 'Sync Asset Ledger', href: '/admin/products', icon: <Package className="w-4 h-4" /> },
+                            { label: 'Entity Management', href: '/admin/users', icon: <Users className="w-4 h-4" /> },
+                            { label: 'Infiltrate Dashboard', href: '/dashboard', icon: <ArrowUpRight className="w-4 h-4" /> },
+                        ].map((action, idx) => (
+                            <Link
+                                key={idx}
+                                href={action.href}
+                                className="group flex items-center justify-between p-4 bg-surface/50 border border-border/50 rounded-2xl hover:bg-surface-hover hover:border-primary/30 transition-all duration-300"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="text-text-tertiary group-hover:text-primary transition-colors">
+                                        {action.icon}
+                                    </div>
+                                    <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">{action.label}</span>
+                                </div>
+                                <ArrowUpRight className="w-4 h-4 text-text-tertiary group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                            </Link>
+                        ))}
+                    </div>
+                </GlassCard>
             </div>
 
             {/* Top Tracked Products & Recent Price Drops */}
-            {/* Top Tracked Products & Recent Price Drops */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Top Tracked */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 text-green-500 dark:text-green-400" />
-                        Most Tracked Products
+                <GlassCard variant="default">
+                    <h3 className="text-sm font-black text-text-primary uppercase tracking-widest mb-8 flex items-center gap-3">
+                        <TrendingUp className="w-5 h-5 text-success" />
+                        Priority Assets
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         {stats.topTracked.slice(0, 5).map((product, index) => (
-                            <div key={product.id} className="flex items-center gap-3 p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
-                                <span className="text-gray-500 text-sm w-5">{index + 1}.</span>
-                                {product.image_url ? (
-                                    <img
-                                        src={product.image_url}
-                                        alt={product.title}
-                                        className="w-10 h-10 rounded object-cover bg-gray-100 dark:bg-gray-600"
-                                    />
-                                ) : (
-                                    <div className="w-10 h-10 bg-gray-100 dark:bg-gray-600 rounded flex items-center justify-center">
-                                        <Package className="w-5 h-5 text-gray-400" />
-                                    </div>
-                                )}
+                            <div key={product.id} className="flex items-center gap-4 p-4 bg-surface/30 border border-border/50 rounded-2xl hover:bg-surface-hover/50 transition-all group">
+                                <span className="text-[10px] font-black text-text-tertiary w-4 font-mono">0{index + 1}</span>
+                                <div className="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center border border-border/50 shadow-sm relative overflow-hidden">
+                                    {product.image_url ? (
+                                        <img
+                                            src={product.image_url}
+                                            alt={product.title}
+                                            className="w-full h-full object-contain"
+                                        />
+                                    ) : (
+                                        <Package className="w-6 h-6 text-text-tertiary/20" />
+                                    )}
+                                </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm text-gray-900 dark:text-white truncate">{product.title}</p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                                        {product.tracker_count} trackers • €{product.current_price}
+                                    <p className="text-sm font-black text-text-primary truncate uppercase tracking-tight">{product.title}</p>
+                                    <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest mt-0.5">
+                                        {product.tracker_count} SENTINELS • <span className="text-primary">€{product.current_price}</span>
                                     </p>
                                 </div>
                             </div>
                         ))}
                     </div>
-                </div>
+                </GlassCard>
 
                 {/* Recent Price Drops */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <TrendingDown className="w-5 h-5 text-red-500 dark:text-red-400" />
-                        Recent Price Drops
+                <GlassCard variant="default">
+                    <h3 className="text-sm font-black text-text-primary uppercase tracking-widest mb-8 flex items-center gap-3">
+                        <TrendingDown className="w-5 h-5 text-error" />
+                        Imbalance Detections
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         {stats.recentDrops.slice(0, 5).map((product) => (
-                            <div key={product.id} className="flex items-center gap-3 p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
-                                {product.image_url ? (
-                                    <img
-                                        src={product.image_url}
-                                        alt={product.title}
-                                        className="w-10 h-10 rounded object-cover bg-gray-100 dark:bg-gray-600"
-                                    />
-                                ) : (
-                                    <div className="w-10 h-10 bg-gray-100 dark:bg-gray-600 rounded flex items-center justify-center">
-                                        <Package className="w-5 h-5 text-gray-400" />
-                                    </div>
-                                )}
+                            <div key={product.id} className="flex items-center gap-4 p-4 bg-surface/30 border border-border/50 rounded-2xl hover:bg-surface-hover/50 transition-all group">
+                                <div className="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center border border-border/50 shadow-sm relative overflow-hidden">
+                                    {product.image_url ? (
+                                        <img
+                                            src={product.image_url}
+                                            alt={product.title}
+                                            className="w-full h-full object-contain"
+                                        />
+                                    ) : (
+                                        <Package className="w-6 h-6 text-text-tertiary/20" />
+                                    )}
+                                </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm text-gray-900 dark:text-white truncate">{product.title}</p>
-                                    <div className="flex items-center gap-2 text-xs">
-                                        <span className="text-gray-500 dark:text-gray-400 line-through">€{product.old_price}</span>
-                                        <span className="text-green-600 dark:text-green-400">€{product.new_price}</span>
+                                    <p className="text-sm font-black text-text-primary truncate uppercase tracking-tight">{product.title}</p>
+                                    <div className="flex items-center gap-2 mt-0.5">
+                                        <span className="text-[9px] font-mono text-text-tertiary line-through uppercase">€{product.old_price}</span>
+                                        <span className="text-[10px] font-black text-success uppercase">€{product.new_price}</span>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <span className="text-green-600 dark:text-green-400 text-sm font-semibold flex items-center gap-1">
+                                    <span className="text-xs font-black text-success flex items-center justify-end gap-1">
                                         <ArrowDownRight className="w-4 h-4" />
                                         {product.drop_percentage}%
                                     </span>
+                                    <p className="text-[9px] font-bold text-text-tertiary uppercase tracking-tighter">DELTA DETECTED</p>
                                 </div>
                             </div>
                         ))}
                         {stats.recentDrops.length === 0 && (
-                            <p className="text-gray-500 text-sm text-center py-4">No recent price drops</p>
+                            <div className="py-20 text-center">
+                                <Target className="w-10 h-10 text-text-tertiary/20 mx-auto mb-4" />
+                                <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest leading-relaxed">No market imbalances detected in current sector.</p>
+                            </div>
                         )}
                     </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function StatCard({
-    title,
-    value,
-    icon,
-    color,
-    subtitle
-}: {
-    title: string;
-    value: number;
-    icon: React.ReactNode;
-    color: 'blue' | 'green' | 'purple' | 'orange';
-    subtitle: string;
-}) {
-    const colorClasses = {
-        blue: 'bg-blue-500/20 text-blue-400',
-        green: 'bg-green-500/20 text-green-400',
-        purple: 'bg-purple-500/20 text-purple-400',
-        orange: 'bg-orange-500/20 text-orange-400',
-    };
-
-    return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <div className="flex items-start justify-between">
-                <div>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">{title}</p>
-                    <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{value.toLocaleString()}</p>
-                    <p className="text-xs text-gray-500 mt-1">{subtitle}</p>
-                </div>
-                <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
-                    {icon}
-                </div>
+                </GlassCard>
             </div>
         </div>
     );

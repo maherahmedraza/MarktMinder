@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Sora, JetBrains_Mono } from 'next/font/google';
+import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/lib/auth';
 import { SocketProvider } from '@/providers/SocketProvider';
@@ -8,17 +8,25 @@ import CookieConsent from '@/components/CookieConsent';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Script from 'next/script';
 
-const sora = Sora({
+const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
-    variable: '--font-sora',
+    variable: '--font-heading',
+    display: 'swap',
+});
+
+const inter = Inter({
+    subsets: ['latin'],
+    variable: '--font-sans',
     display: 'swap',
 });
 
 const jetbrainsMono = JetBrains_Mono({
     subsets: ['latin'],
-    variable: '--font-jetbrains',
+    variable: '--font-mono',
     display: 'swap',
 });
+
+// ... metadata exports ... (skipping for brevity in this replacement)
 
 export const viewport: Viewport = {
     width: 'device-width',
@@ -26,7 +34,7 @@ export const viewport: Viewport = {
     maximumScale: 5,
     themeColor: [
         { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
-        { media: '(prefers-color-scheme: dark)', color: '#0D0F1A' },
+        { media: '(prefers-color-scheme: dark)', color: '#030304' },
     ],
 };
 
@@ -35,7 +43,7 @@ export const metadata: Metadata = {
         default: 'MarktMinder - Price Tracker for Amazon, Etsy & Otto',
         template: '%s | MarktMinder',
     },
-    description: 'Track product prices across Amazon, Etsy, and Otto.de. Get AI-powered predictions and instant alerts when prices drop to your target.',
+    description: 'Track product prices across Amazon, Etsy, and Otto. Get AI-powered predictions and instant alerts when prices drop to your target.',
     keywords: ['price tracker', 'amazon', 'etsy', 'otto', 'price history', 'deals', 'price alert', 'germany', 'preisvergleich'],
     authors: [{ name: 'MarktMinder' }],
     creator: 'MarktMinder',
@@ -99,7 +107,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="de" suppressHydrationWarning className={`${sora.variable} ${jetbrainsMono.variable}`}>
+        <html lang="de" suppressHydrationWarning className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
             <head>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
