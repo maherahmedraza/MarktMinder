@@ -27,6 +27,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { StatCard } from '@/components/ui/StatCard';
 import { TrustScoreBadge } from '@/components/products/TrustScoreBadge';
+import { CrossMarketplaceWidget } from '@/components/dashboard/CrossMarketplaceWidget';
 
 // Lazy load PriceChart for better performance
 const PriceChart = dynamic(
@@ -428,6 +429,9 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Trust Score / Fake Discount Detector */}
                 <TrustScoreBadge productId={productId} />
+
+                {/* Cross-Marketplace Comparison */}
+                <CrossMarketplaceWidget productId={productId} />
 
                 {/* Price Records Table */}
                 <GlassCard padding="none" className="overflow-hidden">

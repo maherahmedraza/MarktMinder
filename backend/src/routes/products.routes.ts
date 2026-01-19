@@ -81,6 +81,58 @@ function parseProductUrl(url: string): { marketplace: 'amazon' | 'etsy' | 'otto'
 }
 
 // ==========================================
+// CROSS-MARKETPLACE COMPARISON ENDPOINTS
+// ==========================================
+
+/**
+ * @route   GET /api/products/:id/compare
+ * @desc    Get cross-marketplace comparison for a product
+ * @access  Private
+ */
+router.get(
+    '/:id/compare',
+    authenticate,
+    [param('id').isUUID()],
+    validate,
+    asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+
+        const { getProductComparison } = await import('../services/comparison.service.js');
+        const comparison = await getProductComparison(id);
+
+        if (!comparison) {
+            throw new NotFoundError('Product not found');
+        }
+
+        res.json({ comparison });
+    })
+);
+
+/**
+ * @route   GET /api/products/compare/search
+ * @desc    Search and compare products across marketplaces
+ * @access  Private
+ */
+router.get(
+    '/compare/search',
+    authenticate,
+    asyncHandler(async (req: Request, res: Response) => {
+        const searchTerm = req.query.q as string;
+        if (!searchTerm || searchTerm.length < 2) {
+            throw new BadRequestError('Search term must be at least 2 characters');
+        }
+
+        const { compareAcrossMarketplaces } = await import('../services/comparison.service.js');
+        const comparison = await compareAcrossMarketplaces(searchTerm, {
+            includeShipping: req.query.shipping !== 'false',
+            limit: parseInt(req.query.limit as string) || 10,
+        });
+
+        res.json({ comparison });
+    })
+);
+
+// ==========================================
 // DEAL RADAR ENDPOINTS
 // ==========================================
 
