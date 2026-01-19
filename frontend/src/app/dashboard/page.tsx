@@ -25,6 +25,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { StatCard } from '@/components/ui/StatCard';
 import { ProductCard } from '@/components/ui/ProductCard';
+import { AchievementBadges } from '@/components/ui/AchievementBadges';
 
 interface PriceDrop {
     id: string;
@@ -349,6 +350,20 @@ export default function DashboardPage() {
                         </div>
                     )}
                 </GlassCard>
+            </div>
+
+            {/* Gamification Section */}
+            <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center border border-warning/20">
+                        <Star className="w-5 h-5 text-warning" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-text-primary">Your Achievements</h2>
+                        <p className="text-sm text-text-secondary">Track your savings journey</p>
+                    </div>
+                </div>
+                <AchievementBadges />
             </div>
 
             {/* Watchlist */}
