@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import api, { Product, PricePoint, PriceStats } from '@/lib/api';
-import { PriceChart } from '@/components/PriceChart';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import {
     ArrowLeft,
@@ -20,6 +20,22 @@ import {
     Plus,
     Check
 } from 'lucide-react';
+
+// Lazy load PriceChart for better performance
+const PriceChart = dynamic(
+    () => import('@/components/PriceChart').then(mod => mod.PriceChart),
+    {
+        loading: () => (
+            <div className="h-full flex items-center justify-center">
+                <div className="flex flex-col items-center gap-3">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Loading chart...</span>
+                </div>
+            </div>
+        ),
+        ssr: false // Chart.js doesn't work well with SSR
+    }
+);
 
 type TimeRange = '7d' | '30d' | '90d' | '1y' | 'all';
 

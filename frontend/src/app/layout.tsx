@@ -103,6 +103,103 @@ export default function RootLayout({
             <head>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+                {/* LLM-Friendly Structured Data */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https://marktminder.de/#website",
+                                    "url": "https://marktminder.de",
+                                    "name": "MarktMinder",
+                                    "description": "AI-powered price tracking platform for Amazon, Etsy, and Otto",
+                                    "publisher": { "@id": "https://marktminder.de/#organization" },
+                                    "potentialAction": {
+                                        "@type": "SearchAction",
+                                        "target": "https://marktminder.de/dashboard/products?search={search_term_string}",
+                                        "query-input": "required name=search_term_string"
+                                    }
+                                },
+                                {
+                                    "@type": "Organization",
+                                    "@id": "https://marktminder.de/#organization",
+                                    "name": "MarktMinder",
+                                    "url": "https://marktminder.de",
+                                    "logo": {
+                                        "@type": "ImageObject",
+                                        "url": "https://marktminder.de/logo.png"
+                                    },
+                                    "sameAs": []
+                                },
+                                {
+                                    "@type": "SoftwareApplication",
+                                    "name": "MarktMinder",
+                                    "applicationCategory": "ShoppingApplication",
+                                    "operatingSystem": "Web Browser",
+                                    "offers": [
+                                        {
+                                            "@type": "Offer",
+                                            "name": "Free",
+                                            "price": "0",
+                                            "priceCurrency": "EUR"
+                                        },
+                                        {
+                                            "@type": "Offer",
+                                            "name": "Pro",
+                                            "price": "9.99",
+                                            "priceCurrency": "EUR"
+                                        },
+                                        {
+                                            "@type": "Offer",
+                                            "name": "Business",
+                                            "price": "29.99",
+                                            "priceCurrency": "EUR"
+                                        }
+                                    ],
+                                    "featureList": [
+                                        "Price tracking for Amazon, Etsy, Otto",
+                                        "Price drop alerts",
+                                        "Price history charts",
+                                        "AI-powered deal recommendations"
+                                    ]
+                                },
+                                {
+                                    "@type": "FAQPage",
+                                    "mainEntity": [
+                                        {
+                                            "@type": "Question",
+                                            "name": "What is MarktMinder?",
+                                            "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "MarktMinder is a price tracking platform that monitors prices across Amazon, Etsy, and Otto, sending alerts when prices drop."
+                                            }
+                                        },
+                                        {
+                                            "@type": "Question",
+                                            "name": "Which retailers does MarktMinder support?",
+                                            "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "MarktMinder supports Amazon.de, Etsy, and Otto.de for price tracking."
+                                            }
+                                        },
+                                        {
+                                            "@type": "Question",
+                                            "name": "How much does MarktMinder cost?",
+                                            "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "MarktMinder offers a free plan with 3 products, Pro at €9.99/month with 50 products, and Business at €29.99/month with 500 products."
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        })
+                    }}
+                />
             </head>
             <body className="font-sans antialiased" suppressHydrationWarning>
                 <AuthProvider>

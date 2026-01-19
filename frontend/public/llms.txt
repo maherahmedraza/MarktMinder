@@ -1,0 +1,69 @@
+# MarktMinder
+
+> AI-powered price tracking platform for Amazon, Etsy, and Otto marketplaces.
+
+## About
+
+MarktMinder helps users track prices across major e-commerce platforms and receive alerts when prices drop. The platform supports Amazon.de, Etsy, and Otto.de.
+
+### Key Features
+
+- **Price Tracking**: Monitor product prices in real-time
+- **Price Alerts**: Get notified via email when prices drop or reach targets
+- **Price History**: View 30-day price charts and identify trends
+- **Multi-Retailer**: Track Amazon, Etsy, and Otto products
+- **Deal Radar**: AI-powered deal recommendations
+
+## Pages
+
+### Public Pages
+- `/` - Homepage with feature overview and pricing
+- `/pricing` - Subscription plans (Free, Pro, Business)
+- `/login` - User authentication
+- `/register` - Create new account
+- `/privacy` - Privacy policy
+- `/terms` - Terms of service
+- `/contact` - Contact form
+
+### Dashboard (Authenticated)
+- `/dashboard` - Main dashboard with tracked products overview
+- `/dashboard/products` - Manage tracked products
+- `/dashboard/products/[id]` - Product detail with price history
+- `/dashboard/alerts` - Manage price alerts
+- `/dashboard/settings` - Account settings and preferences
+- `/dashboard/deals` - AI-powered deal recommendations
+
+## API
+
+The MarktMinder API is documented at `/api/docs` (Swagger/OpenAPI format).
+
+### Key Endpoints
+- `POST /api/auth/register` - Create account
+- `POST /api/auth/login` - Authenticate user
+- `GET /api/products` - List user's tracked products
+- `POST /api/products` - Add new product to track
+- `GET /api/alerts` - List price alerts
+- `POST /api/alerts` - Create price alert
+
+## Pricing
+
+| Plan | Price | Products | Alerts |
+|------|-------|----------|--------|
+| Free | €0/mo | 3 | 3 |
+| Pro | €9.99/mo | 50 | Unlimited |
+| Business | €29.99/mo | 500 | Unlimited + API |
+
+## Technical Stack
+
+- **Frontend**: Next.js 15, React 19, TailwindCSS
+- **Backend**: Node.js, Express.js, PostgreSQL
+- **Scraper**: Puppeteer, Cheerio
+
+## Contact
+
+- Website: https://marktminder.de
+- Email: info@marktminder.de
+
+## Structured Data
+
+MarktMinder provides structured data on all pages using JSON-LD format with Schema.org vocabulary for optimal AI comprehension.

@@ -15,10 +15,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dockerfiles for all services (backend, frontend, scraper)
 - Brute force protection for login endpoint (rate limiting + IP blocking)
 - Scraper retry mechanism with exponential backoff
+- `llms.txt` for AI crawler guidance (ChatGPT, Perplexity, etc.)
+- Schema.org structured data for LLM-friendly SEO
+- Web Design Best Practices documentation (`WEB_DESIGN_BEST_PRACTICES.md`)
+- QA Testing documentation (`TESTING.md`)
 
 ### Changed
 - Updated API info endpoint to include documentation link
 - Login errors now show remaining attempts
+- Golden Ratio typography system (1.618 scale)
+- 8px grid spacing system for visual harmony
+- Fluid typography with `clamp()` for responsive scaling
+- Professional heading and body text styles
+- Lazy loading for PriceChart (reduces initial bundle)
+- Mobile-responsive Admin Users table (card layout)
+- Mobile-responsive Alerts table (card layout)
 
 ### Security
 - Rate limiting specifically for authentication endpoints
