@@ -1,11 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { TrendingDown, Bell, Globe, Shield, ChevronRight, Sparkles, Zap, Target, BarChart3 } from 'lucide-react';
+import { TrendingDown, Bell, Globe, Shield, ChevronRight, Sparkles, Zap, Target, BarChart3, Menu, X } from 'lucide-react';
 import { PriceParticles } from '@/components/PriceParticles';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function HomePage() {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     return (
         <div className="min-h-screen bg-[var(--color-bg-primary)] relative overflow-hidden">
             {/* Interactive Background */}
@@ -19,21 +22,23 @@ export default function HomePage() {
             {/* Content */}
             <div className="relative z-10">
                 {/* Navigation */}
-                <nav className="container mx-auto px-6 py-5">
+                <nav className="container mx-auto px-4 sm:px-6 py-4 sm:py-5">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25">
-                                <TrendingDown className="w-6 h-6 text-white" />
+                        <div className="flex items-center gap-2 sm:gap-3">
+                            <div className="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25">
+                                <TrendingDown className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                             </div>
-                            <span className="text-xl font-bold text-[var(--color-text-primary)]">
+                            <span className="text-lg sm:text-xl font-bold text-[var(--color-text-primary)]">
                                 Markt<span className="text-primary-500">Minder</span>
                             </span>
                         </div>
-                        <div className="flex items-center gap-4">
+
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:flex items-center gap-4">
                             <ThemeToggle />
                             <Link
                                 href="/pricing"
-                                className="hidden sm:block text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors font-medium"
+                                className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors font-medium"
                             >
                                 Pricing
                             </Link>
@@ -50,7 +55,52 @@ export default function HomePage() {
                                 Get Started
                             </Link>
                         </div>
+
+                        {/* Mobile Navigation Toggle */}
+                        <div className="flex items-center gap-2 md:hidden">
+                            <ThemeToggle />
+                            <button
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                className="p-2 rounded-lg text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] transition-colors"
+                                aria-label="Toggle menu"
+                            >
+                                {mobileMenuOpen ? (
+                                    <X className="w-6 h-6" />
+                                ) : (
+                                    <Menu className="w-6 h-6" />
+                                )}
+                            </button>
+                        </div>
                     </div>
+
+                    {/* Mobile Menu */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden mt-4 pb-4 border-t border-[var(--color-border-primary)] pt-4 animate-in slide-in-from-top-2 duration-200">
+                            <div className="flex flex-col gap-3">
+                                <Link
+                                    href="/pricing"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="py-2 px-3 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] transition-colors font-medium"
+                                >
+                                    Pricing
+                                </Link>
+                                <Link
+                                    href="/login"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="py-2 px-3 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] transition-colors font-medium"
+                                >
+                                    Sign In
+                                </Link>
+                                <Link
+                                    href="/register"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-3 rounded-xl font-semibold text-center transition-all"
+                                >
+                                    Get Started
+                                </Link>
+                            </div>
+                        </div>
+                    )}
                 </nav>
 
                 {/* Hero Section */}
