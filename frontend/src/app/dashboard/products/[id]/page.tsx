@@ -28,6 +28,7 @@ import { GlowButton } from '@/components/ui/GlowButton';
 import { StatCard } from '@/components/ui/StatCard';
 import { TrustScoreBadge } from '@/components/products/TrustScoreBadge';
 import { CrossMarketplaceWidget } from '@/components/dashboard/CrossMarketplaceWidget';
+import { SmartAlertBuilder } from '@/components/alerts/SmartAlertBuilder';
 
 // Lazy load PriceChart for better performance
 const PriceChart = dynamic(
@@ -432,6 +433,12 @@ export default function ProductDetailPage() {
 
                 {/* Cross-Marketplace Comparison */}
                 <CrossMarketplaceWidget productId={productId} />
+
+                {/* Smart Alerts / Conditional Alert Engine */}
+                <SmartAlertBuilder
+                    productId={productId}
+                    productTitle={product?.title}
+                />
 
                 {/* Price Records Table */}
                 <GlassCard padding="none" className="overflow-hidden">
