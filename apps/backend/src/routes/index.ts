@@ -6,3 +6,6 @@ export { default as billingRoutes } from './billing.routes.js';
 export { default as notificationRoutes } from './notifications.routes.js';
 export { default as foldersRoutes } from './folders.routes.js';
 export { default as communityRoutes } from './community.routes.js';
+export { default as gamificationRoutes } from './gamification.routes.js';
+export { default as telegramRoutes } from './telegram.routes.js';
+export { default as conditionalAlertsRoutes } from './conditional-alerts.routes.js';
