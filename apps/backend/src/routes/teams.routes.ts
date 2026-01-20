@@ -67,13 +67,13 @@ router.get('/:teamId',
     async (req: Request, res: Response) => {
         try {
             const { teamId } = req.params;
-            const team = await TeamModel.getTeamById(teamId);
+            const team = await TeamModel.getTeamById(teamId as string);
 
             if (!team) {
                 return res.status(404).json({ error: 'Team not found' });
             }
 
-            const memberCount = await TeamModel.getMemberCount(teamId);
+            const memberCount = await TeamModel.getMemberCount(teamId as string);
 
             res.json({
                 team: {
@@ -108,7 +108,7 @@ router.patch('/:teamId',
             const { teamId } = req.params;
             const updates = req.body;
 
-            const team = await TeamModel.updateTeam(teamId, updates);
+            const team = await TeamModel.updateTeam(teamId as string, updates);
 
             res.json({
                 message: 'Team updated successfully',
@@ -131,7 +131,7 @@ router.delete('/:teamId',
         try {
             const { teamId } = req.params;
 
-            await TeamModel.deleteTeam(teamId);
+            await TeamModel.deleteTeam(teamId as string);
 
             res.json({ message: 'Team deleted successfully' });
         } catch (error) {
@@ -150,7 +150,7 @@ router.get('/:teamId/members',
     async (req: Request, res: Response) => {
         try {
             const { teamId } = req.params;
-            const members = await TeamModel.getTeamMembers(teamId);
+            const members = await TeamModel.getTeamMembers(teamId as string);
 
             res.json({ members });
         } catch (error) {
@@ -181,12 +181,12 @@ router.post('/:teamId/members',
             const { userId, role } = req.body;
 
             // Check if user is already a member
-            const existingMember = await TeamModel.getTeamMember(teamId, userId);
+            const existingMember = await TeamModel.getTeamMember(teamId, userId as string);
             if (existingMember) {
                 return res.status(409).json({ error: 'User is already a team member' });
             }
 
-            const member = await TeamModel.addMember(teamId, userId, role);
+            const member = await TeamModel.addMember(teamId, userId as string, role);
 
             res.status(201).json({
                 message: 'Member added successfully',
@@ -219,7 +219,7 @@ router.patch('/:teamId/members/:userId',
             const { role } = req.body;
 
             // Prevent owner from changing their own role
-            const isOwner = await TeamModel.isTeamOwner(teamId, userId);
+            const isOwner = await TeamModel.isTeamOwner(teamId, userId as string);
             if (isOwner) {
                 return res.status(403).json({
                     error: 'Cannot change owner role',
@@ -227,7 +227,7 @@ router.patch('/:teamId/members/:userId',
                 });
             }
 
-            const member = await TeamModel.updateMemberRole(teamId, userId, role);
+            const member = await TeamModel.updateMemberRole(teamId, userId as string, role);
 
             res.json({
                 message: 'Member role updated successfully',
@@ -251,7 +251,7 @@ router.delete('/:teamId/members/:userId',
             const { teamId, userId } = req.params;
 
             // Prevent owner from being removed
-            const isOwner = await TeamModel.isTeamOwner(teamId, userId);
+            const isOwner = await TeamModel.isTeamOwner(teamId, userId as string);
             if (isOwner) {
                 return res.status(403).json({
                     error: 'Cannot remove owner',
@@ -259,7 +259,7 @@ router.delete('/:teamId/members/:userId',
                 });
             }
 
-            await TeamModel.removeMember(teamId, userId);
+            await TeamModel.removeMember(teamId, userId as string);
 
             res.json({ message: 'Member removed successfully' });
         } catch (error) {
