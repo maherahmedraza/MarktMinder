@@ -15,6 +15,18 @@ class ApiClient {
         this.accessToken = token;
     }
 
+    private getCsrfTokenFromCookie(): string | null {
+        // Read XSRF-TOKEN cookie
+        const cookies = document.cookie.split(';');
+        for (const cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'XSRF-TOKEN') {
+                return decodeURIComponent(value);
+            }
+        }
+        return null;
+    }
+
     private async tryRefreshToken(): Promise<boolean> {
         // If already refreshing, wait for it
         if (this.isRefreshing && this.refreshPromise) {
@@ -75,6 +87,15 @@ class ApiClient {
 
         if (this.accessToken) {
             headers['Authorization'] = `Bearer ${this.accessToken}`;
+        }
+
+        // Add CSRF token from cookie for state-changing requests
+        const method = options.method || 'GET';
+        if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase())) {
+            const csrfToken = this.getCsrfTokenFromCookie();
+            if (csrfToken) {
+                headers['x-csrf-token'] = csrfToken;
+            }
         }
 
         const response = await fetch(url, {
