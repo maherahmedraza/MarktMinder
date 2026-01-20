@@ -259,7 +259,7 @@ router.delete('/:teamId/members/:userId',
                 });
             }
 
-            await TeamModel.removeMember(teamId, userId as string);
+            await TeamModel.removeMember(teamId as string, userId as string);
 
             res.json({ message: 'Member removed successfully' });
         } catch (error) {
