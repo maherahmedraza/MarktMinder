@@ -5,6 +5,7 @@ import { param, body } from 'express-validator';
 import { prisma } from '../config/prisma.js';
 import { ForbiddenError, NotFoundError } from '../utils/errors.js';
 import { Prisma } from '@prisma/client';
+import cacheRoutes from './admin/cache.routes.js';
 
 const router = Router();
 
@@ -370,5 +371,8 @@ router.delete(
         res.json({ message: 'User deleted successfully' });
     })
 );
+
+//Mount cache management routes
+router.use('/cache', cacheRoutes);
 
 export default router;
