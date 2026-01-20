@@ -37,7 +37,10 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
 }));
 
-// Rate limiting (skip in development for easier testing)
+// ======================
+// Rate Limiting
+// ======================
+// Global rate limiting for unauthenticated requests
 const limiter = rateLimit({
     windowMs: config.rateLimit.windowMs,
     max: config.rateLimit.maxRequests,
@@ -49,9 +52,15 @@ const limiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    skip: () => !config.isProduction, // Skip rate limiting in development
+    skip: (req) => {
+        // Skip if in development OR user is authenticated (will use tier-based limits)
+        return !config.isProduction || !!req.user;
+    },
 });
 app.use('/api/', limiter);
+
+// Tier-based rate limiting for authenticated users (applied after authentication)
+import tierRateLimit from './middleware/tierRateLimit.js';
 
 // ======================
 // Body Parsing
@@ -64,6 +73,13 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // ======================
 import { sanitize } from './middleware/sanitize.js';
 app.use(sanitize); // Sanitize all user inputs to prevent XSS attacks
+
+// ======================
+// Security - CSRF Protection
+// ======================
+import { csrfTokenGenerator, csrfProtection } from './middleware/csrf.js';
+app.use(csrfTokenGenerator); // Generate CSRF tokens for all requests
+app.use(csrfProtection); // Validate CSRF tokens on state-changing requests
 
 // ======================
 // Request Logging & Tracing
@@ -108,26 +124,21 @@ app.get('/health/ready', async (req: Request, res: Response) => {
 // API Routes - Version 1
 // ======================
 // All routes are now under /api/v1/ for proper versioning
+
+// Apply tier-based rate limiting to authenticated routes
+app.use('/api/v1/products', tierRateLimit, productsRoutes);
+app.use('/api/v1/alerts', tierRateLimit, alertsRoutes);
+app.use('/api/v1/folders', tierRateLimit, foldersRoutes);
+app.use('/api/v1/community', tierRateLimit, communityRoutes);
+app.use('/api/v1/gamification', tierRateLimit, gamificationRoutes);
+app.use('/api/v1/conditional-alerts', tierRateLimit, conditionalAlertsRoutes);
+
+// Routes without tier limits (auth, billing, admin)
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/products', productsRoutes);
-app.use('/api/v1/alerts', alertsRoutes);
 app.use('/api/v1/notifications', notificationRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/billing', billingRoutes);  // Subscription & Payments
-app.use('/api/v1/folders', foldersRoutes);
-app.use('/api/v1/community', communityRoutes);
-
-// Gamification routes (dynamic import to avoid circular dependencies)
-import gamificationRoutes from './routes/gamification.routes.js';
-app.use('/api/v1/gamification', gamificationRoutes);
-
-// Telegram Bot routes
-import telegramRoutes from './routes/telegram.routes.js';
 app.use('/api/v1/telegram', telegramRoutes);
-
-// Conditional Alerts (Smart Alerts)
-import conditionalAlertsRoutes from './routes/conditional-alerts.routes.js';
-app.use('/api/v1/conditional-alerts', conditionalAlertsRoutes);
 
 app.use('/api/v1', apiV1Routes);  // Public API
 
