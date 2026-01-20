@@ -12,6 +12,7 @@ import { prisma } from './config/prisma.js';
 import { checkHealth as checkRedisHealth, closeRedis } from './config/redis.js';
 import { authRoutes, productsRoutes, alertsRoutes, adminRoutes, billingRoutes, notificationRoutes, foldersRoutes, communityRoutes, gamificationRoutes, telegramRoutes, conditionalAlertsRoutes } from './routes/index.js';
 import teamsRoutes from './routes/teams.routes.js';
+import competitorRoutes from './routes/competitors.routes.js';
 import apiV1Routes from './routes/api-v1.routes.js';
 import { swaggerSpec } from './config/swagger.js';
 import passport, { initializePassport } from './config/passport.js';
@@ -68,6 +69,8 @@ import tierRateLimit from './middleware/tierRateLimit.js';
 // ======================
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+import cookieParser from 'cookie-parser';
+app.use(cookieParser());
 
 // ======================
 // Security - XSS Prevention
@@ -130,9 +133,11 @@ app.get('/health/ready', async (req: Request, res: Response) => {
 app.use('/api/v1/products', tierRateLimit, productsRoutes);
 app.use('/api/v1/alerts', tierRateLimit, alertsRoutes);
 app.use('/api/v1/folders', tierRateLimit, foldersRoutes);
+
+// Team & Competitor Routes
+app.use('/api/v1/teams/:teamId/competitors', tierRateLimit, competitorRoutes);
 app.use('/api/v1/teams', tierRateLimit, teamsRoutes);
 app.use('/api/v1/community', tierRateLimit, communityRoutes);
-app.use('/api/v1/gamification', tierRateLimit, gamificationRoutes);
 app.use('/api/v1/gamification', tierRateLimit, gamificationRoutes);
 app.use('/api/v1/conditional-alerts', tierRateLimit, conditionalAlertsRoutes);
 

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAuth, AuthProvider } from '@/lib/auth';
 import {
     TrendingDown,
+    TrendingUp,
     LayoutDashboard,
     Package,
     Bell,
@@ -113,11 +114,15 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
 
                         <div className="mt-8 pt-8 border-t border-border/10">
                             <p className="px-4 text-[9px] font-black text-text-tertiary uppercase tracking-[0.4em] mb-4 opacity-50">System_Protocols</p>
-                            {/* Team Management - Business/Enterprise Only */}
                             {(user?.subscription_tier === 'business' || user?.subscription_tier === 'enterprise') && (
-                                <NavLink href="/dashboard/team" icon={<Users className="w-4 h-4" />}>
-                                    Team_Management
-                                </NavLink>
+                                <>
+                                    <NavLink href="/dashboard/team" icon={<Users className="w-4 h-4" />}>
+                                        Team_Management
+                                    </NavLink>
+                                    <NavLink href="/dashboard/competitors" icon={<TrendingUp className="w-4 h-4" />}>
+                                        Competitor_Intel
+                                    </NavLink>
+                                </>
                             )}
                             <NavLink href="/dashboard/alerts" icon={<Bell className="w-4 h-4" />}>
                                 Signal_Alerts

@@ -322,6 +322,7 @@ export interface User {
     email: string;
     name: string;
     role?: string;
+    subscription_tier?: string;
     createdAt: string;
 }
 

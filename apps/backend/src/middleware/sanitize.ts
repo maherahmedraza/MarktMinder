@@ -91,7 +91,10 @@ export function sanitize(req: Request, res: Response, next: NextFunction): void 
 
     // Sanitize query parameters
     if (req.query) {
-        req.query = sanitizeObject(req.query);
+        const sanitizedQuery = sanitizeObject(req.query);
+        for (const key in sanitizedQuery) {
+            req.query[key] = sanitizedQuery[key];
+        }
     }
 
     // Sanitize route parameters
