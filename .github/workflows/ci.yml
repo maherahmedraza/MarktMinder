@@ -1,13 +1,18 @@
 # MarktMinder CI/CD Pipeline
-# Runs on push to main/develop and pull requests
+# Runs on push to main and pull requests
+# Updated for Turborepo monorepo structure with API v1
 
 name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, 'feature/*']
   pull_request:
-    branches: [main, develop]
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   NODE_VERSION: '20'
@@ -18,15 +23,15 @@ env:
 
 jobs:
   # ============================================
-  # Backend Tests & Linting
+  # Monorepo Build & Test
   # ============================================
-  backend:
-    name: Backend CI
+  build-and-test:
+    name: Build & Test All Workspaces
     runs-on: ubuntu-latest
     
     services:
       postgres:
-        image: postgres:16
+        image: postgres:16-alpine
         env:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
@@ -40,7 +45,7 @@ jobs:
           --health-retries 5
       
       redis:
-        image: redis:7
+        image: redis:7-alpine
         ports:
           - 6379:6379
         options: >-
@@ -58,140 +63,77 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
 
       - name: Install dependencies
-        working-directory: backend
         run: npm ci
 
       - name: Run linting
-        working-directory: backend
         run: npm run lint --if-present
 
-      - name: Run type check
-        working-directory: backend
+      - name: Run type check (Backend)
         run: npx tsc --noEmit
+        working-directory: apps/backend
 
-      - name: Run tests
-        working-directory: backend
-        run: npm test --if-present
+      - name: Run type check (Frontend)
+        run: npx tsc --noEmit
+        working-directory: apps/frontend
+
+      - name: Run Prisma migrations
+        run: npx prisma migrate deploy
+        working-directory: packages/database
         env:
           DATABASE_URL: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@localhost:5432/${{ env.POSTGRES_DB }}
-          JWT_SECRET: test-secret-key
-          NODE_ENV: test
 
-      - name: Build
-        working-directory: backend
-        run: npm run build --if-present
+      - name: Build packages
+        run: npm run build --workspace=@marktminder/shared --workspace=@marktminder/database
 
-  # ============================================
-  # Frontend Tests & Build
-  # ============================================
-  frontend:
-    name: Frontend CI
-    runs-on: ubuntu-latest
+      - name: Build backend
+        run: npm run build --workspace=@marktminder/backend
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        working-directory: frontend
-        run: npm ci
-
-      - name: Run linting
-        working-directory: frontend
-        run: npm run lint --if-present
-
-      - name: Run type check
-        working-directory: frontend
-        run: npx tsc --noEmit
-
-      - name: Run tests
-        working-directory: frontend
-        run: npm test --if-present
-
-      - name: Build
-        working-directory: frontend
-        run: npm run build
+      - name: Build frontend
+        run: npm run build --workspace=@marktminder/frontend
         env:
-          NEXT_PUBLIC_API_URL: http://localhost:3001/api
+          NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
+
+      - name: Run backend tests
+        run: npm run test --workspace=@marktminder/backend --if-present
+        env:
+          DATABASE_URL: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@localhost:5432/${{ env.POSTGRES_DB }}
+          JWT_SECRET: test-secret-key-for-ci
+          NODE_ENV: test
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: frontend-build
-          path: frontend/.next
+          name: build-artifacts
+          path: |
+            apps/backend/dist
+            apps/frontend/.next
           retention-days: 7
-
-  # ============================================
-  # Scraper Tests
-  # ============================================
-  scraper:
-    name: Scraper CI
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: scraper/package-lock.json
-
-      - name: Install dependencies
-        working-directory: scraper
-        run: npm ci
-
-      - name: Run linting
-        working-directory: scraper
-        run: npm run lint --if-present
-
-      - name: Run type check
-        working-directory: scraper
-        run: npx tsc --noEmit
-
-      - name: Run tests
-        working-directory: scraper
-        run: npm test --if-present
-
-      - name: Build
-        working-directory: scraper
-        run: npm run build --if-present
 
   # ============================================
   # Security Scan
   # ============================================
   security:
-    name: Security Scan
+    name: Security Audit
     runs-on: ubuntu-latest
-    needs: [backend, frontend, scraper]
+    needs: [build-and-test]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run npm audit (Backend)
-        working-directory: backend
-        run: npm audit --audit-level=high || true
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Run npm audit (Frontend)
-        working-directory: frontend
-        run: npm audit --audit-level=high || true
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
 
-      - name: Run npm audit (Scraper)
-        working-directory: scraper
-        run: npm audit --audit-level=high || true
+      - name: Check for outdated dependencies
+        run: npm outdated || true
 
   # ============================================
   # Docker Build (on main only)
@@ -199,7 +141,7 @@ jobs:
   docker:
     name: Docker Build
     runs-on: ubuntu-latest
-    needs: [backend, frontend, scraper]
+    needs: [build-and-test]
     if: github.ref == 'refs/heads/main'
 
     steps:
@@ -219,7 +161,7 @@ jobs:
       - name: Build and push Backend
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
+          context: ./apps/backend
           push: ${{ secrets.DOCKER_USERNAME != '' }}
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/marktminder-backend:latest
@@ -231,7 +173,7 @@ jobs:
       - name: Build and push Frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./frontend
+          context: ./apps/frontend
           push: ${{ secrets.DOCKER_USERNAME != '' }}
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/marktminder-frontend:latest
@@ -244,26 +186,23 @@ jobs:
   # Notify on Completion
   # ============================================
   notify:
-    name: Notify
+    name: CI Summary
     runs-on: ubuntu-latest
-    needs: [backend, frontend, scraper, security]
+    needs: [build-and-test, security]
     if: always()
 
     steps:
       - name: Check job results
         run: |
-          echo "Backend: ${{ needs.backend.result }}"
-          echo "Frontend: ${{ needs.frontend.result }}"
-          echo "Scraper: ${{ needs.scraper.result }}"
+          echo "Build & Test: ${{ needs.build-and-test.result }}"
           echo "Security: ${{ needs.security.result }}"
 
       - name: Summary
         run: |
-          if [ "${{ needs.backend.result }}" == "success" ] && \
-             [ "${{ needs.frontend.result }}" == "success" ] && \
-             [ "${{ needs.scraper.result }}" == "success" ]; then
+          if [ "${{ needs.build-and-test.result }}" == "success" ]; then
             echo "✅ All CI checks passed!"
+            echo "🚀 Ready for deployment"
           else
-            echo "❌ Some CI checks failed"
+            echo "❌ CI checks failed"
             exit 1
           fi
