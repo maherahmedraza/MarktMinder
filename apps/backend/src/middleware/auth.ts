@@ -125,7 +125,11 @@ export async function authenticateApiKey(
                 ]
             },
             include: {
-                user: true
+                user: {
+                    include: {
+                        subscription: true
+                    }
+                }
             }
         });
 
@@ -147,11 +151,12 @@ export async function authenticateApiKey(
         });
 
         // Attach user to request
+        const user = keyRecord.user as any;
         req.user = {
             id: keyRecord.userId,
-            email: keyRecord.user.email,
-            name: keyRecord.user.name || undefined,
-            subscription_tier: keyRecord.user.subscription_tier || undefined
+            email: user.email,
+            name: user.name || undefined,
+            subscription_tier: user.subscription?.tier || undefined
         };
 
         // Attach API Key ID for analytics

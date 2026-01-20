@@ -45,7 +45,7 @@ router.get(
                 where: { id },
                 include: {
                     priceHistory: {
-                        orderBy: { recordedAt: 'desc' },
+                        orderBy: { time: 'desc' },
                         take: 1 // Only latest price history point
                     }
                 }
@@ -64,7 +64,7 @@ router.get(
                 currency: product.currency,
                 current_price: product.currentPrice,
                 marketplace: product.marketplace,
-                last_checked: product.lastChecked,
+                last_checked: product.lastScrapedAt,
                 status: 'active'
             });
         } catch (error) {
@@ -92,20 +92,20 @@ router.get(
 
             const history = await prisma.priceHistory.findMany({
                 where: { productId: id },
-                orderBy: { recordedAt: 'desc' },
+                orderBy: { time: 'desc' },
                 take: limit,
                 select: {
                     price: true,
-                    recordedAt: true,
+                    time: true,
                     currency: true
                 }
             });
 
             res.json({
                 product_id: id,
-                history: history.map((h: { price: number; recordedAt: Date; currency: string }) => ({
-                    price: h.price,
-                    date: h.recordedAt,
+                history: history.map((h: { price: any; time: Date; currency: string }) => ({
+                    price: Number(h.price),
+                    date: h.time,
                     currency: h.currency
                 }))
             });
@@ -145,7 +145,7 @@ router.get(
                     product_id: a.productId,
                     product_title: a.product.title,
                     target_price: a.targetPrice,
-                    condition: a.condition, // 'above' | 'below'
+                    condition: a.alertType, // Mapped from DB alertType
                     is_active: a.isActive,
                     created_at: a.createdAt
                 }))
@@ -188,7 +188,7 @@ router.post(
                     userId,
                     productId: product_id,
                     targetPrice: parseFloat(target_price),
-                    condition: condition === 'gt' ? 'ABOVE' : 'BELOW',
+                    alertType: condition === 'gt' ? 'price_above' : 'price_below',
                     isActive: true
                 }
             });
