@@ -102,6 +102,7 @@ class ApiClient {
             method: options.method || 'GET',
             headers,
             body: options.body ? JSON.stringify(options.body) : undefined,
+            credentials: 'include', // Send cookies with cross-origin requests
         });
 
         const data = await response.json();

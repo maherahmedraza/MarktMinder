@@ -89,17 +89,22 @@ export function sanitize(req: Request, res: Response, next: NextFunction): void 
         req.body = sanitizeObject(req.body);
     }
 
-    // Sanitize query parameters
+    // Sanitize query parameters (mutate in-place, req.query is read-only in Express 5)
     if (req.query) {
         const sanitizedQuery = sanitizeObject(req.query);
-        for (const key in sanitizedQuery) {
-            req.query[key] = sanitizedQuery[key];
+        for (const key of Object.keys(req.query)) {
+            delete (req.query as any)[key];
         }
+        Object.assign(req.query, sanitizedQuery);
     }
 
-    // Sanitize route parameters
+    // Sanitize route parameters (mutate in-place, req.params is read-only in Express 5)
     if (req.params) {
-        req.params = sanitizeObject(req.params);
+        const sanitizedParams = sanitizeObject(req.params);
+        for (const key of Object.keys(req.params)) {
+            delete (req.params as any)[key];
+        }
+        Object.assign(req.params, sanitizedParams);
     }
 
     next();

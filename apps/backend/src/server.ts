@@ -69,14 +69,18 @@ import tierRateLimit from './middleware/tierRateLimit.js';
 // ======================
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-import cookieParser from 'cookie-parser';
-app.use(cookieParser());
 
 // ======================
 // Security - XSS Prevention
 // ======================
 import { sanitize } from './middleware/sanitize.js';
 app.use(sanitize); // Sanitize all user inputs to prevent XSS attacks
+
+// ======================
+// Cookie Parsing (required for CSRF)
+// ======================
+import cookieParser from 'cookie-parser';
+app.use(cookieParser());
 
 // ======================
 // Security - CSRF Protection
@@ -143,7 +147,7 @@ app.use('/api/v1/conditional-alerts', tierRateLimit, conditionalAlertsRoutes);
 
 // B2B Public White-Label API (Rate Limits + Analytics Enforced internal to router)
 import publicRoutes from './routes/api/v1/public.js';
-app.use('/api/v1', publicRoutes);
+app.use('/api/v1/public', publicRoutes); // Mount at /api/v1/public to avoid intercepting other routes
 
 // Routes without tier limits (auth, billing, admin)
 app.use('/api/v1/auth', authRoutes);

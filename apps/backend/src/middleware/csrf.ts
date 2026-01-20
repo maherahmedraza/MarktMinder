@@ -34,7 +34,7 @@ export function csrfTokenGenerator(req: Request, res: Response, next: NextFuncti
         res.cookie(CSRF_COOKIE_NAME, token, {
             httpOnly: false, // Allow JavaScript to read for sending in headers
             secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-            sameSite: 'strict',
+            sameSite: 'lax', // Allow cross-origin for SPA (frontend on different port)
             maxAge: CSRF_TOKEN_EXPIRY,
             path: '/',
         });
