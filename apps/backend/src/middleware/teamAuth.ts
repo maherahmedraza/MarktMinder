@@ -7,6 +7,12 @@ declare global {
         interface Request {
             teamRole?: 'admin' | 'editor' | 'viewer';
             teamId?: string;
+            user?: {
+                id: string;
+                email: string;
+                name?: string;
+                subscription_tier?: 'free' | 'pro' | 'power' | 'business' | 'enterprise';
+            };
         }
     }
 }

@@ -1,4 +1,4 @@
-import pool from '../config/database';
+import { prisma } from '../config/prisma';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Team {
@@ -29,12 +29,14 @@ export class TeamModel {
             RETURNING *
         `;
 
-        const result = await pool.query(query, [ownerId, name, plan]);
+        const result = await prisma.$queryRawUnsafe<Team[]>(query, ownerId, name, plan);
 
         // Automatically add owner as admin
-        await this.addMember(result.rows[0].id, ownerId, 'admin');
+        if (result.length > 0) {
+            await this.addMember(result[0].id, ownerId, 'admin');
+        }
 
-        return result.rows[0];
+        return result[0];
     }
 
     /**
@@ -42,8 +44,8 @@ export class TeamModel {
      */
     static async getTeamById(teamId: string): Promise<Team | null> {
         const query = 'SELECT * FROM teams WHERE id = $1';
-        const result = await pool.query(query, [teamId]);
-        return result.rows[0] || null;
+        const result = await prisma.$queryRawUnsafe<Team[]>(query, teamId);
+        return result[0] || null;
     }
 
     /**
@@ -58,8 +60,8 @@ export class TeamModel {
             ORDER BY t.created_at DESC
         `;
 
-        const result = await pool.query(query, [userId]);
-        return result.rows;
+        const result = await prisma.$queryRawUnsafe<Team[]>(query, userId);
+        return result;
     }
 
     /**
@@ -92,15 +94,15 @@ export class TeamModel {
             RETURNING *
         `;
 
-        const result = await pool.query(query, values);
-        return result.rows[0];
+        const result = await prisma.$queryRawUnsafe<Team[]>(query, ...values);
+        return result[0];
     }
 
     /**
      * Delete team
      */
     static async deleteTeam(teamId: string): Promise<void> {
-        await pool.query('DELETE FROM teams WHERE id = $1', [teamId]);
+        await prisma.$queryRawUnsafe('DELETE FROM teams WHERE id = $1', teamId);
     }
 
     /**
@@ -113,17 +115,17 @@ export class TeamModel {
             RETURNING *
         `;
 
-        const result = await pool.query(query, [teamId, userId, role]);
-        return result.rows[0];
+        const result = await prisma.$queryRawUnsafe<TeamMember[]>(query, teamId, userId, role);
+        return result[0];
     }
 
     /**
      * Remove member from team
      */
     static async removeMember(teamId: string, userId: string): Promise<void> {
-        await pool.query(
+        await prisma.$queryRawUnsafe(
             'DELETE FROM team_members WHERE team_id = $1 AND user_id = $2',
-            [teamId, userId]
+            teamId, userId
         );
     }
 
@@ -138,8 +140,8 @@ export class TeamModel {
             RETURNING *
         `;
 
-        const result = await pool.query(query, [newRole, teamId, userId]);
-        return result.rows[0];
+        const result = await prisma.$queryRawUnsafe<TeamMember[]>(query, newRole, teamId, userId);
+        return result[0];
     }
 
     /**
@@ -151,8 +153,8 @@ export class TeamModel {
             WHERE team_id = $1 AND user_id = $2
         `;
 
-        const result = await pool.query(query, [teamId, userId]);
-        return result.rows[0] || null;
+        const result = await prisma.$queryRawUnsafe<TeamMember[]>(query, teamId, userId);
+        return result[0] || null;
     }
 
     /**
@@ -167,8 +169,8 @@ export class TeamModel {
             ORDER BY tm.role DESC, tm.joined_at ASC
         `;
 
-        const result = await pool.query(query, [teamId]);
-        return result.rows;
+        const result = await prisma.$queryRawUnsafe<(TeamMember & { email: string; username: string })[]>(query, teamId);
+        return result;
     }
 
     /**
@@ -176,8 +178,8 @@ export class TeamModel {
      */
     static async isTeamOwner(teamId: string, userId: string): Promise<boolean> {
         const query = 'SELECT 1 FROM teams WHERE id = $1 AND owner_id = $2';
-        const result = await pool.query(query, [teamId, userId]);
-        return result.rows.length > 0;
+        const result = await prisma.$queryRawUnsafe<any[]>(query, teamId, userId);
+        return result.length > 0;
     }
 
     /**
@@ -185,7 +187,7 @@ export class TeamModel {
      */
     static async getMemberCount(teamId: string): Promise<number> {
         const query = 'SELECT COUNT(*) as count FROM team_members WHERE team_id = $1';
-        const result = await pool.query(query, [teamId]);
-        return parseInt(result.rows[0].count);
+        const result = await prisma.$queryRawUnsafe<{ count: bigint }[]>(query, teamId);
+        return Number(result[0].count);
     }
 }

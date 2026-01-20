@@ -1,13 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { TeamModel } from '../models/Team';
-import { requireAuth } from '../middleware/auth';
+import { authenticate } from '../middleware/auth';
 import { requireTeamRole, requireTeamOwner, requireBusinessTier } from '../middleware/teamAuth';
 import { body, param, validationResult } from 'express-validator';
 
 const router = Router();
 
 // All routes require authentication
-router.use(requireAuth);
+router.use(authenticate);
 
 /**
  * GET /api/teams
