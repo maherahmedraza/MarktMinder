@@ -13,6 +13,7 @@ declare global {
                 id: string;
                 email: string;
                 name?: string;
+                subscription_tier?: 'free' | 'pro' | 'power' | 'business' | 'enterprise';
             };
         }
     }
