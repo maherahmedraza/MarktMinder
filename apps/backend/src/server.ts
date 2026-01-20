@@ -60,6 +60,12 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ======================
+// Security - XSS Prevention
+// ======================
+import { sanitize } from './middleware/sanitize.js';
+app.use(sanitize); // Sanitize all user inputs to prevent XSS attacks
+
+// ======================
 // Request Logging & Tracing
 // ======================
 app.use(requestIdMiddleware);
