@@ -10,6 +10,8 @@ import { discoverDeals, getUserDeals, getDealStats } from '../services/deal-rada
 import { analyzePriceDNA } from '../services/price-dna.service.js';
 import { hasFeatureAccess } from '../models/Subscription.js';
 import { ForbiddenError } from '../utils/errors.js';
+import { cacheWrapper, CacheKeys, CacheTTL } from '../utils/cache.js';
+import { invalidateProduct, invalidateUserProducts } from '../utils/cache-invalidation.js';
 
 const router = Router();
 
@@ -480,69 +482,80 @@ router.get(
         const range = (req.query.range as TimeRange) || '30d';
         const userId = req.user!.id;
 
-        // Get product details + user tracking info
-        const product = await prisma.product.findUnique({
-            where: { id },
-            include: {
-                userProducts: {
-                    where: { userId }
+        // Cache key includes product ID and range
+        const cacheKey = `${CacheKeys.product(id)}:${range}:${userId}`;
+
+        const result = await cacheWrapper(
+            cacheKey,
+            async () => {
+                // Get product details + user tracking info
+                const product = await prisma.product.findUnique({
+                    where: { id },
+                    include: {
+                        userProducts: {
+                            where: { userId }
+                        }
+                    }
+                });
+
+                if (!product) {
+                    throw new NotFoundError('Product not found');
                 }
-            }
-        });
 
-        if (!product) {
-            throw new NotFoundError('Product not found');
-        }
+                const userProduct = product.userProducts[0];
+                const isTracked = !!userProduct;
 
-        const userProduct = product.userProducts[0];
-        const isTracked = !!userProduct;
+                // Get price history
+                const history = await PriceHistoryModel.getAggregatedHistory(id, range);
+                const stats = await PriceHistoryModel.getStats(id);
 
-        // Get price history
-        const history = await PriceHistoryModel.getAggregatedHistory(id, range);
-        const stats = await PriceHistoryModel.getStats(id);
-
-        res.json({
-            product: {
-                id: product.id,
-                marketplace: product.marketplace,
-                marketplaceId: product.marketplaceId,
-                region: product.marketplaceRegion,
-                url: product.url,
-                title: product.title,
-                description: product.description,
-                imageUrl: product.imageUrl,
-                brand: product.brand,
-                category: product.category,
-                currentPrice: product.currentPrice,
-                currency: product.currency,
-                availability: product.availability,
-                lastScrapedAt: product.lastScrapedAt,
-                // User specific fields
-                isTracked,
-                tracker_id: userProduct?.id || null, // For backward compatibility if needed, though ID is composite basically
-                customName: userProduct?.customName || null,
-                notes: userProduct?.notes || null,
-                isFavorite: userProduct?.isFavorite || false,
-                folder_id: userProduct?.folderId || null,
-                addedAt: userProduct?.addedAt || null,
-                createdAt: product.createdAt,
+                return {
+                    product: {
+                        id: product.id,
+                        marketplace: product.marketplace,
+                        marketplaceId: product.marketplaceId,
+                        region: product.marketplaceRegion,
+                        url: product.url,
+                        title: product.title,
+                        description: product.description,
+                        imageUrl: product.imageUrl,
+                        brand: product.brand,
+                        category: product.category,
+                        currentPrice: product.currentPrice,
+                        currency: product.currency,
+                        availability: product.availability,
+                        lastScrapedAt: product.lastScrapedAt,
+                        // User specific fields
+                        isTracked,
+                        tracker_id: userProduct?.id || null,
+                        customName: userProduct?.customName || null,
+                        notes: userProduct?.notes || null,
+                        isFavorite: userProduct?.isFavorite || false,
+                        folder_id: userProduct?.folderId || null,
+                        addedAt: userProduct?.addedAt || null,
+                        createdAt: product.createdAt,
+                    },
+                    priceHistory: history.map(h => ({
+                        time: h.time,
+                        price: h.price,
+                        minPrice: h.min_price,
+                        maxPrice: h.max_price,
+                    })),
+                    stats: stats ? {
+                        minPrice: stats.min_price,
+                        maxPrice: stats.max_price,
+                        avgPrice: stats.avg_price,
+                        currentPrice: stats.current_price,
+                        priceChange24h: stats.price_change_24h,
+                        priceChange7d: stats.price_change_7d,
+                        priceChange30d: stats.price_change_30d,
+                    } : null,
+                };
             },
-            priceHistory: history.map(h => ({
-                time: h.time,
-                price: h.price,
-                minPrice: h.min_price,
-                maxPrice: h.max_price,
-            })),
-            stats: stats ? {
-                minPrice: stats.min_price,
-                maxPrice: stats.max_price,
-                avgPrice: stats.avg_price,
-                currentPrice: stats.current_price,
-                priceChange24h: stats.price_change_24h,
-                priceChange7d: stats.price_change_7d,
-                priceChange30d: stats.price_change_30d,
-            } : null,
-        });
+            CacheTTL.product
+        );
+
+        res.json(result);
     })
 );
 
@@ -581,6 +594,10 @@ router.patch(
                     folderId
                 }
             });
+
+            // Invalidate product cache (user-specific data changed)
+            await invalidateProduct(id);
+            await invalidateUserProducts(userId);
 
             res.json({
                 message: 'Product updated successfully',
@@ -625,6 +642,11 @@ router.delete(
                     }
                 }
             });
+
+            // Invalidate caches
+            await invalidateProduct(id);
+            await invalidateUserProducts(userId);
+
             res.json({ message: 'Product removed from tracking' });
         } catch (error: any) {
             if (error.code === 'P2025') {
