@@ -1,0 +1,507 @@
+import { Router, Request, Response } from 'express';
+import { body, param, query as queryValidator } from 'express-validator';
+import { UserModel } from '../models/index.js';
+import { asyncHandler, validate, authenticate, generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../middleware/index.js';
+import { bruteForceProtection, recordFailedAttempt, clearFailedAttempts, getRemainingAttempts } from '../middleware/bruteForce.js';
+import { BadRequestError, UnauthorizedError, ConflictError, NotFoundError } from '../utils/errors.js';
+import { prisma } from '../config/prisma.js';
+import { emailService } from '../services/email.service.js';
+import passport from '../config/passport.js';
+import crypto from 'crypto';
+
+const router = Router();
+
+/**
+ * @openapi
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 minLength: 8
+ *                 example: Password123!
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *                 tokens:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       type: string
+ *                     refreshToken:
+ *                       type: string
+ *                     expiresIn:
+ *                       type: integer
+ *       409:
+ *         description: User already exists
+ */
+router.post(
+    '/register',
+    validate([
+        body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+        body('password')
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters')
+            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+            .withMessage('Password must contain uppercase, lowercase, and number'),
+        body('name').optional().trim().isLength({ min: 2, max: 100 }),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { email, password, name } = req.body;
+
+        // Check if user already exists
+        const existingUser = await UserModel.findByEmail(email);
+        if (existingUser) {
+            throw new ConflictError('User with this email already exists');
+        }
+
+        // Create user
+        const user = await UserModel.create({ email, password, name });
+
+        // Generate tokens
+        const accessToken = generateAccessToken({ id: user.id, email: user.email, name: user.name ?? undefined });
+        const refreshToken = generateRefreshToken({ id: user.id });
+
+        // Store refresh token hash
+        const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+        await prisma.refreshToken.create({
+            data: {
+                userId: user.id,
+                tokenHash,
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+            },
+        });
+
+        // Send welcome email (async, don't block response)
+        emailService.sendWelcome({
+            to: user.email,
+            name: user.name || user.email.split('@')[0],
+        }).catch(err => {
+            // Log but don't fail registration
+            console.error('Failed to send welcome email:', err);
+        });
+
+        res.status(201).json({
+            message: 'User registered successfully',
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                emailVerified: user.email_verified,
+            },
+            tokens: {
+                accessToken,
+                refreshToken,
+                expiresIn: 900, // 15 minutes in seconds
+            },
+        });
+    })
+);
+
+/**
+ * @route   POST /api/auth/login
+ * @desc    Login user
+ * @access  Public
+ */
+router.post(
+    '/login',
+    ...bruteForceProtection, // Rate limiting, slow down, and block check
+    validate([
+        body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+        body('password').notEmpty().withMessage('Password is required'),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { email, password } = req.body;
+        const ip = req.ip || req.socket.remoteAddress || 'unknown';
+
+        // Find user
+        const user = await UserModel.findByEmail(email);
+        if (!user) {
+            // Record failed attempt
+            await recordFailedAttempt(ip, email);
+            const remaining = await getRemainingAttempts(ip);
+            throw new UnauthorizedError(`Invalid email or password. ${remaining} attempts remaining.`);
+        }
+
+        // Verify password
+        const isValid = await UserModel.verifyPassword(user, password);
+        if (!isValid) {
+            // Record failed attempt
+            await recordFailedAttempt(ip, email);
+            const remaining = await getRemainingAttempts(ip);
+            throw new UnauthorizedError(`Invalid email or password. ${remaining} attempts remaining.`);
+        }
+
+        // Clear failed attempts on successful login
+        await clearFailedAttempts(ip);
+
+        // Update last login
+        await UserModel.updateLastLogin(user.id);
+
+        // Generate tokens
+        const accessToken = generateAccessToken({ id: user.id, email: user.email, name: user.name ?? undefined });
+        const refreshToken = generateRefreshToken({ id: user.id });
+
+        // Store refresh token hash
+        const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+        await prisma.refreshToken.create({
+            data: {
+                userId: user.id,
+                tokenHash,
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+                ipAddress: typeof ip === 'string' ? ip : undefined,
+            },
+        });
+
+        res.json({
+            message: 'Login successful',
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                emailVerified: user.email_verified,
+            },
+            tokens: {
+                accessToken,
+                refreshToken,
+                expiresIn: 900,
+            },
+        });
+    })
+);
+
+/**
+ * @route   POST /api/auth/refresh
+ * @desc    Refresh access token
+ * @access  Public
+ */
+router.post(
+    '/refresh',
+    validate([
+        body('refreshToken').notEmpty().withMessage('Refresh token is required'),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { refreshToken } = req.body;
+
+        // Verify refresh token
+        let decoded;
+        try {
+            decoded = verifyRefreshToken(refreshToken);
+        } catch {
+            throw new UnauthorizedError('Invalid refresh token');
+        }
+
+        // Check if token is in database and not revoked
+        const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+
+        const storedToken = await prisma.refreshToken.findFirst({
+            where: {
+                tokenHash,
+                userId: decoded.userId,
+                expiresAt: { gt: new Date() },
+                revokedAt: null,
+            },
+        });
+
+        if (!storedToken) {
+            throw new UnauthorizedError('Invalid or expired refresh token');
+        }
+
+        // Get user
+        const user = await UserModel.findById(decoded.userId);
+        if (!user) {
+            throw new UnauthorizedError('User not found');
+        }
+
+        // Revoke old refresh token
+        await prisma.refreshToken.updateMany({
+            where: { tokenHash },
+            data: { revokedAt: new Date() },
+        });
+
+        // Generate new tokens
+        const newAccessToken = generateAccessToken({ id: user.id, email: user.email, name: user.name ?? undefined });
+        const newRefreshToken = generateRefreshToken({ id: user.id });
+
+        // Store new refresh token hash
+        const newTokenHash = crypto.createHash('sha256').update(newRefreshToken).digest('hex');
+        await prisma.refreshToken.create({
+            data: {
+                userId: user.id,
+                tokenHash: newTokenHash,
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+            },
+        });
+
+        res.json({
+            tokens: {
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
+                expiresIn: 900,
+            },
+        });
+    })
+);
+
+/**
+ * @route   POST /api/auth/logout
+ * @desc    Logout user (revoke refresh token)
+ * @access  Public (uses refresh token for identification)
+ */
+router.post(
+    '/logout',
+    validate([
+        body('refreshToken').optional().isString(),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { refreshToken } = req.body;
+
+        if (refreshToken) {
+            const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+            await prisma.refreshToken.updateMany({
+                where: { tokenHash },
+                data: { revokedAt: new Date() },
+            });
+        }
+
+        res.json({ message: 'Logged out successfully' });
+    })
+);
+
+/**
+ * @route   GET /api/auth/me
+ * @desc    Get current user profile
+ * @access  Private
+ */
+router.get(
+    '/me',
+    authenticate,
+    asyncHandler(async (req: Request, res: Response) => {
+        const user = await UserModel.findById(req.user!.id);
+        if (!user) {
+            throw new NotFoundError('User not found');
+        }
+
+        res.json({
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                avatarUrl: user.avatar_url,
+                emailVerified: user.email_verified,
+                notificationEmail: user.notification_email,
+                notificationPush: user.notification_push,
+                defaultCurrency: user.default_currency,
+                timezone: user.timezone,
+                createdAt: user.created_at,
+            },
+        });
+    })
+);
+
+/**
+ * @route   PATCH /api/auth/me
+ * @desc    Update current user profile
+ * @access  Private
+ */
+router.patch(
+    '/me',
+    authenticate,
+    validate([
+        body('name').optional().trim().isLength({ min: 2, max: 100 }),
+        body('notificationEmail').optional().isBoolean(),
+        body('notificationPush').optional().isBoolean(),
+        body('defaultCurrency').optional().isLength({ min: 3, max: 3 }),
+        body('timezone').optional().isString(),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { name, notificationEmail, notificationPush, defaultCurrency, timezone } = req.body;
+
+        const user = await UserModel.update(req.user!.id, {
+            name,
+            notification_email: notificationEmail,
+            notification_push: notificationPush,
+            default_currency: defaultCurrency,
+            timezone,
+        });
+
+        if (!user) {
+            throw new NotFoundError('User not found');
+        }
+
+        res.json({
+            message: 'Profile updated successfully',
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                notificationEmail: user.notification_email,
+                notificationPush: user.notification_push,
+                defaultCurrency: user.default_currency,
+                timezone: user.timezone,
+            },
+        });
+    })
+);
+
+/**
+ * @route   POST /api/auth/forgot-password
+ * @desc    Request password reset
+ * @access  Public
+ */
+router.post(
+    '/forgot-password',
+    validate([
+        body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { email } = req.body;
+
+        // Generate reset token (don't reveal if email exists)
+        await UserModel.generatePasswordResetToken(email);
+
+        res.json({
+            message: 'If an account with that email exists, a password reset link has been sent.',
+        });
+    })
+);
+
+/**
+ * @route   POST /api/auth/reset-password
+ * @desc    Reset password with token
+ * @access  Public
+ */
+router.post(
+    '/reset-password',
+    validate([
+        body('token').notEmpty().withMessage('Reset token is required'),
+        body('password')
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters')
+            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+            .withMessage('Password must contain uppercase, lowercase, and number'),
+    ]),
+    asyncHandler(async (req: Request, res: Response) => {
+        const { token, password } = req.body;
+
+        // Verify token
+        const user = await UserModel.verifyPasswordResetToken(token);
+        if (!user) {
+            throw new BadRequestError('Invalid or expired reset token');
+        }
+
+        // Update password
+        await UserModel.updatePassword(user.id, password);
+
+        // Revoke all refresh tokens for this user
+        await prisma.refreshToken.updateMany({
+            where: { userId: user.id, revokedAt: null },
+            data: { revokedAt: new Date() },
+        });
+
+        res.json({ message: 'Password reset successfully' });
+    })
+);
+
+// ============================================
+// OAUTH ROUTES
+// ============================================
+
+/**
+ * @route   GET /api/auth/google
+ * @desc    Initiate Google OAuth authentication
+ * @access  Public
+ */
+router.get('/google',
+    passport.authenticate('google', {
+        scope: ['profile', 'email'],
+        session: false,
+    })
+);
+
+/**
+ * @route   GET /api/auth/google/callback
+ * @desc    Handle Google OAuth callback
+ * @access  Public
+ */
+router.get('/google/callback',
+    passport.authenticate('google', {
+        session: false,
+        failureRedirect: `${process.env.FRONTEND_URL}/login?error=oauth_failed`,
+    }),
+    asyncHandler(async (req: Request, res: Response) => {
+        const user = req.user as any;
+        if (!user) {
+            return res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_failed`);
+        }
+
+        // Generate tokens
+        const accessToken = generateAccessToken({
+            id: user.id,
+            email: user.email,
+            name: user.name
+        });
+        const refreshToken = generateRefreshToken({ id: user.id });
+
+        // Store refresh token hash
+        const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+        await prisma.refreshToken.create({
+            data: {
+                userId: user.id,
+                tokenHash,
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+            },
+        });
+
+        // Redirect to frontend with tokens
+        const redirectUrl = new URL(`${process.env.FRONTEND_URL}/auth/callback`);
+        redirectUrl.searchParams.set('accessToken', accessToken);
+        redirectUrl.searchParams.set('refreshToken', refreshToken);
+        redirectUrl.searchParams.set('expiresIn', '900');
+
+        res.redirect(redirectUrl.toString());
+    })
+);
+
+/**
+ * @route   GET /api/auth/providers
+ * @desc    Get available authentication providers
+ * @access  Public
+ */
+router.get('/providers', (req: Request, res: Response) => {
+    const providers: string[] = ['local'];
+
+    if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+        providers.push('google');
+    }
+
+    res.json({ providers });
+});
+
+export default router;

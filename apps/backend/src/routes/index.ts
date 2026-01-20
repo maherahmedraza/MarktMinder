@@ -1,0 +1,8 @@
+export { default as authRoutes } from './auth.routes.js';
+export { default as productsRoutes } from './products.routes.js';
+export { default as alertsRoutes } from './alerts.routes.js';
+export { default as adminRoutes } from './admin.routes.js';
+export { default as billingRoutes } from './billing.routes.js';
+export { default as notificationRoutes } from './notifications.routes.js';
+export { default as foldersRoutes } from './folders.routes.js';
+export { default as communityRoutes } from './community.routes.js';

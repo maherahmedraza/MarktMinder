@@ -1,0 +1,22 @@
+{
+  "name": "marktminder",
+  "version": "1.0.0",
+  "description": "MarktMinder Monorepo",
+  "private": true,
+  "scripts": {
+    "test:backend": "cd apps/backend && npm test",
+    "test:backend:api": "cd apps/backend && npx vitest run src/__tests__/api",
+    "test:e2e": "cd e2e && npx playwright test",
+    "test:e2e:ui": "cd e2e && npx playwright test --ui",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "turbo": "^1.11.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "e2e"
+  ]
+}
