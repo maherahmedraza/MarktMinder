@@ -151,7 +151,11 @@ export async function authenticateApiKey(
             id: keyRecord.userId,
             email: keyRecord.user.email,
             name: keyRecord.user.name || undefined,
+            subscription_tier: keyRecord.user.subscription_tier || undefined
         };
+
+        // Attach API Key ID for analytics
+        (req as any).apiKeyId = keyRecord.id;
 
         next();
     } catch (error) {

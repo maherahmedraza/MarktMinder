@@ -133,7 +133,12 @@ app.use('/api/v1/folders', tierRateLimit, foldersRoutes);
 app.use('/api/v1/teams', tierRateLimit, teamsRoutes);
 app.use('/api/v1/community', tierRateLimit, communityRoutes);
 app.use('/api/v1/gamification', tierRateLimit, gamificationRoutes);
+app.use('/api/v1/gamification', tierRateLimit, gamificationRoutes);
 app.use('/api/v1/conditional-alerts', tierRateLimit, conditionalAlertsRoutes);
+
+// B2B Public White-Label API (Rate Limits + Analytics Enforced internal to router)
+import publicRoutes from './routes/api/v1/public.js';
+app.use('/api/v1', publicRoutes);
 
 // Routes without tier limits (auth, billing, admin)
 app.use('/api/v1/auth', authRoutes);
@@ -141,8 +146,6 @@ app.use('/api/v1/notifications', notificationRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/billing', billingRoutes);  // Subscription & Payments
 app.use('/api/v1/telegram', telegramRoutes);
-
-app.use('/api/v1', apiV1Routes);  // Public API
 
 // ======================
 // API Documentation (Swagger)
