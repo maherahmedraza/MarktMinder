@@ -105,28 +105,29 @@ app.get('/health/ready', async (req: Request, res: Response) => {
 });
 
 // ======================
-// API Routes
+// API Routes - Version 1
 // ======================
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productsRoutes);
-app.use('/api/alerts', alertsRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/billing', billingRoutes);  // Subscription & Payments
-app.use('/api/folders', foldersRoutes);
-app.use('/api/community', communityRoutes);
+// All routes are now under /api/v1/ for proper versioning
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/products', productsRoutes);
+app.use('/api/v1/alerts', alertsRoutes);
+app.use('/api/v1/notifications', notificationRoutes);
+app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/billing', billingRoutes);  // Subscription & Payments
+app.use('/api/v1/folders', foldersRoutes);
+app.use('/api/v1/community', communityRoutes);
 
 // Gamification routes (dynamic import to avoid circular dependencies)
 import gamificationRoutes from './routes/gamification.routes.js';
-app.use('/api/gamification', gamificationRoutes);
+app.use('/api/v1/gamification', gamificationRoutes);
 
 // Telegram Bot routes
 import telegramRoutes from './routes/telegram.routes.js';
-app.use('/api/telegram', telegramRoutes);
+app.use('/api/v1/telegram', telegramRoutes);
 
 // Conditional Alerts (Smart Alerts)
 import conditionalAlertsRoutes from './routes/conditional-alerts.routes.js';
-app.use('/api/conditional-alerts', conditionalAlertsRoutes);
+app.use('/api/v1/conditional-alerts', conditionalAlertsRoutes);
 
 app.use('/api/v1', apiV1Routes);  // Public API
 
