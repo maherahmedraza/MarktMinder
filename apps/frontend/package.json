@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.35.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@tanstack/react-query": "^5.62.0",
     "chart.js": "^4.4.1",
@@ -29,29 +30,29 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^5.0.0",
     "@eslint/js": "^9.39.2",
+    "@storybook/addon-a11y": "^10.1.11",
+    "@storybook/addon-docs": "^10.1.11",
+    "@storybook/addon-onboarding": "^10.1.11",
+    "@storybook/addon-vitest": "^10.1.11",
+    "@storybook/nextjs-vite": "^10.1.11",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@vitest/browser-playwright": "^4.0.17",
+    "@vitest/coverage-v8": "^4.0.17",
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.1",
+    "eslint-plugin-storybook": "^10.1.11",
+    "playwright": "^1.57.0",
     "postcss": "^8.5.6",
+    "storybook": "^10.1.11",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.53.1",
-    "storybook": "^10.1.11",
-    "@storybook/nextjs-vite": "^10.1.11",
-    "@chromatic-com/storybook": "^5.0.0",
-    "@storybook/addon-vitest": "^10.1.11",
-    "@storybook/addon-a11y": "^10.1.11",
-    "@storybook/addon-docs": "^10.1.11",
-    "@storybook/addon-onboarding": "^10.1.11",
     "vite": "^7.3.1",
-    "eslint-plugin-storybook": "^10.1.11",
-    "vitest": "^4.0.17",
-    "playwright": "^1.57.0",
-    "@vitest/browser-playwright": "^4.0.17",
-    "@vitest/coverage-v8": "^4.0.17"
+    "vitest": "^4.0.17"
   }
 }

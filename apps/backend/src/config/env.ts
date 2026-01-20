@@ -49,15 +49,18 @@ const envSchema = z.object({
 
     // Security
     CORS_ORIGINS: z.string().default('http://localhost:3000'),
-    COOKIE_SECURE: z.enum(['true', 'false']).transform((v) => v === 'true').default('false'),
+    COOKIE_SECURE: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
     COOKIE_SAME_SITE: z.enum(['lax', 'strict', 'none']).default('lax'),
 
     // Logging
     LOG_LEVEL: z.enum(['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly']).default('info'),
 
     // Rate Limiting
-    RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default('900000'),
-    RATE_LIMIT_MAX_REQUESTS: z.string().transform(Number).default('5000'),
+    RATE_LIMIT_WINDOW_MS: z.coerce.number().default(900000),
+    RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(5000),
+
+    // Monitoring
+    SENTRY_DSN: z.string().url().optional(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

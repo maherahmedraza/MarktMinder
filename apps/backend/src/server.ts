@@ -14,6 +14,10 @@ import { authRoutes, productsRoutes, alertsRoutes, adminRoutes, billingRoutes, n
 import apiV1Routes from './routes/api-v1.routes.js';
 import { swaggerSpec } from './config/swagger.js';
 import passport, { initializePassport } from './config/passport.js';
+import { initSentry, Sentry } from './config/sentry.js';
+
+// Initialize Sentry FIRST (before any other code)
+initSentry();
 
 // Create Express application
 const app: Application = express();
@@ -150,6 +154,9 @@ app.get('/api', (req: Request, res: Response) => {
 // ======================
 // Error Handling
 // ======================
+// Sentry error handler - must be before other error handlers
+Sentry.setupExpressErrorHandler(app);
+
 app.use(notFoundHandler);
 app.use(errorHandler);
 

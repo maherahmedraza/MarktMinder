@@ -7,6 +7,7 @@ import { QueryProvider } from '@/providers/QueryProvider';
 import { Toaster } from 'sonner';
 import CookieConsent from '@/components/CookieConsent';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Script from 'next/script';
 
 const spaceGrotesk = Space_Grotesk({
@@ -215,7 +216,9 @@ export default function RootLayout({
                     <AuthProvider>
                         <SocketProvider>
                             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
-                                {children}
+                                <ErrorBoundary>
+                                    {children}
+                                </ErrorBoundary>
                                 <Toaster
                                     position="bottom-right"
                                     toastOptions={{
