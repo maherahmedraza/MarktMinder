@@ -1,0 +1,126 @@
+{
+    "common": {
+        "appName": "MarktMinder",
+        "loading": "Chargement...",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "delete": "Supprimer",
+        "edit": "Modifier",
+        "add": "Ajouter",
+        "search": "Rechercher",
+        "close": "Fermer",
+        "confirm": "Confirmer",
+        "back": "Retour",
+        "next": "Suivant",
+        "submit": "Soumettre",
+        "error": "Erreur",
+        "success": "Succès",
+        "yes": "Oui",
+        "no": "Non"
+    },
+    "nav": {
+        "home": "Accueil",
+        "dashboard": "Tableau de bord",
+        "products": "Produits",
+        "alerts": "Alertes",
+        "settings": "Paramètres",
+        "logout": "Déconnexion",
+        "login": "Connexion",
+        "register": "S'inscrire",
+        "pricing": "Tarifs",
+        "watchlist": "Liste de suivi",
+        "deals": "Offres",
+        "team": "Équipe",
+        "competitors": "Veille concurrentielle"
+    },
+    "dashboard": {
+        "welcome": "Bienvenue, {name}",
+        "trackedProducts": "Produits suivis",
+        "potentialSavings": "Économies potentielles",
+        "activeAlerts": "Alertes actives",
+        "priceDrops": "Baisses de prix aujourd'hui",
+        "recentActivity": "Activité récente",
+        "aiInsights": "Insights IA",
+        "quickActions": "Actions rapides",
+        "addProduct": "Ajouter un produit",
+        "viewAll": "Voir tout"
+    },
+    "products": {
+        "title": "Vos produits",
+        "noProducts": "Aucun produit suivi",
+        "addFirst": "Ajoutez votre premier produit pour commencer",
+        "addProduct": "Ajouter un produit",
+        "currentPrice": "Prix actuel",
+        "lowestPrice": "Prix le plus bas",
+        "highestPrice": "Prix le plus haut",
+        "priceHistory": "Historique des prix",
+        "lastUpdated": "Dernière mise à jour",
+        "marketplace": "Marketplace",
+        "viewDetails": "Voir les détails",
+        "removeProduct": "Supprimer le produit",
+        "setAlert": "Créer une alerte"
+    },
+    "alerts": {
+        "title": "Alertes de prix",
+        "noAlerts": "Aucune alerte configurée",
+        "createFirst": "Créez votre première alerte",
+        "createAlert": "Créer une alerte",
+        "targetPrice": "Prix cible",
+        "currentPrice": "Prix actuel",
+        "triggered": "Déclenchée",
+        "active": "Active",
+        "paused": "En pause",
+        "type": {
+            "priceBelow": "Prix inférieur à",
+            "priceAbove": "Prix supérieur à",
+            "percentDrop": "Baisse de %",
+            "anyChange": "Tout changement de prix",
+            "backInStock": "Retour en stock"
+        }
+    },
+    "settings": {
+        "title": "Paramètres",
+        "profile": "Profil",
+        "notifications": "Notifications",
+        "preferences": "Préférences",
+        "security": "Sécurité",
+        "language": "Langue",
+        "currency": "Devise",
+        "timezone": "Fuseau horaire",
+        "emailNotifications": "Notifications par e-mail",
+        "pushNotifications": "Notifications push",
+        "saveChanges": "Enregistrer les modifications"
+    },
+    "auth": {
+        "login": "Connexion",
+        "register": "Créer un compte",
+        "email": "E-mail",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "name": "Nom",
+        "forgotPassword": "Mot de passe oublié ?",
+        "noAccount": "Pas encore de compte ?",
+        "hasAccount": "Déjà un compte ?",
+        "signUp": "S'inscrire",
+        "signIn": "Se connecter",
+        "orContinueWith": "Ou continuer avec",
+        "termsAgree": "En vous inscrivant, vous acceptez nos CGU"
+    },
+    "errors": {
+        "generic": "Une erreur s'est produite. Veuillez réessayer.",
+        "notFound": "Page non trouvée",
+        "unauthorized": "Vous n'êtes pas autorisé à voir cette page",
+        "networkError": "Erreur réseau. Vérifiez votre connexion.",
+        "validationError": "Veuillez vérifier vos informations"
+    },
+    "currency": {
+        "eur": "Euro (€)",
+        "usd": "Dollar américain ($)",
+        "gbp": "Livre sterling (£)"
+    },
+    "locale": {
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français"
+    }
+}

@@ -1,0 +1,126 @@
+{
+    "common": {
+        "appName": "MarktMinder",
+        "loading": "Loading...",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "search": "Search",
+        "close": "Close",
+        "confirm": "Confirm",
+        "back": "Back",
+        "next": "Next",
+        "submit": "Submit",
+        "error": "Error",
+        "success": "Success",
+        "yes": "Yes",
+        "no": "No"
+    },
+    "nav": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "products": "Products",
+        "alerts": "Alerts",
+        "settings": "Settings",
+        "logout": "Logout",
+        "login": "Login",
+        "register": "Register",
+        "pricing": "Pricing",
+        "watchlist": "Watchlist",
+        "deals": "Deals",
+        "team": "Team",
+        "competitors": "Competitor Intelligence"
+    },
+    "dashboard": {
+        "welcome": "Welcome back, {name}",
+        "trackedProducts": "Tracked Products",
+        "potentialSavings": "Potential Savings",
+        "activeAlerts": "Active Alerts",
+        "priceDrops": "Price Drops Today",
+        "recentActivity": "Recent Activity",
+        "aiInsights": "AI Insights",
+        "quickActions": "Quick Actions",
+        "addProduct": "Add Product",
+        "viewAll": "View All"
+    },
+    "products": {
+        "title": "Your Products",
+        "noProducts": "No products tracked yet",
+        "addFirst": "Add your first product to start tracking",
+        "addProduct": "Add Product",
+        "currentPrice": "Current Price",
+        "lowestPrice": "Lowest Price",
+        "highestPrice": "Highest Price",
+        "priceHistory": "Price History",
+        "lastUpdated": "Last Updated",
+        "marketplace": "Marketplace",
+        "viewDetails": "View Details",
+        "removeProduct": "Remove Product",
+        "setAlert": "Set Alert"
+    },
+    "alerts": {
+        "title": "Price Alerts",
+        "noAlerts": "No alerts configured",
+        "createFirst": "Create your first alert to get notified",
+        "createAlert": "Create Alert",
+        "targetPrice": "Target Price",
+        "currentPrice": "Current Price",
+        "triggered": "Triggered",
+        "active": "Active",
+        "paused": "Paused",
+        "type": {
+            "priceBelow": "Price drops below",
+            "priceAbove": "Price rises above",
+            "percentDrop": "Price drops by %",
+            "anyChange": "Any price change",
+            "backInStock": "Back in stock"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "profile": "Profile",
+        "notifications": "Notifications",
+        "preferences": "Preferences",
+        "security": "Security",
+        "language": "Language",
+        "currency": "Currency",
+        "timezone": "Timezone",
+        "emailNotifications": "Email Notifications",
+        "pushNotifications": "Push Notifications",
+        "saveChanges": "Save Changes"
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Create Account",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "name": "Name",
+        "forgotPassword": "Forgot password?",
+        "noAccount": "Don't have an account?",
+        "hasAccount": "Already have an account?",
+        "signUp": "Sign up",
+        "signIn": "Sign in",
+        "orContinueWith": "Or continue with",
+        "termsAgree": "By signing up, you agree to our Terms of Service"
+    },
+    "errors": {
+        "generic": "Something went wrong. Please try again.",
+        "notFound": "Page not found",
+        "unauthorized": "You are not authorized to view this page",
+        "networkError": "Network error. Please check your connection.",
+        "validationError": "Please check your input and try again"
+    },
+    "currency": {
+        "eur": "Euro (€)",
+        "usd": "US Dollar ($)",
+        "gbp": "British Pound (£)"
+    },
+    "locale": {
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français"
+    }
+}

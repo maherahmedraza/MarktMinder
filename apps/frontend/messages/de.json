@@ -1,0 +1,126 @@
+{
+    "common": {
+        "appName": "MarktMinder",
+        "loading": "Wird geladen...",
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "add": "Hinzufügen",
+        "search": "Suchen",
+        "close": "Schließen",
+        "confirm": "Bestätigen",
+        "back": "Zurück",
+        "next": "Weiter",
+        "submit": "Absenden",
+        "error": "Fehler",
+        "success": "Erfolg",
+        "yes": "Ja",
+        "no": "Nein"
+    },
+    "nav": {
+        "home": "Startseite",
+        "dashboard": "Dashboard",
+        "products": "Produkte",
+        "alerts": "Benachrichtigungen",
+        "settings": "Einstellungen",
+        "logout": "Abmelden",
+        "login": "Anmelden",
+        "register": "Registrieren",
+        "pricing": "Preise",
+        "watchlist": "Merkliste",
+        "deals": "Angebote",
+        "team": "Team",
+        "competitors": "Wettbewerbsanalyse"
+    },
+    "dashboard": {
+        "welcome": "Willkommen zurück, {name}",
+        "trackedProducts": "Verfolgte Produkte",
+        "potentialSavings": "Mögliche Ersparnis",
+        "activeAlerts": "Aktive Benachrichtigungen",
+        "priceDrops": "Preissenkungen heute",
+        "recentActivity": "Letzte Aktivität",
+        "aiInsights": "KI-Einblicke",
+        "quickActions": "Schnellaktionen",
+        "addProduct": "Produkt hinzufügen",
+        "viewAll": "Alle anzeigen"
+    },
+    "products": {
+        "title": "Ihre Produkte",
+        "noProducts": "Noch keine Produkte verfolgt",
+        "addFirst": "Fügen Sie Ihr erstes Produkt hinzu",
+        "addProduct": "Produkt hinzufügen",
+        "currentPrice": "Aktueller Preis",
+        "lowestPrice": "Niedrigster Preis",
+        "highestPrice": "Höchster Preis",
+        "priceHistory": "Preisverlauf",
+        "lastUpdated": "Zuletzt aktualisiert",
+        "marketplace": "Marktplatz",
+        "viewDetails": "Details anzeigen",
+        "removeProduct": "Produkt entfernen",
+        "setAlert": "Benachrichtigung einrichten"
+    },
+    "alerts": {
+        "title": "Preisbenachrichtigungen",
+        "noAlerts": "Keine Benachrichtigungen konfiguriert",
+        "createFirst": "Erstellen Sie Ihre erste Benachrichtigung",
+        "createAlert": "Benachrichtigung erstellen",
+        "targetPrice": "Zielpreis",
+        "currentPrice": "Aktueller Preis",
+        "triggered": "Ausgelöst",
+        "active": "Aktiv",
+        "paused": "Pausiert",
+        "type": {
+            "priceBelow": "Preis fällt unter",
+            "priceAbove": "Preis steigt über",
+            "percentDrop": "Preis fällt um %",
+            "anyChange": "Jede Preisänderung",
+            "backInStock": "Wieder verfügbar"
+        }
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "profile": "Profil",
+        "notifications": "Benachrichtigungen",
+        "preferences": "Präferenzen",
+        "security": "Sicherheit",
+        "language": "Sprache",
+        "currency": "Währung",
+        "timezone": "Zeitzone",
+        "emailNotifications": "E-Mail-Benachrichtigungen",
+        "pushNotifications": "Push-Benachrichtigungen",
+        "saveChanges": "Änderungen speichern"
+    },
+    "auth": {
+        "login": "Anmelden",
+        "register": "Konto erstellen",
+        "email": "E-Mail",
+        "password": "Passwort",
+        "confirmPassword": "Passwort bestätigen",
+        "name": "Name",
+        "forgotPassword": "Passwort vergessen?",
+        "noAccount": "Noch kein Konto?",
+        "hasAccount": "Bereits ein Konto?",
+        "signUp": "Registrieren",
+        "signIn": "Anmelden",
+        "orContinueWith": "Oder weiter mit",
+        "termsAgree": "Mit der Anmeldung stimmen Sie unseren AGB zu"
+    },
+    "errors": {
+        "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+        "notFound": "Seite nicht gefunden",
+        "unauthorized": "Sie sind nicht berechtigt, diese Seite anzuzeigen",
+        "networkError": "Netzwerkfehler. Bitte prüfen Sie Ihre Verbindung.",
+        "validationError": "Bitte überprüfen Sie Ihre Eingaben"
+    },
+    "currency": {
+        "eur": "Euro (€)",
+        "usd": "US-Dollar ($)",
+        "gbp": "Britisches Pfund (£)"
+    },
+    "locale": {
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français"
+    }
+}

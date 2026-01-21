@@ -9,6 +9,9 @@ import CookieConsent from '@/components/CookieConsent';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Script from 'next/script';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getLocale } from 'next-intl/server';
+import { CurrencyProvider } from '@/lib/useCurrency';
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -103,13 +106,16 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const locale = await getLocale();
+    const messages = await getMessages();
+
     return (
-        <html lang="de" suppressHydrationWarning className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+        <html lang={locale} suppressHydrationWarning className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
             <head>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -212,28 +218,32 @@ export default function RootLayout({
                 />
             </head>
             <body className="font-sans antialiased" suppressHydrationWarning>
-                <QueryProvider>
-                    <AuthProvider>
-                        <SocketProvider>
-                            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
-                                <ErrorBoundary>
-                                    {children}
-                                </ErrorBoundary>
-                                <Toaster
-                                    position="bottom-right"
-                                    toastOptions={{
-                                        style: {
-                                            background: 'var(--color-bg-elevated)',
-                                            border: '1px solid var(--color-border-primary)',
-                                            color: 'var(--color-text-primary)',
-                                        },
-                                    }}
-                                />
-                                <CookieConsent />
-                            </ThemeProvider>
-                        </SocketProvider>
-                    </AuthProvider>
-                </QueryProvider>
+                <NextIntlClientProvider messages={messages}>
+                    <CurrencyProvider>
+                        <QueryProvider>
+                            <AuthProvider>
+                                <SocketProvider>
+                                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+                                        <ErrorBoundary>
+                                            {children}
+                                        </ErrorBoundary>
+                                        <Toaster
+                                            position="bottom-right"
+                                            toastOptions={{
+                                                style: {
+                                                    background: 'var(--color-bg-elevated)',
+                                                    border: '1px solid var(--color-border-primary)',
+                                                    color: 'var(--color-text-primary)',
+                                                },
+                                            }}
+                                        />
+                                        <CookieConsent />
+                                    </ThemeProvider>
+                                </SocketProvider>
+                            </AuthProvider>
+                        </QueryProvider>
+                    </CurrencyProvider>
+                </NextIntlClientProvider>
 
                 {/* Service Worker Registration */}
                 <Script id="sw-register" strategy="afterInteractive">
