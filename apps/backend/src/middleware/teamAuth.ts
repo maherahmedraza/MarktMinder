@@ -39,7 +39,7 @@ export function requireTeamRole(minRole: 'admin' | 'editor' | 'viewer') {
             }
 
             // Check team membership and role
-            const member = await TeamModel.getTeamMember(teamId, userId);
+            const member = await TeamModel.getTeamMember(teamId as string, userId as string);
 
             if (!member) {
                 return res.status(403).json({
@@ -62,7 +62,7 @@ export function requireTeamRole(minRole: 'admin' | 'editor' | 'viewer') {
 
             // Attach role to request for use in controllers
             req.teamRole = member.role;
-            req.teamId = teamId;
+            req.teamId = teamId as string;
             next();
         } catch (error) {
             console.error('Team auth middleware error:', error);
@@ -87,7 +87,7 @@ export async function requireTeamOwner(req: Request, res: Response, next: NextFu
             return res.status(400).json({ error: 'Team ID required' });
         }
 
-        const isOwner = await TeamModel.isTeamOwner(teamId, userId);
+        const isOwner = await TeamModel.isTeamOwner(teamId as string, userId as string);
 
         if (!isOwner) {
             return res.status(403).json({
@@ -96,7 +96,7 @@ export async function requireTeamOwner(req: Request, res: Response, next: NextFu
             });
         }
 
-        req.teamId = teamId;
+        req.teamId = teamId as string;
         next();
     } catch (error) {
         console.error('Team owner middleware error:', error);

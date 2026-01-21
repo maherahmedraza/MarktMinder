@@ -32,7 +32,7 @@ export function validate(validations: ValidationChain[]) {
             };
         });
 
-        next(new ValidationError('Validation failed', formattedErrors));
+        next(new ValidationError('Validation failed', formattedErrors as any));
     };
 }
 
