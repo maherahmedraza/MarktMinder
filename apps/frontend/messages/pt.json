@@ -16,7 +16,15 @@
         "error": "Erro",
         "success": "Sucesso",
         "yes": "Sim",
-        "no": "Não"
+        "no": "Não",
+        "productCard": {
+            "void": "Protocolo Void",
+            "lowest": "MÍNIMO LOCAL",
+            "depleted": "ESGOTADO",
+            "currentValue": "Valor Atual",
+            "remove": "Remover da lista",
+            "select": "Selecionar ativo para operações em lote"
+        }
     },
     "nav": {
         "home": "Início",
@@ -31,7 +39,11 @@
         "watchlist": "Lista de acompanhamento",
         "deals": "Ofertas",
         "team": "Equipa",
-        "competitors": "Análise competitiva"
+        "competitors": "Inteligência Competitiva",
+        "community": "Comunidade",
+        "operations": "Operações",
+        "system": "Sistema",
+        "add_asset": "ADICIONAR_ATIVO"
     },
     "dashboard": {
         "welcome": "Bem-vindo, {name}",
@@ -42,8 +54,79 @@
         "recentActivity": "Atividade recente",
         "aiInsights": "Insights IA",
         "quickActions": "Ações rápidas",
-        "addProduct": "Adicionar produto",
-        "viewAll": "Ver tudo"
+        "viewAll": "Ver tudo",
+        "atLowestPrice": "No preço mais baixo",
+        "favoritesStats": "Favoritos",
+        "title": "Consola Operativa",
+        "protocolMsg": "Sequência de protocolo inicializada",
+        "addProduct": {
+            "back": "Voltar aos produtos",
+            "title": "Integração de Ativos",
+            "phase": "Fase 1: Aquisição de Fonte",
+            "urlLabel": "URL de Destino do Produto",
+            "urlPlaceholder": "https://www.amazon.com.br/dp/B0...",
+            "notesLabel": "Notas Operativas (opcional)",
+            "notesPlaceholder": "Adicionar metadados técnicos ou notas de acompanhamento...",
+            "detected": "Protocolo {marketplace} Detetado",
+            "scanning": "A procurar Assinatura do Marketplace...",
+            "buttonInit": "INICIAR ACOMPANHAMENTO",
+            "buttonLoading": "A INICIALIZAR SCRAPER...",
+            "success": {
+                "title": "Ativo Calibrado!",
+                "redirect": "A redirecionar para Projeção Neural..."
+            },
+            "guidelines": {
+                "title": "Diretrizes de Protocolo",
+                "items": [
+                    "Capture o URL de destino absoluto da barra de identidade do navegador.",
+                    "O motor Neural do MarktMinder irá autoverificar os metadados do produto.",
+                    "Frequência de scan padrão calibrada para intervalos de 4-24 horas."
+                ]
+            },
+            "errors": {
+                "invalidUrl": "Introduza um URL válido da Amazon, Etsy ou Otto.de",
+                "failed": "Falha ao adicionar produto"
+            }
+        },
+        "products": {
+            "title": "Registo de",
+            "titleAccent": "Ativos",
+            "subtitle": "{total} ativos relativos sincronizados atualmente em múltiplos clusters de mercado.",
+            "actions": {
+                "delete": "Eliminar ({count})",
+                "collections": "Coleções",
+                "addProduct": "Adicionar Produto",
+                "export": "Exportar",
+                "moveTo": "Mover para..."
+            },
+            "filters": {
+                "searchPlaceholder": "Pesquisar título, marca...",
+                "sort": {
+                    "newest": "Mais recentes",
+                    "oldest": "Mais antigos",
+                    "highestPrice": "Preço mais alto",
+                    "lowestPrice": "Preço mais baixo",
+                    "biggestDrop": "Maior queda %"
+                },
+                "markets": "Cluster de mercados",
+                "allCollections": "Todas as coleções",
+                "dropsOnly": "Apenas baixas",
+                "selectAll": "Selecionar tudo",
+                "deselectAll": "Deselecionar tudo"
+            },
+            "empty": {
+                "title": "Nenhum produto encontrado",
+                "filtered": "Não encontrámos nada que corresponda aos seus filtros. Tente outra coisa?",
+                "empty": "A sua lista de acompanhamento está vazia. Comece a acompanhar produtos para os ver aqui!",
+                "button": "Adicione o seu primeiro produto"
+            },
+            "pagination": "PÁGINA {current} / {total}",
+            "error": "Erro ao carregar produtos: {error}",
+            "bulkDeleteConfirm": "Tem a certeza que deseja parar de acompanhar {count} produtos?",
+            "bulkDeleteSuccess": "{count} produtos removidos",
+            "bulkMoveSuccess": "{count} ativos movidos para a coleção",
+            "bulkUpdateError": "Falha ao atualizar alguns ativos"
+        }
     },
     "products": {
         "title": "Os seus produtos",
@@ -88,7 +171,7 @@
         "currency": "Moeda",
         "timezone": "Fuso horário",
         "emailNotifications": "Notificações por email",
-        "pushNotifications": "Notificações push",
+        "pushNotifications": "Notificaciones push",
         "saveChanges": "Guardar alterações"
     },
     "auth": {
@@ -125,5 +208,36 @@
         "es": "Español",
         "pt": "Português",
         "ja": "日本語"
+    },
+    "community": {
+        "watchlists": {
+            "title": "Listas de Acompanhamento Públicas",
+            "discover": "Descobrir",
+            "subtitle": "Explore coleções partilhadas de compradores experientes. Encontre os melhores rastreadores de preços, ofertas sazonais e categorias de nicho selecionadas pela comunidade.",
+            "stats": {
+                "activeTrackers": "Rastreadores Ativos",
+                "poupançaTotal": "Poupança Total",
+                "sharedLists": "Listas Partilhadas"
+            },
+            "searchPlaceholder": "Pesquisar coleções ou criadores...",
+            "sort": {
+                "popular": "Mais Populares",
+                "newest": "Mais Recentes"
+            },
+            "loading": "A selecionar coleções públicas...",
+            "empty": {
+                "title": "Nenhuma lista encontrada",
+                "subtitle": "Tente um termo de pesquisa diferente ou volte mais tarde."
+            },
+            "cta": {
+                "title": "Quer partilhar as suas descobertas?",
+                "subtitle": "Torne as suas listas públicas para ajudar outros a poupar dinheiro e chegar ao topo da tabela de classificação de poupanças.",
+                "button": "Partilhar uma Lista"
+            },
+            "card": {
+                "items": "{count} itens",
+                "noDescription": "Nenhuma descrição fornecida para esta coleção."
+            }
+        }
     }
 }

@@ -16,7 +16,15 @@
         "error": "Error",
         "success": "Success",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "productCard": {
+            "void": "Void Protocol",
+            "lowest": "LOCAL MINIMA",
+            "depleted": "DEPLETED",
+            "currentValue": "Current Value",
+            "remove": "Remove from Watchlist",
+            "select": "Select asset for batch operations"
+        }
     },
     "nav": {
         "home": "Home",
@@ -31,7 +39,11 @@
         "watchlist": "Watchlist",
         "deals": "Deals",
         "team": "Team",
-        "competitors": "Competitor Intelligence"
+        "competitors": "Competitor Intelligence",
+        "community": "Community",
+        "operations": "Operations",
+        "system": "System",
+        "add_asset": "ADD_ASSET"
     },
     "dashboard": {
         "welcome": "Welcome back, {name}",
@@ -42,8 +54,79 @@
         "recentActivity": "Recent Activity",
         "aiInsights": "AI Insights",
         "quickActions": "Quick Actions",
-        "addProduct": "Add Product",
-        "viewAll": "View All"
+        "viewAll": "View All",
+        "atLowestPrice": "At Lowest Price",
+        "favoritesStats": "Favorites",
+        "title": "Operational Console",
+        "protocolMsg": "Protocol sequence initialized",
+        "addProduct": {
+            "back": "Back to products",
+            "title": "Asset Integration",
+            "phase": "Phase 1: Source Acquisition",
+            "urlLabel": "Product Target URL",
+            "urlPlaceholder": "https://www.amazon.de/dp/B0...",
+            "notesLabel": "Operational Notes (optional)",
+            "notesPlaceholder": "Add technical metadata or tracking notes...",
+            "detected": "{marketplace} Protocol Detected",
+            "scanning": "Scanning for Marketplace Signature...",
+            "buttonInit": "INITIATE TRACKING",
+            "buttonLoading": "INITIALIZING SCRAPER...",
+            "success": {
+                "title": "Asset Calibrated!",
+                "redirect": "Redirecting to Neural Projection..."
+            },
+            "guidelines": {
+                "title": "Protocol Guidelines",
+                "items": [
+                    "Capture the absolute target URL from the browser's identity bar.",
+                    "MarktMinder Neural engine will auto-verify product metadata.",
+                    "Standard scan frequency calibrated to 4-24 hour intervals."
+                ]
+            },
+            "errors": {
+                "invalidUrl": "Please enter a valid Amazon, Etsy, or Otto.de product URL",
+                "failed": "Failed to add product"
+            }
+        },
+        "products": {
+            "title": "Asset",
+            "titleAccent": "Ledger",
+            "subtitle": "{total} relative assets currently synchronized across multiple marketplace clusters.",
+            "actions": {
+                "delete": "Delete ({count})",
+                "collections": "Collections",
+                "addProduct": "Add Product",
+                "export": "Export",
+                "moveTo": "Move to..."
+            },
+            "filters": {
+                "searchPlaceholder": "Search title, brand...",
+                "sort": {
+                    "newest": "Newest First",
+                    "oldest": "Oldest First",
+                    "highestPrice": "Highest Price",
+                    "lowestPrice": "Lowest Price",
+                    "biggestDrop": "Biggest Drop %"
+                },
+                "markets": "All Markets cluster",
+                "allCollections": "All Collections",
+                "dropsOnly": "Drops Only",
+                "selectAll": "Select All",
+                "deselectAll": "Deselect All"
+            },
+            "empty": {
+                "title": "No products found",
+                "filtered": "We couldn't find anything matching your filters. Try something else?",
+                "empty": "Your watchlist is empty. Start tracking products to see them here!",
+                "button": "Add your first product"
+            },
+            "pagination": "PAGE {current} / {total}",
+            "error": "Error loading products: {error}",
+            "bulkDeleteConfirm": "Are you sure you want to stop tracking {count} products?",
+            "bulkDeleteSuccess": "Removed {count} products",
+            "bulkMoveSuccess": "Moved {count} assets to collection",
+            "bulkUpdateError": "Failed to update some assets"
+        }
     },
     "products": {
         "title": "Your Products",
@@ -59,6 +142,59 @@
         "viewDetails": "View Details",
         "removeProduct": "Remove Product",
         "setAlert": "Set Alert"
+    },
+    "home": {
+        "nav": {
+            "features": "Features",
+            "howItWorks": "How it Works",
+            "pricing": "Pricing",
+            "about": "About",
+            "login": "Login",
+            "getStarted": "Get Started",
+            "accessSystem": "Access System",
+            "initialize": "INITIALIZE_NODE"
+        },
+        "hero": {
+            "status": "System Status",
+            "operational": "Operational",
+            "titleLine1": "Neural",
+            "titleGradient": "Asset Tracking",
+            "subtitle": "Deploy high-frequency monitoring across Amazon, Etsy, and Otto. Zero-latency price alerts. Maximum capital preservation.",
+            "deploy": "DEPLOY_ENGINE",
+            "specs": "SYSTEM_SPECIFICATIONS"
+        },
+        "features": {
+            "title": "System Specifications",
+            "subtitle": "High-precision monitoring tools engineered for the professional asset manager.",
+            "fakeDiscount": {
+                "title": "Fake_Discount_Detection",
+                "desc": "Real-time logic analysis to identify artificial price inflating before sales."
+            },
+            "multiMarket": {
+                "title": "Multi_Market_Pulse",
+                "desc": "Synchronized tracking across core marketplaces with sub-second delta logs."
+            },
+            "neuralPrice": {
+                "title": "Neural_Price_Forecasting",
+                "desc": "ML models predicting future asset values based on historical volatility."
+            },
+            "deltaAlert": {
+                "title": "Delta_Alert_Mesh",
+                "desc": "Universal notification pipeline via Telegram, Push, and Neural_Link."
+            }
+        },
+        "stats": {
+            "nodes": "DATA_NODES",
+            "capital": "CAPITAL_PRESERVED",
+            "domains": "ACTIVE_DOMAINS",
+            "uptime": "ENGINE_UPTIME"
+        },
+        "cta": {
+            "title": "Ready to Secure Yield?",
+            "subtitle": "Join the high-frequency asset monitoring network.",
+            "button": "CREATE_FREE_ACCOUNT",
+            "note": "System Access: Restricted to 5 Assets for Free Tier"
+        }
     },
     "alerts": {
         "title": "Price Alerts",
@@ -122,5 +258,171 @@
         "en": "English",
         "de": "Deutsch",
         "fr": "Français"
+    },
+    "pricing": {
+        "header": {
+            "returnBase": "Return_To_Base"
+        },
+        "hero": {
+            "badge": "Protocol_Access",
+            "title": "System",
+            "titleAccent": "Subscription",
+            "subtitle": "Select your tier for advanced asset monitoring."
+        },
+        "tiers": {
+            "free": {
+                "name": "Free",
+                "tagline": "Standard Access",
+                "price": "€0",
+                "cycle": "/cycle",
+                "features": [
+                    "5 Tracked Products",
+                    "3 Active Alerts",
+                    "30-Day History",
+                    "Standard Latency"
+                ],
+                "button": "INITIALIZE"
+            },
+            "pro": {
+                "name": "Pro",
+                "tagline": "Enhanced Intel",
+                "price": "€4.99",
+                "cycle": "/cycle",
+                "features": [
+                    "50 Tracked Products",
+                    "25 Active Alerts",
+                    "Full Price History",
+                    "AI Predictions",
+                    "Priority Queuing"
+                ],
+                "button": "INITIALIZE_PRO",
+                "processing": "PROCESSING..."
+            },
+            "power": {
+                "name": "Power",
+                "badge": "OptimaL_Ratio",
+                "tagline": "Elite Monitoring",
+                "price": "€9.99",
+                "cycle": "/cycle",
+                "features": [
+                    "200 Tracked Products",
+                    "100 Active Alerts",
+                    "Deal Radar & Price DNA",
+                    "Priority Scraping",
+                    "Custom Triggers"
+                ],
+                "button": "INITIALIZE_POWER",
+                "processing": "PROCESSING..."
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "tagline": "Full Protocol",
+                "price": "€29.99",
+                "cycle": "/cycle",
+                "features": [
+                    "Unlimited Products",
+                    "Unlimited Alerts",
+                    "API Access (10k/day)",
+                    "White-label Embeds",
+                    "Dedicated Support"
+                ],
+                "button": "CONTACT_SALES"
+            }
+        },
+        "faq": {
+            "title": "Common_Inquiries",
+            "items": [
+                {
+                    "q": "Can I cancel anytime?",
+                    "a": "Yes. Termination of sub-routine is available without penalty at any cycle interval."
+                },
+                {
+                    "q": "Payment Methods?",
+                    "a": "All major credit protocols, PayPal, and SEPA direct debit supported."
+                },
+                {
+                    "q": "Data Security?",
+                    "a": "AES-256 encryption applied to all asset identifiers and user metrics."
+                },
+                {
+                    "q": "Refund Policy?",
+                    "a": "30-day performance guarantee for all paid subscription tiers."
+                }
+            ]
+        },
+        "securityFooter": "GDPR_VALID • SSL_ENCRYPTED • MADE_IN_GERMANY"
+    },
+    "features": {
+        "header": {
+            "returnBase": "Return_To_Base"
+        },
+        "hero": {
+            "badge": "System_Capabilities",
+            "title": "Feature",
+            "titleAccent": "Specifications",
+            "subtitle": "High-precision monitoring modules engineered for technical analysis."
+        },
+        "grid": {
+            "analytics": {
+                "title": "Analytics_Engine",
+                "desc": "Real-time data ingestion and price history visualization with millisecond precision."
+            },
+            "signal": {
+                "title": "Signal_Relay",
+                "desc": "Low-latency alert delivery system supporting Discord, Email, and Push protocols."
+            },
+            "radar": {
+                "title": "Cross_Market_Radar",
+                "desc": "Simultaneous monitoring across Amazon, Etsy, and Otto marketplaces with automated sync."
+            },
+            "forecast": {
+                "title": "Neural_Forecast",
+                "desc": "Predictive algorithms analyzing market volatility to signal optimal entry points."
+            },
+            "security": {
+                "title": "Asset_Security",
+                "desc": "Enterprise-grade encryption for all tracking identifiers and portfolio metrics."
+            },
+            "scrapers": {
+                "title": "Automated_Scrapers",
+                "desc": "Dynamic scraping architecture that bypasses anti-bot measures for 99.9% uptime."
+            }
+        },
+        "cta": {
+            "title": "Ready to Initialize Tracking?",
+            "createAccount": "CREATE_ACCOUNT",
+            "viewSubs": "VIEW_SUBSCRIPTIONS"
+        }
+    },
+    "community": {
+        "watchlists": {
+            "title": "Public Watchlists",
+            "discover": "Discover",
+            "subtitle": "Explore shared collections from savvy shoppers. Find the best price trackers, seasonal deals, and niche categories curated by the community.",
+            "stats": {
+                "activeTrackers": "Active Trackers",
+                "totalSavings": "Total Savings",
+                "sharedLists": "Shared Lists"
+            },
+            "searchPlaceholder": "Search collections or creators...",
+            "sort": {
+                "popular": "Most Popular",
+                "newest": "Newest"
+            },
+            "loading": "Curating public collections...",
+            "empty": {
+                "title": "No watchlists found",
+                "subtitle": "Try a different search term or check back later."
+            },
+            "cta": {
+                "title": "Want to share your findings?",
+                "subtitle": "Make your own watchlists public to help others save money and reach the top of the savings leaderboard.",
+                "button": "Share a Watchlist"
+            },
+            "card": {
+                "items": "{count} items",
+                "noDescription": "No description provided for this collection."
+            }
+        }
     }
 }

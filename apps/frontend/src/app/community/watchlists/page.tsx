@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Trophy, Users, Search, Filter, TrendingUp, Clock, Loader2 } from 'lucide-react';
+import { Sparkles, Trophy, Users, Search, Filter, TrendingUp, Clock, Loader2, ArrowRight } from 'lucide-react';
 import { WatchlistCard, Watchlist } from '@/components/community/WatchlistCard';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { useTranslations } from 'next-intl';
 
 export default function WatchlistDiscoveryPage() {
+    const t = useTranslations('community.watchlists');
+    const tNav = useTranslations('nav');
     const [watchlists, setWatchlists] = useState<Watchlist[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -20,7 +23,7 @@ export default function WatchlistDiscoveryPage() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch(`/api/community/watchlists?sort=${sort}`, {
+            const response = await fetch(`/api/v1/community/watchlists?sort=${sort}`, {
                 credentials: 'include',
             });
             if (!response.ok) throw new Error('Failed to fetch watchlists');
@@ -48,28 +51,28 @@ export default function WatchlistDiscoveryPage() {
                     <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
                         <div className="bg-primary/10 text-primary-light px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
                             <Users className="w-4 h-4" />
-                            MarktMinder Community
+                            {tNav('community')}
                         </div>
                         <h1 className="text-4xl md:text-5xl font-black text-text-primary mb-6 tracking-tight leading-tight">
-                            Discover <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-light to-violet-400">Public Watchlists</span>
+                            {t('discover')} <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-light to-violet-400">{t('title')}</span>
                         </h1>
                         <p className="text-lg text-text-secondary mb-10">
-                            Explore shared collections from savvy shoppers. Find the best price trackers, seasonal deals, and niche categories curated by the community.
+                            {t('subtitle')}
                         </p>
 
                         {/* Search & Stats */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-2xl">
                             <div className="bg-surface/50 border border-border/10 p-4 rounded-2xl flex flex-col items-center">
                                 <span className="text-2xl font-black text-text-primary">1.2k+</span>
-                                <span className="text-xs text-text-tertiary uppercase font-bold tracking-wider">Active Trackers</span>
+                                <span className="text-xs text-text-tertiary uppercase font-bold tracking-wider">{t('stats.activeTrackers')}</span>
                             </div>
                             <div className="bg-surface/50 border border-border/10 p-4 rounded-2xl flex flex-col items-center">
                                 <span className="text-2xl font-black text-text-primary">€45k</span>
-                                <span className="text-xs text-text-tertiary uppercase font-bold tracking-wider">Total Savings</span>
+                                <span className="text-xs text-text-tertiary uppercase font-bold tracking-wider">{t('stats.totalSavings')}</span>
                             </div>
                             <div className="bg-surface/50 border border-border/10 p-4 rounded-2xl flex flex-col items-center">
                                 <span className="text-2xl font-black text-text-primary">850</span>
-                                <span className="text-xs text-text-tertiary uppercase font-bold tracking-wider">Shared Lists</span>
+                                <span className="text-xs text-text-tertiary uppercase font-bold tracking-wider">{t('stats.sharedLists')}</span>
                             </div>
                         </div>
                     </div>
@@ -84,7 +87,7 @@ export default function WatchlistDiscoveryPage() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
                         <input
                             type="text"
-                            placeholder="Search collections or creators..."
+                            placeholder={t('searchPlaceholder')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full pl-12 pr-4 py-3 bg-surface-elevated/50 border border-border/30 rounded-2xl text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
@@ -95,22 +98,22 @@ export default function WatchlistDiscoveryPage() {
                         <button
                             onClick={() => setSort('popular')}
                             className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all ${sort === 'popular'
-                                    ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                                    : 'text-text-secondary hover:bg-surface-hover'
+                                ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                                : 'text-text-secondary hover:bg-surface-hover'
                                 }`}
                         >
                             <TrendingUp className="w-4 h-4" />
-                            Most Popular
+                            {t('sort.popular')}
                         </button>
                         <button
                             onClick={() => setSort('newest')}
                             className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all ${sort === 'newest'
-                                    ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                                    : 'text-text-secondary hover:bg-surface-hover'
+                                ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                                : 'text-text-secondary hover:bg-surface-hover'
                                 }`}
                         >
                             <Clock className="w-4 h-4" />
-                            Newest
+                            {t('sort.newest')}
                         </button>
                     </div>
                 </div>
@@ -119,7 +122,7 @@ export default function WatchlistDiscoveryPage() {
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-20">
                         <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
-                        <p className="text-text-secondary font-bold font-heading">Curating public collections...</p>
+                        <p className="text-text-secondary font-bold font-heading">{t('loading')}</p>
                     </div>
                 ) : error ? (
                     <div className="text-center py-20 bg-error/5 border border-error/10 rounded-3xl">
@@ -135,8 +138,8 @@ export default function WatchlistDiscoveryPage() {
                 ) : (
                     <div className="text-center py-32 bg-surface-elevated/20 border border-border/10 rounded-3xl">
                         <Users className="w-16 h-16 text-text-tertiary mx-auto mb-6 opacity-30" />
-                        <h3 className="text-2xl font-bold text-text-secondary mb-2">No watchlists found</h3>
-                        <p className="text-text-tertiary">Try a different search term or check back later.</p>
+                        <h3 className="text-2xl font-bold text-text-secondary mb-2">{t('empty.title')}</h3>
+                        <p className="text-text-tertiary">{t('empty.subtitle')}</p>
                     </div>
                 )}
             </div>
@@ -147,13 +150,13 @@ export default function WatchlistDiscoveryPage() {
                     <div className="bg-gradient-to-br from-violet-600 to-indigo-800 rounded-3xl p-10 relative overflow-hidden shadow-2xl shadow-indigo-500/10">
                         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                             <div>
-                                <h2 className="text-3xl font-black text-white mb-4 leading-tight">Want to share your findings?</h2>
+                                <h2 className="text-3xl font-black text-white mb-4 leading-tight">{t('cta.title')}</h2>
                                 <p className="text-indigo-100 max-w-lg">
-                                    Make your own watchlists public to help others save money and reach the top of the savings leaderboard.
+                                    {t('cta.subtitle')}
                                 </p>
                             </div>
                             <GlowButton className="bg-white text-indigo-900 border-none hover:bg-indigo-50 min-w-[200px] h-14 text-lg">
-                                Share a Watchlist
+                                {t('cta.button')}
                             </GlowButton>
                         </div>
                         {/* Abstract background shapes */}

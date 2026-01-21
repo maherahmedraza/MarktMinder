@@ -25,8 +25,10 @@ import { GlowButton } from '@/components/ui/GlowButton';
 import { PriceParticles } from '@/components/PriceParticles';
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { CurrencySwitcher } from '@/components/ui/CurrencySwitcher';
+import { useTranslations } from 'next-intl';
 
 function DashboardLayoutContent({ children }: { children: ReactNode }) {
+    const tNav = useTranslations('nav');
     const { user, isLoading, isAuthenticated, logout } = useAuth();
     const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -97,40 +99,40 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
 
                     {/* Navigation */}
                     <nav className="flex-1 px-4 py-8 space-y-1.5 overflow-y-auto scrollbar-hide">
-                        <p className="px-4 text-[9px] font-black text-text-tertiary uppercase tracking-[0.4em] mb-4 opacity-50">Operation_Clusters</p>
+                        <p className="px-4 text-[9px] font-black text-text-tertiary uppercase tracking-[0.4em] mb-4 opacity-50">{tNav('operations')}</p>
                         <NavLink href="/dashboard" icon={<LayoutDashboard className="w-4 h-4" />}>
-                            Command_Center
+                            {tNav('dashboard')}
                         </NavLink>
                         <NavLink href="/dashboard/deals" icon={<Sparkles className="w-4 h-4" />}>
-                            Deal_Radar
+                            {tNav('deals')}
                         </NavLink>
                         <NavLink href="/dashboard/products" icon={<Package className="w-4 h-4" />}>
-                            Asset_Ledger
+                            {tNav('products')}
                         </NavLink>
                         <NavLink href="/dashboard/watchlist" icon={<Star className="w-4 h-4" />}>
-                            High_Priority
+                            {tNav('watchlist')}
                         </NavLink>
                         <NavLink href="/community/watchlists" icon={<Users className="w-4 h-4" />}>
-                            Discovery_Feed
+                            {tNav('community')}
                         </NavLink>
 
                         <div className="mt-8 pt-8 border-t border-border/10">
-                            <p className="px-4 text-[9px] font-black text-text-tertiary uppercase tracking-[0.4em] mb-4 opacity-50">System_Protocols</p>
+                            <p className="px-4 text-[9px] font-black text-text-tertiary uppercase tracking-[0.4em] mb-4 opacity-50">{tNav('system')}</p>
                             {(user?.subscription_tier === 'business' || user?.subscription_tier === 'enterprise') && (
                                 <>
                                     <NavLink href="/dashboard/team" icon={<Users className="w-4 h-4" />}>
-                                        Team_Management
+                                        {tNav('team')}
                                     </NavLink>
                                     <NavLink href="/dashboard/competitors" icon={<TrendingUp className="w-4 h-4" />}>
-                                        Competitor_Intel
+                                        {tNav('competitors')}
                                     </NavLink>
                                 </>
                             )}
                             <NavLink href="/dashboard/alerts" icon={<Bell className="w-4 h-4" />}>
-                                Signal_Alerts
+                                {tNav('alerts')}
                             </NavLink>
                             <NavLink href="/dashboard/settings" icon={<Settings className="w-4 h-4" />}>
-                                System_Config
+                                {tNav('settings')}
                             </NavLink>
                         </div>
                     </nav>
@@ -154,7 +156,7 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                             className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-3 text-[10px] font-black uppercase tracking-[0.3em] text-text-tertiary hover:text-error hover:bg-error/5 border border-transparent hover:border-error/20 rounded-xl transition-all"
                         >
                             <LogOut className="w-3.5 h-3.5" />
-                            Terminate_Session
+                            {tNav('logout')}
                         </button>
                     </div>
                 </div>
@@ -189,11 +191,11 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <div className="hidden md:flex items-center gap-2">
+                            <div className="flex items-center gap-2">
                                 <LocaleSwitcher />
                                 <CurrencySwitcher />
                             </div>
-                            <div className="hidden md:block h-8 w-px bg-border/20" />
+                            <div className="h-8 w-px bg-border/20" />
                             <ThemeToggle />
                             <div className="hidden sm:block h-8 w-px bg-border/20" />
                             <GlowButton
@@ -202,7 +204,7 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                                 className="hidden sm:flex"
                             >
                                 <Plus className="w-4 h-4 mr-2" />
-                                ADD_ASSET
+                                {tNav('add_asset')}
                             </GlowButton>
                         </div>
                     </div>

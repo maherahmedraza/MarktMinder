@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Folder, Users, Eye, Package, Calendar, ArrowRight } from 'lucide-react';
 import { GlassCard } from '../ui/GlassCard';
+import { useTranslations } from 'next-intl';
 
 export interface Watchlist {
     id: string;
@@ -24,6 +25,7 @@ interface WatchlistCardProps {
 }
 
 export function WatchlistCard({ watchlist, className = '' }: WatchlistCardProps) {
+    const t = useTranslations('community.watchlists.card');
     const formattedDate = new Date(watchlist.created_at).toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
@@ -48,7 +50,7 @@ export function WatchlistCard({ watchlist, className = '' }: WatchlistCardProps)
                         </div>
                         <div className="flex items-center gap-1 text-primary-light font-medium bg-primary/10 px-2 py-0.5 rounded-full">
                             <Package className="w-3 h-3" />
-                            {watchlist.product_count} items
+                            {t('items', { count: watchlist.product_count })}
                         </div>
                     </div>
                 </div>
@@ -59,7 +61,7 @@ export function WatchlistCard({ watchlist, className = '' }: WatchlistCardProps)
                         {watchlist.name}
                     </h3>
                     <p className="text-sm text-text-secondary line-clamp-2 mb-4 min-h-[40px]">
-                        {watchlist.description || 'No description provided for this collection.'}
+                        {watchlist.description || t('noDescription')}
                     </p>
                 </div>
 

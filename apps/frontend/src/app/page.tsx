@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { TrendingDown, Bell, Globe, Shield, ChevronRight, Sparkles, Zap, Target, BarChart3, Menu, X, Plus, ShieldCheck, ZapOff, Activity, Cpu } from 'lucide-react';
+import { TrendingDown, Bell, Globe, Shield, ChevronRight, Sparkles, Zap, Target, BarChart2, Menu, X, Plus, ShieldCheck, ZapOff, Activity, Cpu, Users, Lock } from 'lucide-react';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { PriceParticles } from '@/components/PriceParticles';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { useTranslations } from 'next-intl';
 
 export default function HomePage() {
+    const t = useTranslations('home');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
@@ -63,25 +66,27 @@ export default function HomePage() {
                                     href={`/${item}`}
                                     className="text-[10px] font-black text-text-tertiary uppercase tracking-widest hover:text-primary transition-colors"
                                 >
-                                    {item}
+                                    {t(`nav.${item}` as any)}
                                 </Link>
                             ))}
                             <div className="h-4 w-[1px] bg-border/20 dark:bg-white/10 mx-2" />
+                            <LocaleSwitcher />
                             <ThemeToggle />
                             <Link
                                 href="/login"
                                 className="text-[10px] font-black text-text-primary uppercase tracking-widest hover:text-primary transition-colors"
                             >
-                                Access System
+                                {t('nav.accessSystem')}
                             </Link>
                             <GlowButton onClick={() => window.location.href = '/register'} size="sm">
                                 <Plus className="w-3 h-3 mr-2" />
-                                INITIALIZE_NODE
+                                {t('nav.initialize')}
                             </GlowButton>
                         </div>
 
                         {/* Mobile Navigation Toggle */}
                         <div className="flex items-center gap-4 md:hidden">
+                            <LocaleSwitcher />
                             <ThemeToggle />
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -100,22 +105,19 @@ export default function HomePage() {
                         <div className="animate-reveal inline-flex items-center gap-3 bg-surface/30 dark:bg-white/[0.03] border border-border/10 dark:border-white/10 px-5 py-2 rounded-full mb-10 backdrop-blur-xl group hover:border-primary/40 transition-all duration-500">
                             <div className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-glow" />
                             <span className="text-[10px] font-black text-text-tertiary uppercase tracking-[0.2em]">
-                                System Status: <span className="text-primary">Operational</span> // Neural_Engine_Active
+                                {t('hero.status')}: <span className="text-primary">{t('hero.operational')}</span> // Neural_Engine_Active
                             </span>
                         </div>
 
                         {/* Headline */}
                         <h1 className="animate-reveal text-6xl md:text-8xl font-black text-text-primary mb-8 leading-[0.9] tracking-tighter uppercase italic">
-                            Neural <br />
-                            <span className="text-gradient">Asset Tracking</span>
+                            {t('hero.titleLine1')} <br />
+                            <span className="text-gradient">{t('hero.titleGradient')}</span>
                         </h1>
 
                         {/* Subheadline */}
                         <p className="animate-reveal text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-12 font-medium leading-relaxed uppercase tracking-wide">
-                            Deploy high-frequency monitoring across <span className="text-amazon font-black">Amazon</span>,
-                            <span className="text-etsy font-black ml-1">Etsy</span>, and
-                            <span className="text-otto font-black ml-1">Otto</span>.
-                            Zero-latency price alerts. Maximum capital preservation.
+                            {t('hero.subtitle')}
                         </p>
 
                         {/* CTA Buttons */}
@@ -127,13 +129,13 @@ export default function HomePage() {
                                 onClick={() => window.location.href = '/register'}
                             >
                                 <Zap className="w-5 h-5 mr-3" />
-                                DEPLOY_ENGINE
+                                {t('hero.deploy')}
                             </GlowButton>
                             <Link
                                 href="#features"
                                 className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-surface/20 dark:bg-white/[0.02] border border-border/10 dark:border-white/10 rounded-full text-[12px] font-black text-text-primary uppercase tracking-[0.2em] hover:bg-surface-hover dark:hover:bg-white/5 hover:border-primary/40 transition-all"
                             >
-                                SYSTEM_SPECIFICATIONS
+                                {t('hero.specs')}
                                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
@@ -161,36 +163,36 @@ export default function HomePage() {
                     <div className="text-center mb-20 stagger-children">
                         <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4">Core_Capabilities</div>
                         <h2 className="animate-reveal text-4xl md:text-5xl font-black text-text-primary mb-6 uppercase italic">
-                            System <span className="text-primary">Specifications</span>
+                            System <span className="text-primary">{t('features.title')}</span>
                         </h2>
                         <p className="animate-reveal text-lg text-text-tertiary max-w-2xl mx-auto">
-                            High-precision monitoring tools engineered for the professional asset manager.
+                            {t('features.subtitle')}
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
                         <FeatureCard
                             icon={<Cpu className="w-8 h-8" />}
-                            title="Fake_Discount_Detection"
-                            description="Real-time logic analysis to identify artificial price inflating before sales."
+                            title={t('features.fakeDiscount.title')}
+                            description={t('features.fakeDiscount.desc')}
                             variant="pro"
                         />
                         <FeatureCard
                             icon={<Activity className="w-8 h-8" />}
-                            title="Multi_Market_Pulse"
-                            description="Synchronized tracking across  core marketplaces with sub-second delta logs."
+                            title={t('features.multiMarket.title')}
+                            description={t('features.multiMarket.desc')}
                             variant="glass"
                         />
                         <FeatureCard
                             icon={<Zap className="w-8 h-8" />}
-                            title="Neural_Price_Forecasting"
-                            description="ML models predicting future asset values based on historical volatility."
+                            title={t('features.neuralPrice.title')}
+                            description={t('features.neuralPrice.desc')}
                             variant="pro"
                         />
                         <FeatureCard
                             icon={<TrendingDown className="w-8 h-8" />}
-                            title="Delta_Alert_Mesh"
-                            description="Universal notification pipeline via Telegram, Push, and Neural_Link."
+                            title={t('features.deltaAlert.title')}
+                            description={t('features.deltaAlert.desc')}
                             variant="glass"
                         />
                     </div>
@@ -203,10 +205,10 @@ export default function HomePage() {
                             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-around pointer-events-none opacity-5">
                                 {[1, 2, 3].map(i => <div key={i} className="w-[1px] h-20 bg-primary" />)}
                             </div>
-                            <StatItem value="128K+" label="DATA_NODES" />
-                            <StatItem value="€4.2M" label="CAPITAL_PRESERVED" />
-                            <StatItem value="3" label="ACTIVE_DOMAINS" />
-                            <StatItem value="24/7" label="ENGINE_UPTIME" />
+                            <StatItem value="128K+" label={t('stats.nodes')} />
+                            <StatItem value="€4.2M" label={t('stats.capital')} />
+                            <StatItem value="3" label={t('stats.domains')} />
+                            <StatItem value="24/7" label={t('stats.uptime')} />
                         </div>
                     </GlassCard>
                 </section>
@@ -243,10 +245,10 @@ export default function HomePage() {
                 <section className="container mx-auto px-6 py-32 text-center border-t border-border/10 dark:border-white/[0.03]">
                     <GlassCard variant="pro" className="max-w-4xl mx-auto py-20 px-10 border-primary/20 bg-primary/[0.03]">
                         <h2 className="text-4xl md:text-6xl font-black text-text-primary mb-8 uppercase italic leading-none">
-                            Ready to <span className="text-gradient">Secure Yield</span>?
+                            {t('cta.title')}
                         </h2>
                         <p className="text-lg text-text-secondary mb-12 uppercase tracking-widest opacity-80">
-                            Join the high-frequency asset monitoring network.
+                            {t('cta.subtitle')}
                         </p>
                         <GlowButton
                             variant="primary"
@@ -254,11 +256,11 @@ export default function HomePage() {
                             className="min-w-[280px]"
                             onClick={() => window.location.href = '/register'}
                         >
-                            CREATE_FREE_ACCOUNT
+                            {t('cta.button')}
                             <ChevronRight className="w-6 h-6 ml-2" />
                         </GlowButton>
                         <p className="mt-8 text-[10px] font-black text-text-tertiary uppercase tracking-[0.3em]">
-                            System Access: Restricted to <span className="text-primary">5 Assets</span> for Free Tier
+                            {t('cta.note')}
                         </p>
                     </GlassCard>
                 </section>

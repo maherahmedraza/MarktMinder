@@ -16,7 +16,15 @@
         "error": "Erreur",
         "success": "Succès",
         "yes": "Oui",
-        "no": "Non"
+        "no": "Non",
+        "productCard": {
+            "void": "Protocole Void",
+            "lowest": "MINIMUM LOCAL",
+            "depleted": "ÉPUISÉ",
+            "currentValue": "Valeur Actuelle",
+            "remove": "Retirer de la liste",
+            "select": "Sélectionner l'actif pour opérations en lot"
+        }
     },
     "nav": {
         "home": "Accueil",
@@ -31,7 +39,11 @@
         "watchlist": "Liste de suivi",
         "deals": "Offres",
         "team": "Équipe",
-        "competitors": "Veille concurrentielle"
+        "competitors": "Veille Concurrentielle",
+        "community": "Communauté",
+        "operations": "Opérations",
+        "system": "Système",
+        "add_asset": "AJOUTER_ACTIF"
     },
     "dashboard": {
         "welcome": "Bienvenue, {name}",
@@ -42,8 +54,79 @@
         "recentActivity": "Activité récente",
         "aiInsights": "Insights IA",
         "quickActions": "Actions rapides",
-        "addProduct": "Ajouter un produit",
-        "viewAll": "Voir tout"
+        "viewAll": "Voir tout",
+        "atLowestPrice": "Au prix le plus bas",
+        "favoritesStats": "Favoris",
+        "title": "Console Opérationnelle",
+        "protocolMsg": "Séquence de protocole initialisée",
+        "addProduct": {
+            "back": "Retour aux produits",
+            "title": "Intégration d'Actifs",
+            "phase": "Phase 1 : Acquisition de Source",
+            "urlLabel": "URL Cible du Produit",
+            "urlPlaceholder": "https://www.amazon.fr/dp/B0...",
+            "notesLabel": "Notes Opérationnelles (optionnel)",
+            "notesPlaceholder": "Ajouter des métadonnées techniques ou des notes de suivi...",
+            "detected": "Protocole {marketplace} Détecté",
+            "scanning": "Scan de la Signature du Marketplace...",
+            "buttonInit": "INITIALISER LE SUIVI",
+            "buttonLoading": "INITIALISATION DU SCRAPER...",
+            "success": {
+                "title": "Actif Calibré !",
+                "redirect": "Redirection vers la Projection Neurale..."
+            },
+            "guidelines": {
+                "title": "Directives du Protocole",
+                "items": [
+                    "Capturez l'URL cible absolue depuis la barre d'identité du navigateur.",
+                    "Le moteur Neural de MarktMinder auto-vérifiera les métadonnées du produit.",
+                    "Fréquence de scan standard calibrée sur des intervalles de 4 à 24 heures."
+                ]
+            },
+            "errors": {
+                "invalidUrl": "Veuillez entrer una URL valide Amazon, Etsy, ou Otto.de",
+                "failed": "Échec de l'ajout du produit"
+            }
+        },
+        "products": {
+            "title": "Registre des",
+            "titleAccent": "Actifs",
+            "subtitle": "{total} actifs relatifs actuellement synchronisés sur plusieurs clusters de places de marché.",
+            "actions": {
+                "delete": "Supprimer ({count})",
+                "collections": "Collections",
+                "addProduct": "Ajouter un Produit",
+                "export": "Exporter",
+                "moveTo": "Déplacer vers..."
+            },
+            "filters": {
+                "searchPlaceholder": "Rechercher titre, marque...",
+                "sort": {
+                    "newest": "Plus récents",
+                    "oldest": "Plus anciens",
+                    "highestPrice": "Prix le plus haut",
+                    "lowestPrice": "Prix le plus bas",
+                    "biggestDrop": "Plus forte baisse %"
+                },
+                "markets": "Clusters de marchés",
+                "allCollections": "Toutes les collections",
+                "dropsOnly": "Seulement les baisses",
+                "selectAll": "Tout sélectionner",
+                "deselectAll": "Tout désélectionner"
+            },
+            "empty": {
+                "title": "Aucun produit trouvé",
+                "filtered": "Nous n'avons rien trouvé correspondant à vos filtres. Essayer autre chose ?",
+                "empty": "Votre liste de suivi est vide. Commencez à suivre des produits pour les voir ici !",
+                "button": "Ajoutez votre premier produit"
+            },
+            "pagination": "PAGE {current} / {total}",
+            "error": "Erreur lors du chargement des produits : {error}",
+            "bulkDeleteConfirm": "Êtes-vous sûr de vouloir arrêter le suivi de {count} produits ?",
+            "bulkDeleteSuccess": "{count} produits supprimés",
+            "bulkMoveSuccess": "{count} actifs déplacés vers la collection",
+            "bulkUpdateError": "Échec de la mise à jour de certains actifs"
+        }
     },
     "products": {
         "title": "Vos produits",
@@ -121,6 +204,40 @@
     "locale": {
         "en": "English",
         "de": "Deutsch",
-        "fr": "Français"
+        "fr": "Français",
+        "es": "Español",
+        "pt": "Português",
+        "ja": "日本語"
+    },
+    "community": {
+        "watchlists": {
+            "title": "Listes de Suivi Publiques",
+            "discover": "Découvrir",
+            "subtitle": "Explorez les collections partagées par des acheteurs avertis. Trouvez les meilleurs suivis de prix, offres saisonnières et catégories de niche sélectionnés par la communauté.",
+            "stats": {
+                "activeTrackers": "Suivis Actifs",
+                "totalSavings": "Économies Totales",
+                "sharedLists": "Listes Partagées"
+            },
+            "searchPlaceholder": "Rechercher des collections ou des créateurs...",
+            "sort": {
+                "popular": "Plus Populaires",
+                "newest": "Plus Récents"
+            },
+            "loading": "Sélection des collections publiques...",
+            "empty": {
+                "title": "Aucune liste de suivi trouvée",
+                "subtitle": "Essayez un autre terme de recherche ou revenez plus tard."
+            },
+            "cta": {
+                "title": "Envie de partager vos trouvailles ?",
+                "subtitle": "Rendez vos propres listes de suivi publiques pour aider les autres à économiser et atteindre le sommet du classement des économies.",
+                "button": "Partager une Liste"
+            },
+            "card": {
+                "items": "{count} articles",
+                "noDescription": "Aucune description fournie pour cette collection."
+            }
+        }
     }
 }

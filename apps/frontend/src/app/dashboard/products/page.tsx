@@ -28,10 +28,12 @@ import { ProductCard } from '@/components/ui/ProductCard';
 import { FolderManager } from '@/components/dashboard/FolderManager';
 import { toast } from 'sonner';
 import { useProducts, useFolders, useRemoveProduct, useMoveProductToFolder } from '@/lib/hooks';
+import { useTranslations } from 'next-intl';
 
 type SortOption = 'date-desc' | 'date-asc' | 'price-desc' | 'price-asc' | 'drop-desc';
 
 export default function ProductsPage() {
+    const t = useTranslations('dashboard.products');
     const { user } = useAuth();
     const [page, setPage] = useState(1);
 
@@ -146,15 +148,15 @@ export default function ProductsPage() {
     }
 
     async function handleBulkDelete() {
-        if (!confirm(`Are you sure you want to stop tracking ${selectedIds.size} products?`)) return;
+        if (!confirm(t('bulkDeleteConfirm', { count: selectedIds.size }))) return;
 
         setIsBulkDeleting(true);
         try {
             await Promise.all(Array.from(selectedIds).map(id => removeProductMutation.mutateAsync(id)));
-            toast.success(`Removed ${selectedIds.size} products`);
+            toast.success(t('bulkDeleteSuccess', { count: selectedIds.size }));
             setSelectedIds(new Set());
         } catch (err: any) {
-            toast.error('Failed to delete some products');
+            toast.error(t('bulkUpdateError'));
         } finally {
             setIsBulkDeleting(false);
         }
@@ -169,10 +171,10 @@ export default function ProductsPage() {
                     moveProductMutation.mutateAsync({ productId, folderId: targetFolderId })
                 )
             );
-            toast.success(`Moved ${selectedIds.size} assets to collection`);
+            toast.success(t('bulkMoveSuccess', { count: selectedIds.size }));
             setSelectedIds(new Set());
         } catch (err) {
-            toast.error('Failed to move assets');
+            toast.error(t('bulkUpdateError'));
         } finally {
             setIsBulkUpdating(false);
         }
@@ -207,7 +209,7 @@ export default function ProductsPage() {
         return (
             <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
-                <span>Error loading products: {productsError.message}</span>
+                <span>{t('error', { error: productsError.message })}</span>
             </div>
         );
     }
@@ -221,11 +223,11 @@ export default function ProductsPage() {
                             <Package className="w-6 h-6 text-primary" />
                         </div>
                         <h1 className="text-4xl font-black text-text-primary tracking-tight uppercase">
-                            Asset <span className="text-gradient">Ledger</span>
+                            {t('title')} <span className="text-gradient">{t('titleAccent')}</span>
                         </h1>
                     </div>
                     <p className="text-text-secondary max-w-2xl text-lg font-medium leading-relaxed">
-                        {pagination?.total || 0} relative assets currently synchronized across multiple marketplace clusters.
+                        {t('subtitle', { total: pagination?.total || 0 })}
                     </p>
                 </div>
 
@@ -238,7 +240,7 @@ export default function ProductsPage() {
                             className="w-full sm:w-auto animate-in fade-in zoom-in duration-200"
                         >
                             {isBulkDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
-                            Delete ({selectedIds.size})
+                            {t('actions.delete', { count: selectedIds.size })}
                         </GlowButton>
                     ) : (
                         <GlowButton
@@ -247,7 +249,7 @@ export default function ProductsPage() {
                             className="w-full sm:w-auto"
                         >
                             <FolderCheck className="w-4 h-4 mr-2" />
-                            Collections
+                            {t('actions.collections')}
                         </GlowButton>
                     )}
 
@@ -259,7 +261,7 @@ export default function ProductsPage() {
                                 disabled={isBulkUpdating}
                                 className="appearance-none bg-surface border border-border/50 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-text-primary focus:border-primary outline-none transition-all cursor-pointer h-full"
                             >
-                                <option value="" disabled>Move to...</option>
+                                <option value="" disabled>{t('actions.moveTo')}</option>
                                 {folders.map(f => (
                                     <option key={f.id} value={f.id}>{f.name}</option>
                                 ))}
@@ -276,7 +278,7 @@ export default function ProductsPage() {
                         <Link href="/dashboard/products/add" className="w-full sm:w-auto">
                             <GlowButton className="w-full">
                                 <Plus className="w-4 h-4 mr-2" />
-                                Add Product
+                                {t('actions.addProduct')}
                             </GlowButton>
                         </Link>
                     )}
@@ -287,7 +289,7 @@ export default function ProductsPage() {
                         className="w-full sm:w-auto"
                     >
                         <Download className="w-4 h-4 mr-2" />
-                        Export
+                        {t('actions.export')}
                     </GlowButton>
                 </div>
             </div>
@@ -305,7 +307,7 @@ export default function ProductsPage() {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-tertiary group-focus-within:text-primary transition-colors" />
                     <input
                         type="text"
-                        placeholder="Search title, brand..."
+                        placeholder={t('filters.searchPlaceholder')}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full pl-10 pr-4 py-2.5 bg-background/50 border border-border/50 rounded-xl text-sm text-text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
@@ -321,11 +323,11 @@ export default function ProductsPage() {
                             onChange={(e) => setSortBy(e.target.value as SortOption)}
                             className="pl-2 pr-8 py-2 bg-background/50 border border-border/50 rounded-xl text-sm text-text-primary focus:border-primary outline-none transition-all cursor-pointer"
                         >
-                            <option value="date-desc">Newest First</option>
-                            <option value="date-asc">Oldest First</option>
-                            <option value="price-desc">Highest Price</option>
-                            <option value="price-asc">Lowest Price</option>
-                            <option value="drop-desc">Biggest Drop %</option>
+                            <option value="date-desc">{t('filters.sort.newest')}</option>
+                            <option value="date-asc">{t('filters.sort.oldest')}</option>
+                            <option value="price-desc">{t('filters.sort.highestPrice')}</option>
+                            <option value="price-asc">{t('filters.sort.lowestPrice')}</option>
+                            <option value="drop-desc">{t('filters.sort.biggestDrop')}</option>
                         </select>
                     </div>
 
@@ -338,7 +340,7 @@ export default function ProductsPage() {
                         }}
                         className="px-3 py-2 bg-background/50 border border-border/50 rounded-xl text-sm text-text-primary focus:border-primary outline-none transition-all cursor-pointer"
                     >
-                        <option value="">All Markets cluster</option>
+                        <option value="">{t('filters.markets')}</option>
                         <option value="amazon">Amazon</option>
                         <option value="etsy">Etsy</option>
                         <option value="otto">Otto</option>
@@ -353,7 +355,7 @@ export default function ProductsPage() {
                         }}
                         className="px-3 py-2 bg-background/50 border border-border/50 rounded-xl text-sm text-text-primary focus:border-primary outline-none transition-all cursor-pointer"
                     >
-                        <option value="">All Collections</option>
+                        <option value="">{t('filters.allCollections')}</option>
                         {folders.map(f => (
                             <option key={f.id} value={f.id}>{f.name}</option>
                         ))}
@@ -373,7 +375,7 @@ export default function ProductsPage() {
                             <div className="w-10 h-5 bg-border/20 rounded-full peer peer-checked:bg-primary/20 transition-colors"></div>
                             <div className="absolute left-0.5 w-4 h-4 bg-text-tertiary rounded-full shadow-sm transition-all peer-checked:left-5 peer-checked:bg-primary"></div>
                         </div>
-                        <span className="group-hover:text-text-primary transition-colors">Drops Only</span>
+                        <span className="group-hover:text-text-primary transition-colors">{t('filters.dropsOnly')}</span>
                     </label>
 
                     {/* Select All */}
@@ -386,7 +388,7 @@ export default function ProductsPage() {
                         ) : (
                             <Square className="w-4 h-4" />
                         )}
-                        <span>{selectedIds.size === processedProducts.length ? 'Deselect All' : 'Select All'}</span>
+                        <span>{selectedIds.size === processedProducts.length ? t('filters.deselectAll') : t('filters.selectAll')}</span>
                     </button>
                 </div>
             </GlassCard>
@@ -397,15 +399,15 @@ export default function ProductsPage() {
             ) : processedProducts.length === 0 ? (
                 <GlassCard className="text-center py-20 border-dashed">
                     <Package className="w-20 h-20 text-text-tertiary/20 mx-auto mb-6" />
-                    <h3 className="heading-3 text-text-primary mb-2">No products found</h3>
+                    <h3 className="heading-3 text-text-primary mb-2">{t('empty.title')}</h3>
                     <p className="text-text-secondary mb-8 max-w-sm mx-auto">
                         {search || marketplace || showOnlyDrops || selectedFolderId
-                            ? 'We couldn\'t find anything matching your filters. Try something else?'
-                            : 'Your watchlist is empty. Start tracking products to see them here!'
+                            ? t('empty.filtered')
+                            : t('empty.empty')
                         }
                     </p>
                     <Link href="/dashboard/products/add">
-                        <GlowButton>Add your first product</GlowButton>
+                        <GlowButton>{t('empty.button')}</GlowButton>
                     </Link>
                 </GlassCard>
             ) : (
@@ -433,7 +435,7 @@ export default function ProductsPage() {
                     </button>
 
                     <div className="font-mono text-sm font-bold text-text-secondary tracking-widest bg-surface px-6 py-2 rounded-xl border border-border/50">
-                        PAGE {String(page).padStart(2, '0')} / {String(pagination.totalPages).padStart(2, '0')}
+                        {t('pagination', { current: String(page).padStart(2, '0'), total: String(pagination.totalPages).padStart(2, '0') })}
                     </div>
 
                     <button

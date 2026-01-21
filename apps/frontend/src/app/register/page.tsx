@@ -6,8 +6,12 @@ import { useAuth } from '@/lib/auth';
 import { TrendingDown, Mail, Lock, User, AlertCircle, Loader2, Check, Shield, Zap, Target } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
+import { useTranslations } from 'next-intl';
 
 export default function RegisterPage() {
+    const t = useTranslations('auth');
+    const tCommon = useTranslations('common');
     const { register } = useAuth();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -77,6 +81,11 @@ export default function RegisterPage() {
 
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {/* Language Switcher - Fixed Top Right */}
+            <div className="absolute top-4 right-4 z-50">
+                <LocaleSwitcher />
+            </div>
+
             {/* Background elements to match Login UI */}
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
             <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
@@ -88,12 +97,12 @@ export default function RegisterPage() {
                     </div>
                 </Link>
                 <h2 className="heading-1 text-center text-text-primary mb-2">
-                    Create your account
+                    {t('register')}
                 </h2>
                 <p className="text-center text-text-tertiary font-bold uppercase tracking-widest text-[11px] mb-8">
-                    Already have an account?{' '}
+                    {t('hasAccount')}{' '}
                     <Link href="/login" className="text-primary hover:text-primary/80 transition-colors">
-                        Sign in
+                        {t('signIn')}
                     </Link>
                 </p>
             </div>
@@ -110,7 +119,7 @@ export default function RegisterPage() {
 
                         <div className="space-y-2">
                             <label htmlFor="name" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
-                                Full name
+                                {t('name')}
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
@@ -132,7 +141,7 @@ export default function RegisterPage() {
 
                         <div className="space-y-2">
                             <label htmlFor="email" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
-                                Email address
+                                {t('email')}
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
@@ -154,7 +163,7 @@ export default function RegisterPage() {
 
                         <div className="space-y-2">
                             <label htmlFor="password" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
-                                Password
+                                {t('password')}
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
@@ -212,7 +221,7 @@ export default function RegisterPage() {
 
                         <div className="space-y-2">
                             <label htmlFor="confirm-password" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
-                                Confirm password
+                                {t('confirmPassword')}
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-primary">
@@ -249,7 +258,7 @@ export default function RegisterPage() {
                             </div>
                             <div className="ml-3">
                                 <label htmlFor="terms" className="text-[10px] font-bold text-text-secondary leading-tight">
-                                    I agree to the <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
+                                    {t('termsAgree')}
                                 </label>
                             </div>
                         </div>
@@ -262,12 +271,12 @@ export default function RegisterPage() {
                             {isLoading ? (
                                 <>
                                     <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                                    CREATING PORTAL...
+                                    {tCommon('loading')}
                                 </>
                             ) : (
                                 <>
                                     <Shield className="w-5 h-5 mr-2" />
-                                    CREATE ACCOUNT
+                                    {t('register')}
                                 </>
                             )}
                         </GlowButton>

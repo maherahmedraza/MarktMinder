@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Package, Star, TrendingDown, TrendingUp, X, ImageOff } from 'lucide-react';
 import { GlassCard } from './GlassCard';
 import { Product } from '@/lib/api';
+import { useTranslations } from 'next-intl';
 
 interface ProductCardProps {
     product: Product;
@@ -21,6 +22,7 @@ export function ProductCard({
     onToggle,
     onRemove
 }: ProductCardProps) {
+    const t = useTranslations('common.productCard');
     const priceChange = product.highestPrice && product.currentPrice
         ? ((Number(product.currentPrice) - Number(product.highestPrice)) / Number(product.highestPrice) * 100)
         : 0;
@@ -47,7 +49,7 @@ export function ProductCard({
                         type="checkbox"
                         checked={selected}
                         onChange={onToggle}
-                        aria-label="Select asset for batch operations"
+                        aria-label={t('select')}
                         className={`w-5 h-5 rounded-lg border-border text-primary focus:ring-primary/20 bg-surface cursor-pointer shadow-sm transition-opacity ${selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
                     />
                 </div>
@@ -62,7 +64,7 @@ export function ProductCard({
                         onRemove();
                     }}
                     className="absolute top-3 left-3 z-30 p-1.5 rounded-lg bg-surface/80 backdrop-blur-md border border-border text-text-tertiary hover:text-error hover:border-error/30 transition-all opacity-0 group-hover:opacity-100 shadow-lg"
-                    aria-label="Remove from Watchlist"
+                    aria-label={t('remove')}
                 >
                     <X className="w-4 h-4" />
                 </button>
@@ -94,7 +96,7 @@ export function ProductCard({
                                 <div className="w-16 h-16 rounded-full bg-surface-elevated flex items-center justify-center border border-border/50 shadow-inner">
                                     <ImageOff className="w-8 h-8 text-text-tertiary/30" />
                                 </div>
-                                <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">Void Protocol</span>
+                                <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">{t('void')}</span>
                             </div>
                         )}
 
@@ -115,13 +117,13 @@ export function ProductCard({
                             {isAtLowest && !isOutOfStock && (
                                 <span className="px-2.5 py-1 bg-success/20 border border-success/30 text-success text-[10px] font-black rounded-lg backdrop-blur-md shadow-lg flex items-center gap-1.5 animate-pulse">
                                     <TrendingDown className="w-3.5 h-3.5" />
-                                    LOCAL MINIMA
+                                    {t('lowest')}
                                 </span>
                             )}
                             {isOutOfStock && (
                                 <span className="px-2.5 py-1 bg-error/20 border border-error/30 text-error text-[10px] font-black rounded-lg backdrop-blur-md shadow-lg flex items-center gap-1.5">
                                     <X className="w-3.5 h-3.5" />
-                                    DEPLETED
+                                    {t('depleted')}
                                 </span>
                             )}
                         </div>
@@ -135,7 +137,7 @@ export function ProductCard({
 
                         <div className="mt-5 flex items-end justify-between border-t border-border/10 pt-4">
                             <div>
-                                <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest mb-1">Current Value</p>
+                                <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest mb-1">{t('currentValue')}</p>
                                 <div className="flex items-baseline gap-1">
                                     <span className="text-2xl font-black text-gradient font-mono antialiased">
                                         €{Number(product.currentPrice || 0).toFixed(2)}

@@ -2,11 +2,14 @@
 
 import Link from 'next/link';
 import { TrendingDown, ArrowLeft, BarChart3, Bell, Globe, Zap, Shield, Cpu } from 'lucide-react';
-import PriceParticles from '@/components/PriceParticles';
+import { PriceParticles } from '@/components/PriceParticles';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { useTranslations } from 'next-intl';
 
 export default function FeaturesPage() {
+    const t = useTranslations('features');
+
     return (
         <div className="min-h-screen bg-background relative transition-colors duration-500 overflow-hidden">
             {/* Interactive Background */}
@@ -39,7 +42,7 @@ export default function FeaturesPage() {
                             </Link>
                             <Link href="/" className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-colors uppercase text-[10px] font-black tracking-[0.2em]">
                                 <ArrowLeft className="w-4 h-4" />
-                                Return_To_Base
+                                {t('header.returnBase')}
                             </Link>
                         </div>
                     </div>
@@ -48,12 +51,12 @@ export default function FeaturesPage() {
                 <main className="flex-1 container mx-auto px-6 py-16 max-w-7xl">
                     {/* Hero */}
                     <div className="text-center mb-20 animate-reveal">
-                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4 text-center">System_Capabilities</div>
+                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4 text-center">{t('hero.badge')}</div>
                         <h1 className="text-4xl md:text-6xl font-black text-text-primary mb-6 uppercase italic leading-none">
-                            Feature <span className="text-primary">Specifications</span>
+                            {t('hero.title')} <span className="text-primary">{t('hero.titleAccent')}</span>
                         </h1>
                         <p className="text-lg text-text-tertiary max-w-2xl mx-auto uppercase tracking-widest opacity-80 decoration-primary/30">
-                            High-precision monitoring modules engineered for technical analysis.
+                            {t('hero.subtitle')}
                         </p>
                     </div>
 
@@ -62,38 +65,38 @@ export default function FeaturesPage() {
                         {[
                             {
                                 icon: <BarChart3 className="w-6 h-6" />,
-                                title: "Analytics_Engine",
-                                desc: "Real-time data ingestion and price history visualization with millisecond precision.",
+                                title: t('grid.analytics.title'),
+                                desc: t('grid.analytics.desc'),
                                 color: "text-blue-500"
                             },
                             {
                                 icon: <Bell className="w-6 h-6" />,
-                                title: "Signal_Relay",
-                                desc: "Low-latency alert delivery system supporting Discord, Email, and Push protocols.",
+                                title: t('grid.signal.title'),
+                                desc: t('grid.signal.desc'),
                                 color: "text-primary"
                             },
                             {
                                 icon: <Globe className="w-6 h-6" />,
-                                title: "Cross_Market_Radar",
-                                desc: "Simultaneous monitoring across Amazon, Etsy, and Otto marketplaces with automated sync.",
+                                title: t('grid.radar.title'),
+                                desc: t('grid.radar.desc'),
                                 color: "text-purple-500"
                             },
                             {
                                 icon: <Zap className="w-6 h-6" />,
-                                title: "Neural_Forecast",
-                                desc: "Predictive algorithms analyzing market volatility to signal optimal entry points.",
+                                title: t('grid.forecast.title'),
+                                desc: t('grid.forecast.desc'),
                                 color: "text-yellow-500"
                             },
                             {
                                 icon: <Shield className="w-6 h-6" />,
-                                title: "Asset_Security",
-                                desc: "Enterprise-grade encryption for all tracking identifiers and portfolio metrics.",
+                                title: t('grid.security.title'),
+                                desc: t('grid.security.desc'),
                                 color: "text-green-500"
                             },
                             {
                                 icon: <Cpu className="w-6 h-6" />,
-                                title: "Automated_Scrapers",
-                                desc: "Dynamic scraping architecture that bypasses anti-bot measures for 99.9% uptime.",
+                                title: t('grid.scrapers.title'),
+                                desc: t('grid.scrapers.desc'),
                                 color: "text-orange-500"
                             }
                         ].map((item, i) => (
@@ -110,13 +113,13 @@ export default function FeaturesPage() {
                     {/* CTA */}
                     <div className="text-center mt-32">
                         <GlassCard variant="pro" className="max-w-3xl mx-auto p-12 border-primary/20 bg-primary/[0.03]">
-                            <h2 className="text-3xl font-black text-text-primary mb-8 uppercase italic">Ready to Initialize Tracking?</h2>
+                            <h2 className="text-3xl font-black text-text-primary mb-8 uppercase italic">{t('cta.title')}</h2>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <Link href="/register">
-                                    <GlowButton className="w-full sm:w-auto px-12">CREATE_ACCOUNT</GlowButton>
+                                    <GlowButton className="w-full sm:w-auto px-12">{t('cta.createAccount')}</GlowButton>
                                 </Link>
                                 <Link href="/pricing">
-                                    <GlowButton variant="outline" className="w-full sm:w-auto px-12">VIEW_SUBSCRIPTIONS</GlowButton>
+                                    <GlowButton variant="outline" className="w-full sm:w-auto px-12">{t('cta.viewSubs')}</GlowButton>
                                 </Link>
                             </div>
                         </GlassCard>

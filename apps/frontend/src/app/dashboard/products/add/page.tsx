@@ -17,8 +17,10 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { useTranslations } from 'next-intl';
 
 export default function AddProductPage() {
+    const t = useTranslations('dashboard.addProduct');
     const router = useRouter();
     const [url, setUrl] = useState('');
     const [notes, setNotes] = useState('');
@@ -34,7 +36,7 @@ export default function AddProductPage() {
         setError('');
 
         if (!marketplace) {
-            setError('Please enter a valid Amazon, Etsy, or Otto.de product URL');
+            setError(t('errors.invalidUrl'));
             return;
         }
 
@@ -49,7 +51,7 @@ export default function AddProductPage() {
                 router.push(`/dashboard/products/${product.id}`);
             }, 1500);
         } catch (err: any) {
-            setError(err.message || 'Failed to add product');
+            setError(err.message || t('errors.failed'));
         } finally {
             setIsLoading(false);
         }
@@ -62,9 +64,9 @@ export default function AddProductPage() {
                     <div className="w-20 h-20 bg-success/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glow-sm">
                         <CheckCircle className="w-10 h-10 text-success" />
                     </div>
-                    <h2 className="heading-2 text-text-primary mb-3">Asset Calibrated!</h2>
+                    <h2 className="heading-2 text-text-primary mb-3">{t('success.title')}</h2>
                     <p className="text-text-tertiary font-bold uppercase tracking-widest text-[11px] animate-pulse">
-                        Redirecting to Neural Projection...
+                        {t('success.redirect')}
                     </p>
                 </GlassCard>
             </div>
@@ -78,7 +80,7 @@ export default function AddProductPage() {
                 className="inline-flex items-center gap-2 text-text-tertiary hover:text-primary font-bold uppercase tracking-widest text-[10px] transition-colors mb-8 group"
             >
                 <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                Back to products
+                {t('back')}
             </Link>
 
             <GlassCard variant="pro" className="p-8 shadow-2xl">
@@ -87,8 +89,8 @@ export default function AddProductPage() {
                         <Plus className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                        <h1 className="heading-3 text-text-primary">Asset Integration</h1>
-                        <p className="text-[10px] font-black text-text-tertiary tracking-[0.2em] uppercase">Phase 1: Source Acquisition</p>
+                        <h1 className="heading-3 text-text-primary">{t('title')}</h1>
+                        <p className="text-[10px] font-black text-text-tertiary tracking-[0.2em] uppercase">{t('phase')}</p>
                     </div>
                 </div>
 
@@ -102,7 +104,7 @@ export default function AddProductPage() {
 
                     <div className="space-y-2">
                         <label htmlFor="url" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
-                            Product Target URL
+                            {t('urlLabel')}
                         </label>
                         <div className="relative group">
                             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -113,7 +115,7 @@ export default function AddProductPage() {
                                 type="url"
                                 value={url}
                                 onChange={(e) => setUrl(e.target.value)}
-                                placeholder="https://www.amazon.de/dp/B0..."
+                                placeholder={t('urlPlaceholder')}
                                 required
                                 className="input-themed h-14"
                             />
@@ -124,14 +126,14 @@ export default function AddProductPage() {
                                     <div className="flex items-center gap-2 bg-success/10 border border-success/20 px-3 py-2 rounded-lg">
                                         <Target className="w-3.5 h-3.5 text-success" />
                                         <span className="text-[10px] font-black text-success uppercase tracking-widest">
-                                            {marketplace} Protocol Detected
+                                            {t('detected', { marketplace: marketplace.charAt(0).toUpperCase() + marketplace.slice(1) })}
                                         </span>
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-2 bg-surface-hover/30 px-3 py-2 rounded-lg border border-border/10">
                                         <Zap className="w-3.5 h-3.5 text-text-tertiary" />
                                         <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest leading-none">
-                                            Scanning for Marketplace Signature...
+                                            {t('scanning')}
                                         </span>
                                     </div>
                                 )}
@@ -141,7 +143,7 @@ export default function AddProductPage() {
 
                     <div className="space-y-2">
                         <label htmlFor="notes" className="text-[10px] font-black text-text-tertiary uppercase tracking-widest ml-1">
-                            Operational Notes (optional)
+                            {t('notesLabel')}
                         </label>
                         <div className="relative group">
                             <div className="absolute top-4 left-4 pointer-events-none">
@@ -151,7 +153,7 @@ export default function AddProductPage() {
                                 id="notes"
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
-                                placeholder="Add technical metadata or tracking notes..."
+                                placeholder={t('notesPlaceholder')}
                                 rows={4}
                                 className="input-themed pt-4 resize-none"
                             />
@@ -166,12 +168,12 @@ export default function AddProductPage() {
                         {isLoading ? (
                             <>
                                 <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                                INITIALIZING SCRAPER...
+                                {t('buttonLoading')}
                             </>
                         ) : (
                             <>
                                 <Target className="w-5 h-5 mr-2" />
-                                INITIATE TRACKING
+                                {t('buttonInit')}
                             </>
                         )}
                     </GlowButton>
@@ -179,20 +181,14 @@ export default function AddProductPage() {
 
                 {/* Protocol Guidelines */}
                 <div className="mt-10 pt-8 border-t border-border/10">
-                    <h3 className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em] mb-4">Protocol Guidelines</h3>
+                    <h3 className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em] mb-4">{t('guidelines.title')}</h3>
                     <ul className="space-y-3">
-                        <li className="flex items-start gap-3">
-                            <div className="w-1 h-1 rounded-full bg-primary mt-1.5"></div>
-                            <p className="text-[11px] text-text-tertiary font-medium">Capture the absolute target URL from the browser's identity bar.</p>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <div className="w-1 h-1 rounded-full bg-primary mt-1.5"></div>
-                            <p className="text-[11px] text-text-tertiary font-medium">MarktMinder Neural engine will auto-verify product metadata.</p>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <div className="w-1 h-1 rounded-full bg-primary mt-1.5"></div>
-                            <p className="text-[11px] text-text-tertiary font-medium">Standard scan frequency calibrated to 4-24 hour intervals.</p>
-                        </li>
+                        {t.raw('guidelines.items').map((item: string, i: number) => (
+                            <li key={i} className="flex items-start gap-3">
+                                <div className="w-1 h-1 rounded-full bg-primary mt-1.5"></div>
+                                <p className="text-[11px] text-text-tertiary font-medium">{item}</p>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </GlassCard>

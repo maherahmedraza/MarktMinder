@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import api from '@/lib/api';
 import { TrendingDown, ArrowLeft, Check, Sparkles, Shield, Zap, Loader2 } from 'lucide-react';
-import PriceParticles from '@/components/PriceParticles';
+import { PriceParticles } from '@/components/PriceParticles';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { useTranslations } from 'next-intl';
 
 export default function PricingPage() {
-    const { isAuthenticated, isLoading } = useAuth();
+    const t = useTranslations('pricing');
+    const { isAuthenticated } = useAuth();
     const router = useRouter();
     const [isCheckingOut, setIsCheckingOut] = useState<string | null>(null);
 
@@ -71,7 +73,7 @@ export default function PricingPage() {
                             </Link>
                             <Link href="/" className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-colors uppercase text-[10px] font-black tracking-[0.2em]">
                                 <ArrowLeft className="w-4 h-4" />
-                                Return_To_Base
+                                {t('header.returnBase')}
                             </Link>
                         </div>
                     </div>
@@ -80,12 +82,12 @@ export default function PricingPage() {
                 <main className="flex-1 container mx-auto px-6 py-16 max-w-7xl">
                     {/* Hero */}
                     <div className="text-center mb-20 animate-reveal">
-                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4 text-center">Protocol_Access</div>
+                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4 text-center">{t('hero.badge')}</div>
                         <h1 className="text-4xl md:text-6xl font-black text-text-primary mb-6 uppercase italic leading-none">
-                            System <span className="text-primary">Subscription</span>
+                            {t('hero.title')} <span className="text-primary">{t('hero.titleAccent')}</span>
                         </h1>
                         <p className="text-lg text-text-tertiary max-w-2xl mx-auto uppercase tracking-widest opacity-80 decoration-primary/30">
-                            Select your tier for advanced asset monitoring.
+                            {t('hero.subtitle')}
                         </p>
                     </div>
 
@@ -94,20 +96,15 @@ export default function PricingPage() {
                         {/* Free Tier */}
                         <GlassCard className="p-8 flex flex-col group border-border/10 dark:border-white/10 hover:border-primary/30 transition-all">
                             <div className="mb-6">
-                                <h2 className="text-xl font-black text-text-primary uppercase italic">Free</h2>
-                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Standard Access</p>
+                                <h2 className="text-xl font-black text-text-primary uppercase italic">{t('tiers.free.name')}</h2>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">{t('tiers.free.tagline')}</p>
                             </div>
                             <div className="mb-8">
-                                <span className="text-4xl font-black text-text-primary">€0</span>
-                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                                <span className="text-4xl font-black text-text-primary">{t('tiers.free.price')}</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">{t('tiers.free.cycle')}</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                {[
-                                    '5 Tracked Products',
-                                    '3 Active Alerts',
-                                    '30-Day History',
-                                    'Standard Latency'
-                                ].map((feature) => (
+                                {(t.raw('tiers.free.features') as string[]).map((feature) => (
                                     <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
                                         <Check className="w-4 h-4 text-primary shrink-0" />
                                         {feature}
@@ -116,7 +113,7 @@ export default function PricingPage() {
                             </ul>
                             <Link href="/register" className="w-full">
                                 <GlowButton className="w-full text-[12px]" variant="outline">
-                                    INITIALIZE
+                                    {t('tiers.free.button')}
                                 </GlowButton>
                             </Link>
                         </GlassCard>
@@ -124,21 +121,15 @@ export default function PricingPage() {
                         {/* Pro Tier */}
                         <GlassCard className="p-8 flex flex-col group border-primary/20 bg-primary/[0.02] hover:bg-primary/[0.04] transition-all">
                             <div className="mb-6">
-                                <h2 className="text-xl font-black text-text-primary uppercase italic">Pro</h2>
-                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Enhanced Intel</p>
+                                <h2 className="text-xl font-black text-text-primary uppercase italic">{t('tiers.pro.name')}</h2>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">{t('tiers.pro.tagline')}</p>
                             </div>
                             <div className="mb-8">
-                                <span className="text-4xl font-black text-text-primary">€4.99</span>
-                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                                <span className="text-4xl font-black text-text-primary">{t('tiers.pro.price')}</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">{t('tiers.pro.cycle')}</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                {[
-                                    '50 Tracked Products',
-                                    '25 Active Alerts',
-                                    'Full Price History',
-                                    'AI Predictions',
-                                    'Priority Queuing'
-                                ].map((feature) => (
+                                {(t.raw('tiers.pro.features') as string[]).map((feature) => (
                                     <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
                                         <Check className="w-4 h-4 text-primary shrink-0" />
                                         {feature}
@@ -150,33 +141,27 @@ export default function PricingPage() {
                                 disabled={!!isCheckingOut}
                                 className="w-full text-[12px]"
                             >
-                                {isCheckingOut === 'pro' ? 'PROCESSING...' : 'INITIALIZE_PRO'}
+                                {isCheckingOut === 'pro' ? t('tiers.pro.processing') : t('tiers.pro.button')}
                             </GlowButton>
                         </GlassCard>
 
                         {/* Power Tier */}
                         <GlassCard className="p-8 flex flex-col group border-yellow-500/20 bg-yellow-500/[0.02] hover:bg-yellow-500/[0.04] relative transition-all">
                             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-yellow-950 text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-lg shadow-yellow-500/20">
-                                OptimaL_Ratio
+                                {t('tiers.power.badge')}
                             </div>
                             <div className="mb-6">
                                 <h2 className="text-xl font-black text-text-primary uppercase italic flex items-center gap-2">
-                                    Power <Zap className="w-4 h-4 text-yellow-500" />
+                                    {t('tiers.power.name')} <Zap className="w-4 h-4 text-yellow-500" />
                                 </h2>
-                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Elite Monitoring</p>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">{t('tiers.power.tagline')}</p>
                             </div>
                             <div className="mb-8">
-                                <span className="text-4xl font-black text-text-primary">€9.99</span>
-                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                                <span className="text-4xl font-black text-text-primary">{t('tiers.power.price')}</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">{t('tiers.power.cycle')}</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                {[
-                                    '200 Tracked Products',
-                                    '100 Active Alerts',
-                                    'Deal Radar & Price DNA',
-                                    'Priority Scraping',
-                                    'Custom Triggers'
-                                ].map((feature) => (
+                                {(t.raw('tiers.power.features') as string[]).map((feature) => (
                                     <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
                                         <Check className="w-4 h-4 text-yellow-500 shrink-0" />
                                         {feature}
@@ -188,28 +173,22 @@ export default function PricingPage() {
                                 disabled={!!isCheckingOut}
                                 className="w-full text-[12px] bg-yellow-500 hover:bg-yellow-400 text-yellow-950 shadow-yellow-500/20"
                             >
-                                {isCheckingOut === 'power' ? 'PROCESSING...' : 'INITIALIZE_POWER'}
+                                {isCheckingOut === 'power' ? t('tiers.power.processing') : t('tiers.power.button')}
                             </GlowButton>
                         </GlassCard>
 
                         {/* Business Tier */}
                         <GlassCard className="p-8 flex flex-col group border-border/10 dark:border-white/10 hover:border-primary/30 transition-all">
                             <div className="mb-6">
-                                <h2 className="text-xl font-black text-text-primary uppercase italic">Enterprise</h2>
-                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">Full Protocol</p>
+                                <h2 className="text-xl font-black text-text-primary uppercase italic">{t('tiers.enterprise.name')}</h2>
+                                <p className="text-text-tertiary text-[10px] uppercase tracking-widest font-bold">{t('tiers.enterprise.tagline')}</p>
                             </div>
                             <div className="mb-8">
-                                <span className="text-4xl font-black text-text-primary">€29.99</span>
-                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">/cycle</span>
+                                <span className="text-4xl font-black text-text-primary">{t('tiers.enterprise.price')}</span>
+                                <span className="text-text-tertiary text-sm ml-1 uppercase font-bold">{t('tiers.enterprise.cycle')}</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                {[
-                                    'Unlimited Products',
-                                    'Unlimited Alerts',
-                                    'API Access (10k/day)',
-                                    'White-label Embeds',
-                                    'Dedicated Support'
-                                ].map((feature) => (
+                                {(t.raw('tiers.enterprise.features') as string[]).map((feature) => (
                                     <li key={feature} className="flex items-center gap-3 text-sm text-text-secondary font-medium">
                                         <Check className="w-4 h-4 text-primary shrink-0" />
                                         {feature}
@@ -218,7 +197,7 @@ export default function PricingPage() {
                             </ul>
                             <Link href="/contact" className="w-full">
                                 <GlowButton className="w-full text-[12px]" variant="outline">
-                                    CONTACT_SALES
+                                    {t('tiers.enterprise.button')}
                                 </GlowButton>
                             </Link>
                         </GlassCard>
@@ -227,15 +206,10 @@ export default function PricingPage() {
                     {/* FAQ Section */}
                     <div className="mt-32 max-w-4xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl font-black text-text-primary uppercase italic">Common_Inquiries</h2>
+                            <h2 className="text-3xl font-black text-text-primary uppercase italic">{t('faq.title')}</h2>
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
-                            {[
-                                { q: 'Can I cancel anytime?', a: 'Yes. Termination of sub-routine is available without penalty at any cycle interval.' },
-                                { q: 'Payment Methods?', a: 'All major credit protocols, PayPal, and SEPA direct debit supported.' },
-                                { q: 'Data Security?', a: 'AES-256 encryption applied to all asset identifiers and user metrics.' },
-                                { q: 'Refund Policy?', a: '30-day performance guarantee for all paid subscription tiers.' }
-                            ].map((faq, i) => (
+                            {(t.raw('faq.items') as { q: string, a: string }[]).map((faq, i) => (
                                 <GlassCard key={i} className="p-6 border-border/5 dark:border-white/5 bg-surface/10">
                                     <h3 className="font-black text-text-primary mb-2 uppercase text-sm tracking-widest italic">{faq.q}</h3>
                                     <p className="text-text-tertiary text-sm leading-relaxed">{faq.a}</p>
@@ -248,7 +222,7 @@ export default function PricingPage() {
                     <div className="mt-32 text-center">
                         <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] bg-primary/5 text-primary border border-primary/20 backdrop-blur-sm">
                             <Shield className="w-4 h-4" />
-                            GDPR_VALID • SSL_ENCRYPTED • MADE_IN_GERMANY
+                            {t('securityFooter')}
                         </div>
                     </div>
                 </main>

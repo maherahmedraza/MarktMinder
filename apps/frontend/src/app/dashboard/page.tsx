@@ -26,8 +26,11 @@ import { StatCard } from '@/components/ui/StatCard';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { AchievementBadges } from '@/components/ui/AchievementBadges';
 import { useProducts, useAlerts, usePriceDrops, useProductPrediction } from '@/lib/hooks';
+import { useTranslations } from 'next-intl';
 
 export default function DashboardPage() {
+    const t = useTranslations('dashboard');
+    const tCommon = useTranslations('common');
     const { user } = useAuth();
 
     // Data fetching hooks
@@ -69,6 +72,7 @@ export default function DashboardPage() {
     return (
         <div className="space-y-12 animate-fade-in max-w-7xl mx-auto">
             {/* Header */}
+            {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
                     <div className="flex items-center gap-3 mb-4">
@@ -76,11 +80,11 @@ export default function DashboardPage() {
                             <LayoutDashboard className="w-6 h-6 text-primary" />
                         </div>
                         <h1 className="text-4xl font-black text-text-primary tracking-tight uppercase">
-                            Operational <span className="text-gradient">Console</span>
+                            {t('title')} <span className="text-gradient">Console</span>
                         </h1>
                     </div>
                     <p className="text-text-secondary max-w-2xl text-lg font-medium leading-relaxed">
-                        Welcome back, <span className="text-primary font-bold uppercase">{user?.email?.split('@')[0]}</span>. Protocol sequence initialized.
+                        {t('welcome', { name: user?.email?.split('@')[0] ?? 'User' })}. {t('protocolMsg')}.
                     </p>
                 </div>
                 <div className="flex gap-3">
@@ -94,7 +98,7 @@ export default function DashboardPage() {
                     <Link href="/dashboard/products/add">
                         <GlowButton className="w-full md:w-auto">
                             <Plus className="w-4 h-4 mr-2" />
-                            Add Product
+                            {t('products.actions.addProduct')}
                         </GlowButton>
                     </Link>
                 </div>
@@ -103,61 +107,63 @@ export default function DashboardPage() {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard
-                    title="Products Tracked"
+                    title={t('trackedProducts')}
                     value={totalProducts.toString()}
                     icon={<Package className="w-5 h-5" />}
                     trend="+2 this week"
                 />
                 <StatCard
-                    title="Potential Savings"
+                    title={t('potentialSavings')}
                     value={`€${totalSavings.toFixed(0)}`}
                     icon={<TrendingDown className="w-5 h-5" />}
                     isHighlight
                 />
                 <StatCard
-                    title="At Lowest Price"
+                    title={t('atLowestPrice')}
                     value={atLowestCount.toString()}
                     icon={<Target className="w-5 h-5" />}
                 />
                 <StatCard
-                    title="Favorites"
+                    title={t('favoritesStats')}
                     value={favorites.length.toString()}
                     icon={<Heart className="w-5 h-5" />}
                 />
             </div>
 
             {/* Triggered Alerts */}
-            {alerts.length > 0 && (
-                <GlassCard padding="none" className="overflow-hidden border-success/30 bg-success/5 animate-slide-up">
-                    <div className="p-6 bg-success/10 border-b border-success/20">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-success/20 rounded-full flex items-center justify-center animate-pulse-slow">
-                                <Bell className="w-5 h-5 text-success" />
-                            </div>
-                            <div>
-                                <h3 className="font-semibold text-success-700 dark:text-success-300">Price Alerts Triggered!</h3>
-                                <p className="text-sm text-success-600 dark:text-success-400">{alerts.length} product(s) reached your target price</p>
+            {
+                alerts.length > 0 && (
+                    <GlassCard padding="none" className="overflow-hidden border-success/30 bg-success/5 animate-slide-up">
+                        <div className="p-6 bg-success/10 border-b border-success/20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-success/20 rounded-full flex items-center justify-center animate-pulse-slow">
+                                    <Bell className="w-5 h-5 text-success" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-success-700 dark:text-success-300">Price Alerts Triggered!</h3>
+                                    <p className="text-sm text-success-600 dark:text-success-400">{alerts.length} product(s) reached your target price</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="divide-y divide-border/50">
-                        {alerts.slice(0, 3).map(alert => (
-                            <Link
-                                key={alert.id}
-                                href={`/dashboard/products/${alert.productId}`}
-                                className="block p-4 hover:bg-surface-hover/50 transition-colors"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <span className="font-medium text-text-primary">{alert.product?.title}</span>
-                                    <span className="text-success font-semibold px-3 py-1 bg-success/10 rounded-full text-sm">
-                                        €{Number(alert.product?.currentPrice || 0).toFixed(2)}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </GlassCard>
-            )}
+                        <div className="divide-y divide-border/50">
+                            {alerts.slice(0, 3).map(alert => (
+                                <Link
+                                    key={alert.id}
+                                    href={`/dashboard/products/${alert.productId}`}
+                                    className="block p-4 hover:bg-surface-hover/50 transition-colors"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-medium text-text-primary">{alert.product?.title}</span>
+                                        <span className="text-success font-semibold px-3 py-1 bg-success/10 rounded-full text-sm">
+                                            €{Number(alert.product?.currentPrice || 0).toFixed(2)}
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </GlassCard>
+                )
+            }
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -169,7 +175,7 @@ export default function DashboardPage() {
                             <Brain className="w-5 h-5 text-primary" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-text-primary">AI Insights</h2>
+                            <h2 className="text-xl font-bold text-text-primary">{t('aiInsights')}</h2>
                             <p className="text-sm text-text-secondary">Predictive price analysis</p>
                         </div>
                     </div>
@@ -194,7 +200,7 @@ export default function DashboardPage() {
                             <Zap className="w-5 h-5 text-accent" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-text-primary">Biggest Drops</h2>
+                            <h2 className="text-xl font-bold text-text-primary">{t('priceDrops')}</h2>
                             <p className="text-sm text-text-secondary">Best deals right now</p>
                         </div>
                     </div>
@@ -255,24 +261,26 @@ export default function DashboardPage() {
             </div>
 
             {/* Watchlist */}
-            {favorites.length > 0 && (
-                <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <Star className="w-6 h-6 text-warning fill-warning" />
-                            <h2 className="text-2xl font-bold text-text-primary">Watchlist</h2>
+            {
+                favorites.length > 0 && (
+                    <div className="space-y-6">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <Star className="w-6 h-6 text-warning fill-warning" />
+                                <h2 className="text-2xl font-bold text-text-primary">Watchlist</h2>
+                            </div>
+                            <Link href="/dashboard/products" className="text-primary hover:text-primary-hover text-sm font-medium flex items-center gap-1 group">
+                                View all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </Link>
                         </div>
-                        <Link href="/dashboard/products" className="text-primary hover:text-primary-hover text-sm font-medium flex items-center gap-1 group">
-                            View all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {favorites.slice(0, 6).map(product => (
+                                <ProductCard key={product.id} product={product} isFavorite />
+                            ))}
+                        </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {favorites.slice(0, 6).map(product => (
-                            <ProductCard key={product.id} product={product} isFavorite />
-                        ))}
-                    </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Recent Products */}
             <div className="space-y-6">
@@ -307,7 +315,7 @@ export default function DashboardPage() {
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 }
 

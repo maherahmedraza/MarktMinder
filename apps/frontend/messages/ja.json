@@ -16,7 +16,15 @@
         "error": "エラー",
         "success": "成功",
         "yes": "はい",
-        "no": "いいえ"
+        "no": "いいえ",
+        "productCard": {
+            "void": "Voidプロトコル",
+            "lowest": "ローカル・ミニマ",
+            "depleted": "枯渇",
+            "currentValue": "現在価値",
+            "remove": "ウォッチリストから削除",
+            "select": "一括操作用にアセットを選択"
+        }
     },
     "nav": {
         "home": "ホーム",
@@ -31,7 +39,11 @@
         "watchlist": "ウォッチリスト",
         "deals": "お得情報",
         "team": "チーム",
-        "competitors": "競合分析"
+        "competitors": "競合インテリジェンス",
+        "community": "コミュニティ",
+        "operations": "オペレーション",
+        "system": "システム",
+        "add_asset": "アセットを追加"
     },
     "dashboard": {
         "welcome": "おかえりなさい、{name}さん",
@@ -42,8 +54,79 @@
         "recentActivity": "最近のアクティビティ",
         "aiInsights": "AIインサイト",
         "quickActions": "クイックアクション",
-        "addProduct": "商品を追加",
-        "viewAll": "すべて見る"
+        "viewAll": "すべて見る",
+        "atLowestPrice": "最安値",
+        "favoritesStats": "お気に入り",
+        "title": "運用コンソール",
+        "protocolMsg": "プロトコル・シーケンス初期化完了",
+        "addProduct": {
+            "back": "商品リストに戻る",
+            "title": "アセット統合",
+            "phase": "フェーズ1: ソース取得",
+            "urlLabel": "ターゲットURL",
+            "urlPlaceholder": "https://www.amazon.co.jp/dp/B0...",
+            "notesLabel": "運用メモ (任意)",
+            "notesPlaceholder": "技術的なメタデータや追跡メモを追加...",
+            "detected": "{marketplace} プロトコルを検出",
+            "scanning": "マーケットプレイス署名をスキャン中...",
+            "buttonInit": "追跡を開始",
+            "buttonLoading": "スクレイパーを初期化中...",
+            "success": {
+                "title": "アセット調整完了",
+                "redirect": "ニューラル投影にリダイレクト中..."
+            },
+            "guidelines": {
+                "title": "プロトコル・ガイドライン",
+                "items": [
+                    "ブラウザのアドレスバーから絶対ターゲットURLを取得してください。",
+                    "MarktMinderニューラルエンジンが商品メタデータを自動検証します。",
+                    "標準スキャン頻度は4〜24時間間隔に調整されています。"
+                ]
+            },
+            "errors": {
+                "invalidUrl": "有効なAmazon、Etsy、またはOtto.deのURLを入力してください",
+                "failed": "商品の追加に失敗しました"
+            }
+        },
+        "products": {
+            "title": "アセット・",
+            "titleAccent": "台帳",
+            "subtitle": "現在、複数のマーケットプレイス・クラスターにわたって{total}件のアセットが同期されています。",
+            "actions": {
+                "delete": "削除 ({count})",
+                "collections": "コレクション",
+                "addProduct": "商品を追加",
+                "export": "エクスポート",
+                "moveTo": "移動先..."
+            },
+            "filters": {
+                "searchPlaceholder": "タイトル、ブランドを検索...",
+                "sort": {
+                    "newest": "新しい順",
+                    "oldest": "古い順",
+                    "highestPrice": "価格が高い順",
+                    "lowestPrice": "価格が低い順",
+                    "biggestDrop": "下落率が高い順"
+                },
+                "markets": "すべてのマーケット・クラスター",
+                "allCollections": "すべてのコレクション",
+                "dropsOnly": "値下げのみ",
+                "selectAll": "すべて選択",
+                "deselectAll": "選択解除"
+            },
+            "empty": {
+                "title": "商品が見つかりません",
+                "filtered": "フィルターに一致する商品がありません。条件を変更してください。",
+                "empty": "ウォッチリストが空です。商品の追跡を開始するとここに表示されます。",
+                "button": "最初の商品を追加"
+            },
+            "pagination": "{current} / {total} ページ",
+            "error": "読み込みエラー: {error}",
+            "bulkDeleteConfirm": "{count}件の商品の追跡を停止してもよろしいですか？",
+            "bulkDeleteSuccess": "{count}件の商品を削除しました",
+            "bulkMoveSuccess": "{count}件のアセットをコレクションに移動しました",
+            "bulkUpdateError": "一部のアセットの更新に失敗しました"
+        }
     },
     "products": {
         "title": "あなたの商品",
@@ -126,5 +209,36 @@
         "es": "Español",
         "pt": "Português",
         "ja": "日本語"
+    },
+    "community": {
+        "watchlists": {
+            "title": "公開ウォッチリスト",
+            "discover": "発見する",
+            "subtitle": "賢いショッパーが共有したコレクションを探索しましょう。コミュニティによってキュレーションされた最高の価格トラッカー、季節ごとのセール、ニッチなカテゴリーを見つけましょう。",
+            "stats": {
+                "activeTrackers": "アクティブなトラッカー",
+                "totalSavings": "総節約額",
+                "sharedLists": "共有リスト"
+            },
+            "searchPlaceholder": "コレクションまたは作成者を検索...",
+            "sort": {
+                "popular": "人気順",
+                "newest": "新着順"
+            },
+            "loading": "公開コレクションをキュレーション中...",
+            "empty": {
+                "title": "ウォッチリストが見つかりません",
+                "subtitle": "別の検索用語を試すか、後でもう一度確認してください。"
+            },
+            "cta": {
+                "title": "あなたの発見を共有しませんか？",
+                "subtitle": "自分のウォッチリストを公開して、他の人の節約を助け、節約リーダーボードのトップを目指しましょう。",
+                "button": "ウォッチリストを共有する"
+            },
+            "card": {
+                "items": "{count} 個のアイテム",
+                "noDescription": "このコレクションの説明はありません。"
+            }
+        }
     }
 }

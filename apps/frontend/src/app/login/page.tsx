@@ -6,8 +6,12 @@ import { useAuth } from '@/lib/auth';
 import { TrendingDown, Mail, Lock, AlertCircle, Loader2, Target, Zap, Shield } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
+import { useTranslations } from 'next-intl';
 
 export default function LoginPage() {
+    const t = useTranslations('auth');
+    const tCommon = useTranslations('common');
     const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,6 +34,11 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {/* Language Switcher - Fixed Top Right */}
+            <div className="absolute top-4 right-4 z-50">
+                <LocaleSwitcher />
+            </div>
+
             {/* Background Effects */}
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
             <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px] animate-pulse-slow" />

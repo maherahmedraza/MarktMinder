@@ -1,4 +1,57 @@
 {
+    "home": {
+        "nav": {
+            "features": "Funktionen",
+            "howItWorks": "Wie es funktioniert",
+            "pricing": "Preise",
+            "about": "Über uns",
+            "login": "Anmelden",
+            "getStarted": "Loslegen",
+            "accessSystem": "Systemzugriff",
+            "initialize": "KNOTEN_INITIALISIEREN"
+        },
+        "hero": {
+            "status": "Systemstatus",
+            "operational": "Betriebsbereit",
+            "titleLine1": "Neurale",
+            "titleGradient": "Vermögensverfolgung",
+            "subtitle": "Setzen Sie Hochfrequenzüberwachung auf Amazon, Etsy und Otto ein. Preisalarme ohne Latenz. Maximale Kapitalerhaltung.",
+            "deploy": "MASCHINE_BETREIBEN",
+            "specs": "SYSTEM_SPEZIFIKATIONEN"
+        },
+        "features": {
+            "title": "Systemspezifikationen",
+            "subtitle": "Hochpräzise Überwachungswerkzeuge, entwickelt für den professionellen Asset Manager.",
+            "fakeDiscount": {
+                "title": "Erkennung_Falscher_Rabatte",
+                "desc": "Echtzeit-Logikanalyse zur Identifizierung künstlicher Preisinflation vor Verkäufen."
+            },
+            "multiMarket": {
+                "title": "Multi_Markt_Puls",
+                "desc": "Synchronisierte Verfolgung über Kernmarktplätze mit Sub-Sekunden-Delta-Logs."
+            },
+            "neuralPrice": {
+                "title": "Neurale_Preisvorhersage",
+                "desc": "ML-Modelle zur Vorhersage zukünftiger Vermögenswerte basierend auf historischer Volatilität."
+            },
+            "deltaAlert": {
+                "title": "Delta_Alarm_Netz",
+                "desc": "Universelle Benachrichtigungspipeline via Telegram, Push und Neural_Link."
+            }
+        },
+        "stats": {
+            "nodes": "DATENKNOTEN",
+            "capital": "KAPITAL_ERHALTEN",
+            "domains": "AKTIVE_DOMÄNEN",
+            "uptime": "MASCHINENLAUFZEIT"
+        },
+        "cta": {
+            "title": "Bereit für Rendite?",
+            "subtitle": "Treten Sie dem Hochfrequenz-Überwachungsnetzwerk bei.",
+            "button": "KOSTENLOSES_KONTO_ERSTELLEN",
+            "note": "Systemzugriff: Beschränkt auf 5 Assets für die kostenlose Stufe"
+        }
+    },
     "common": {
         "appName": "MarktMinder",
         "loading": "Wird geladen...",
@@ -16,7 +69,15 @@
         "error": "Fehler",
         "success": "Erfolg",
         "yes": "Ja",
-        "no": "Nein"
+        "no": "Nein",
+        "productCard": {
+            "void": "Void-Protokoll",
+            "lowest": "LOKALES MINIMUM",
+            "depleted": "ERSCHÖPFT",
+            "currentValue": "Aktueller Wert",
+            "remove": "Von der Beobachtungsliste entfernen",
+            "select": "Asset für Stapelverarbeitung auswählen"
+        }
     },
     "nav": {
         "home": "Startseite",
@@ -31,7 +92,11 @@
         "watchlist": "Merkliste",
         "deals": "Angebote",
         "team": "Team",
-        "competitors": "Wettbewerbsanalyse"
+        "competitors": "Wettbewerbsanalyse",
+        "community": "Community",
+        "operations": "Operationen",
+        "system": "System",
+        "add_asset": "ASSET_HINZUFÜGEN"
     },
     "dashboard": {
         "welcome": "Willkommen zurück, {name}",
@@ -42,8 +107,79 @@
         "recentActivity": "Letzte Aktivität",
         "aiInsights": "KI-Einblicke",
         "quickActions": "Schnellaktionen",
-        "addProduct": "Produkt hinzufügen",
-        "viewAll": "Alle anzeigen"
+        "viewAll": "Alle anzeigen",
+        "atLowestPrice": "Zum Tiefstpreis",
+        "favoritesStats": "Favoriten",
+        "title": "Operative Konsole",
+        "protocolMsg": "Protokollsequenz initialisiert",
+        "addProduct": {
+            "back": "Zurück zu Produkten",
+            "title": "Asset-Integration",
+            "phase": "Phase 1: Quellenerfassung",
+            "urlLabel": "Produkt-Ziel-URL",
+            "urlPlaceholder": "https://www.amazon.de/dp/B0...",
+            "notesLabel": "Betriebliche Notizen (optional)",
+            "notesPlaceholder": "Technische Metadaten oder Tracking-Notizen hinzufügen...",
+            "detected": "{marketplace}-Protokoll erkannt",
+            "scanning": "Suche nach Marktplatz-Signatur...",
+            "buttonInit": "TRACKING INITIALISIEREN",
+            "buttonLoading": "SCRAPER WIRD INITIALISIERT...",
+            "success": {
+                "title": "Asset kalibriert!",
+                "redirect": "Weiterleitung zur neuralen Projektion..."
+            },
+            "guidelines": {
+                "title": "Protokoll-Richtlinien",
+                "items": [
+                    "Erfassen Sie die absolute Ziel-URL in der Adresszeile des Browsers.",
+                    "Die MarktMinder Neural-Engine verifiziert Produkt-Metadaten automatisch.",
+                    "Standard-Scan-Frequenz auf 4-24 Stunden Intervalle kalibriert."
+                ]
+            },
+            "errors": {
+                "invalidUrl": "Bitte geben Sie eine gültige Amazon-, Etsy- oder Otto.de-Produkt-URL ein",
+                "failed": "Fehler beim Hinzufügen des Produkts"
+            }
+        },
+        "products": {
+            "title": "Asset-",
+            "titleAccent": "Register",
+            "subtitle": "{total} Assets derzeit über mehrere Marktplatz-Cluster hinweg synchronisiert.",
+            "actions": {
+                "delete": "Löschen ({count})",
+                "collections": "Kollektionen",
+                "addProduct": "Produkt hinzufügen",
+                "export": "Exportieren",
+                "moveTo": "Verschieben nach..."
+            },
+            "filters": {
+                "searchPlaceholder": "Titel, Marke suchen...",
+                "sort": {
+                    "newest": "Neueste zuerst",
+                    "oldest": "Älteste zuerst",
+                    "highestPrice": "Höchster Preis",
+                    "lowestPrice": "Niedrigster Preis",
+                    "biggestDrop": "Größter Rückgang %"
+                },
+                "markets": "Alle Markt-Cluster",
+                "allCollections": "Alle Kollektionen",
+                "dropsOnly": "Nur Preissenkungen",
+                "selectAll": "Alle auswählen",
+                "deselectAll": "Alle abwählen"
+            },
+            "empty": {
+                "title": "Keine Produkte gefunden",
+                "filtered": "Wir konnten nichts Passendes zu Ihren Filtern finden. Versuchen Sie es mit etwas anderem?",
+                "empty": "Ihre Beobachtungsliste ist leer. Beginnen Sie mit dem Tracking für Produkte, um sie hier zu sehen!",
+                "button": "Ihr erstes Produkt hinzufügen"
+            },
+            "pagination": "SEITE {current} / {total}",
+            "error": "Fehler beim Laden der Produkte: {error}",
+            "bulkDeleteConfirm": "Sind Sie sicher, dass Sie das Tracking für {count} Produkte beenden möchten?",
+            "bulkDeleteSuccess": "{count} Produkte entfernt",
+            "bulkMoveSuccess": "{count} Assets in Kollektion verschoben",
+            "bulkUpdateError": "Fehler beim Aktualisieren einiger Assets"
+        }
     },
     "products": {
         "title": "Ihre Produkte",
@@ -108,7 +244,7 @@
     },
     "errors": {
         "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
-        "notFound": "Seite nicht gefunden",
+        "notFound": "Seite not found",
         "unauthorized": "Sie sind nicht berechtigt, diese Seite anzuzeigen",
         "networkError": "Netzwerkfehler. Bitte prüfen Sie Ihre Verbindung.",
         "validationError": "Bitte überprüfen Sie Ihre Eingaben"
@@ -122,5 +258,171 @@
         "en": "English",
         "de": "Deutsch",
         "fr": "Français"
+    },
+    "pricing": {
+        "header": {
+            "returnBase": "ZURÜCK_ZUR_BASIS"
+        },
+        "hero": {
+            "badge": "Protokoll_Zugriff",
+            "title": "System-",
+            "titleAccent": "Abonnement",
+            "subtitle": "Wählen Sie Ihre Stufe für die erweiterte Asset-Überwachung."
+        },
+        "tiers": {
+            "free": {
+                "name": "Kostenlos",
+                "tagline": "Standard-Zugang",
+                "price": "€0",
+                "cycle": "/zyklus",
+                "features": [
+                    "5 verfolgte Produkte",
+                    "3 aktive Alarme",
+                    "30 Tage Historie",
+                    "Standard-Latenz"
+                ],
+                "button": "INITIALISIEREN"
+            },
+            "pro": {
+                "name": "Pro",
+                "tagline": "Erweiterte Intelligenz",
+                "price": "€4,99",
+                "cycle": "/zyklus",
+                "features": [
+                    "50 verfolgte Produkte",
+                    "25 aktive Alarme",
+                    "Vollständige Preishistorie",
+                    "KI-Vorhersagen",
+                    "Priorisierte Warteschlange"
+                ],
+                "button": "PRO_INITIALISIEREN",
+                "processing": "VERARBEITUNG..."
+            },
+            "power": {
+                "name": "Power",
+                "badge": "Optimales_Verhältnis",
+                "tagline": "Elite-Überwachung",
+                "price": "€9,99",
+                "cycle": "/zyklus",
+                "features": [
+                    "200 verfolgte Produkte",
+                    "100 aktive Alarme",
+                    "Deal-Radar & Preis-DNA",
+                    "Priorisiertes Scraping",
+                    "Benutzerdefinierte Trigger"
+                ],
+                "button": "POWER_INITIALISIEREN",
+                "processing": "VERARBEITUNG..."
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "tagline": "Vollständiges Protokoll",
+                "price": "€29,99",
+                "cycle": "/zyklus",
+                "features": [
+                    "Unbegrenzte Produkte",
+                    "Unbegrenzte Alarme",
+                    "API-Zugriff (10k/Tag)",
+                    "White-Label-Embeds",
+                    "Engagierter Support"
+                ],
+                "button": "VERTRIEB_KONTAKTIEREN"
+            }
+        },
+        "faq": {
+            "title": "Häufige_Anfragen",
+            "items": [
+                {
+                    "q": "Kann ich jederzeit kündigen?",
+                    "a": "Ja. Die Beendigung der Sub-Routine ist ohne Strafe zu jedem Zyklusintervall möglich."
+                },
+                {
+                    "q": "Zahlungsmethoden?",
+                    "a": "Alle gängigen Kreditprotokolle, PayPal und SEPA-Lastschrift werden unterstützt."
+                },
+                {
+                    "q": "Datensicherheit?",
+                    "a": "AES-256-Verschlüsselung für alle Asset-Identifikatoren und Benutzermetriken."
+                },
+                {
+                    "q": "Rückerstattungsrichtlinie?",
+                    "a": "30-Tage-Leistungsgarantie für alle bezahlten Abonnementstufen."
+                }
+            ]
+        },
+        "securityFooter": "DSGVO_VALID • SSL_VERSCHLÜSSELT • HERGESTELLT_IN_DEUTSCHLAND"
+    },
+    "features": {
+        "header": {
+            "returnBase": "ZURÜCK_ZUR_BASIS"
+        },
+        "hero": {
+            "badge": "System_Kapazitäten",
+            "title": "Feature-",
+            "titleAccent": "Spezifikationen",
+            "subtitle": "Hochpräzise Überwachungsmodule, entwickelt für die technische Analyse."
+        },
+        "grid": {
+            "analytics": {
+                "title": "Analyse_Engine",
+                "desc": "Echtzeit-Datenaufnahme und Preishistorien-Visualisierung mit Millisekunden-Präzision."
+            },
+            "signal": {
+                "title": "Signal_Relais",
+                "desc": "Latenzarmes Alarm-Auslieferungssystem mit Unterstützung für Discord-, E-Mail- und Push-Protokolle."
+            },
+            "radar": {
+                "title": "Cross_Markt_Radar",
+                "desc": "Gleichzeitige Überwachung von Amazon-, Etsy- und Otto-Marktplätzen mit automatisiertem Sync."
+            },
+            "forecast": {
+                "title": "Neurale_Vorhersage",
+                "desc": "Prädiktive Algorithmen, die die Marktvolatilität analysieren, um optimale Einstiegspunkte zu signalisieren."
+            },
+            "security": {
+                "title": "Asset_Sicherheit",
+                "desc": "Verschlüsselung auf Unternehmensniveau für alle Tracking-Identifikatoren und Portfolio-Metriken."
+            },
+            "scrapers": {
+                "title": "Automatisierte_Scraper",
+                "desc": "Dynamische Scraping-Architektur, die Anti-Bot-Maßnahmen für 99,9 % Verfügbarkeit umgeht."
+            }
+        },
+        "cta": {
+            "title": "Bereit, das Tracking zu initialisieren?",
+            "createAccount": "KONTO_ERSTELLEN",
+            "viewSubs": "ABONNEMENTS_ANZEIGEN"
+        }
+    },
+    "community": {
+        "watchlists": {
+            "title": "Öffentliche Merklisten",
+            "discover": "Entdecken",
+            "subtitle": "Erkunden Sie geteilte Sammlungen von versierten Käufern. Finden Sie die besten Preis-Tracker, saisonale Angebote und Nischenkategorien, die von der Community kuratiert wurden.",
+            "stats": {
+                "activeTrackers": "Aktive Tracker",
+                "totalSavings": "Gesamtersparnis",
+                "sharedLists": "Geteilte Listen"
+            },
+            "searchPlaceholder": "Sammlungen oder Ersteller suchen...",
+            "sort": {
+                "popular": "Beliebteste",
+                "newest": "Neueste"
+            },
+            "loading": "Öffentliche Sammlungen werden kuratiert...",
+            "empty": {
+                "title": "Keine Merklisten gefunden",
+                "subtitle": "Versuchen Sie es mit einem anderen Suchbegriff oder schauen Sie später wieder vorbei."
+            },
+            "cta": {
+                "title": "Möchten Sie Ihre Funde teilen?",
+                "subtitle": "Machen Sie Ihre eigenen Merklisten öffentlich, um anderen beim Sparen zu helfen und die Spitze der Spar-Rangliste zu erreichen.",
+                "button": "Merkliste teilen"
+            },
+            "card": {
+                "items": "{count} Artikel",
+                "noDescription": "Keine Beschreibung für diese Sammlung vorhanden."
+            }
+        }
     }
 }
