@@ -67,6 +67,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate Prisma Client
+        run: npm run db:generate --workspace=@marktminder/database
+
       - name: Run linting
         run: npm run lint --if-present
 
@@ -85,13 +88,13 @@ jobs:
           DATABASE_URL: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@localhost:5432/${{ env.POSTGRES_DB }}
 
       - name: Build packages
-        run: npm run build --workspace=@marktminder/shared --workspace=@marktminder/database
+        run: npm run build --workspace=@marktminder/shared --workspace=@marktminder/database --if-present
 
       - name: Build backend
-        run: npm run build --workspace=@marktminder/backend
+        run: npm run build --workspace=@marktminder/backend --if-present
 
       - name: Build frontend
-        run: npm run build --workspace=@marktminder/frontend
+        run: npm run build --workspace=@marktminder/frontend --if-present
         env:
           NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
 
