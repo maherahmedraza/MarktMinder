@@ -49,56 +49,63 @@ export abstract class BaseScraper {
         this.name = name;
     }
 
-    /**
-     * Scrape a product URL
-     * Uses ScraperAPI for Amazon if enabled, otherwise uses Puppeteer
-     * Includes automatic retry with exponential backoff
-     */
     async scrape(url: string): Promise<ScrapeResult> {
-        return withRetry(
-            () => this.scrapeInternal(url),
-            {
-                maxRetries: 3,
-                initialDelayMs: 2000,
-                maxDelayMs: 30000,
-                onRetry: (attempt, error, delay) => {
-                    logger.warn(`[${this.name}] Retry ${attempt}/3 for ${url} after ${delay}ms`, {
-                        error: error.message,
-                    });
-                },
-            }
-        );
+        return this.scrapeInternal(url);
     }
 
     /**
-     * Internal scrape implementation
+     * Internal scrape implementation with smart fallback strategy
      */
     private async scrapeInternal(url: string): Promise<ScrapeResult> {
         const startTime = Date.now();
+        let lastError: string | undefined;
 
-        // Try ScraperAPI first for supported marketplaces
+        // 1. Try standard Puppeteer scraping first (up to 3 times) to save API credits
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            logger.debug(`[${this.name}] Puppeteer attempt ${attempt}/3 for ${url}`);
+            const puppeteerResult = await this.scrapeWithPuppeteer(url, startTime);
+
+            if (puppeteerResult.success) {
+                return puppeteerResult;
+            }
+
+            lastError = puppeteerResult.error;
+
+            // If it's a transient error (not block), retry immediately or with small delay
+            if (lastError && !isRetryableError(lastError)) {
+                // Not retryable, return immediately
+                return puppeteerResult;
+            }
+
+            // If it's a block/CAPTCHA, we might want to wait or just proceed to API after 3 attempts
+            if (attempt < 3) {
+                const delay = 1000 * Math.pow(2, attempt); // 2s, 4s delay
+                logger.warn(`[${this.name}] Puppeteer blocked, retrying in ${delay}ms...`);
+                await this.delay(delay);
+            }
+        }
+
+        // 2. If Puppeteer failed or was blocked 3 times, use ScraperAPI as final fallback
         if (scraperApi.shouldUseFor(this.marketplace)) {
-            const result = await this.scrapeWithApi(url);
-            if (result.success) {
-                return result;
-            }
-            logger.warn(`[${this.name}] ScraperAPI failed, falling back to Puppeteer`);
+            logger.info(`[${this.name}] All Puppeteer attempts failed. Falling back to ScraperAPI (Final Attempt) for ${url}`);
 
-            // If ScraperAPI failed with retryable error, throw to trigger retry
-            if (result.error && isRetryableError(result.error)) {
-                throw new Error(result.error);
+            // For ScraperAPI, we only try ONCE to save credits unless it's a server error
+            const apiResult = await this.scrapeWithApi(url);
+            if (apiResult.success) {
+                return apiResult;
             }
+
+            // If ScraperAPI also failed, we log it and return the API error
+            logger.error(`[${this.name}] ScraperAPI failover also failed for ${url}: ${apiResult.error}`);
+            return apiResult;
         }
 
-        // Standard Puppeteer scraping
-        const result = await this.scrapeWithPuppeteer(url, startTime);
-
-        // If Puppeteer failed with retryable error, throw to trigger retry
-        if (!result.success && result.error && isRetryableError(result.error)) {
-            throw new Error(result.error);
-        }
-
-        return result;
+        // If no ScraperAPI fallback available or enabled, return last Puppeteer error
+        return {
+            success: false,
+            error: lastError || 'Scraping failed after multiple attempts',
+            duration: Date.now() - startTime,
+        };
     }
 
     /**

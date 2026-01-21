@@ -176,29 +176,28 @@ export class SmartScheduler {
      * Adjust scraping frequency based on price volatility and activity
      */
     private async adjustFrequency(product: any): Promise<void> {
-        let newFrequency = 24; // Default: once per day
+        // More conservative frequency mapping to save credits
+        let newFrequency = 48; // Default: every 2 days for stable products
 
-        // High volatility = scrape more often
+        // Adjust based on volatility (7-day window)
         if (product.volatility > 20) {
-            newFrequency = 4; // Every 4 hours
+            newFrequency = 8; // High volatility: every 8 hours
         } else if (product.volatility > 10) {
-            newFrequency = 8; // Every 8 hours
-        } else if (product.volatility > 5) {
-            newFrequency = 12; // Every 12 hours
+            newFrequency = 12; // Moderate volatility: every 12 hours
+        } else if (product.volatility > 0) {
+            newFrequency = 24; // Any movement: every 24 hours
         }
 
-        // Products with active alerts should be scraped more often
+        // Products with active alerts should be scraped more often to ensure timely notifications
         if (product.alert_count > 0) {
-            newFrequency = Math.min(newFrequency, 6);
+            newFrequency = Math.min(newFrequency, 6); // Max 6-hour interval for products with alerts
         }
 
-        // Products tracked by many users
-        if (product.user_count > 10) {
-            newFrequency = Math.min(newFrequency, 8);
-        }
+        // New products (not scraped yet) should be scraped immediately (handled by getProductsToScrape)
+        // This adjustment only applies to subsequent scrapes.
 
-        // Don't update if frequency hasn't changed significantly
-        if (Math.abs(product.scrape_frequency_hours - newFrequency) < 2) {
+        // Don't update if frequency hasn't changed significantly or if it's already set to a custom value
+        if (Math.abs(product.scrape_frequency_hours - newFrequency) < 1) {
             return;
         }
 
@@ -209,7 +208,7 @@ export class SmartScheduler {
         );
 
         logger.debug(
-            `Adjusted frequency for ${product.id}: ${product.scrape_frequency_hours}h -> ${newFrequency}h`
+            `Adjusted frequency for ${product.id} (${product.marketplace}): ${product.scrape_frequency_hours}h -> ${newFrequency}h`
         );
     }
 

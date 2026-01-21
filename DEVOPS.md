@@ -210,6 +210,30 @@ spec:
 - [ ] Regular dependency updates
 - [ ] Database backups enabled
 - [ ] Log sensitive data redaction
+- [x] Automated secret scanning (Pre-commit + CI)
+
+---
+
+## 🔐 Secret Management Policy
+
+To prevent the accidental exposure of sensitive data, MarktMinder follows a strict secret management protocol.
+
+### 1. Environment Files
+- **Never** commit `.env` files. They are globally ignored in `.gitignore`.
+- Always provide `.env.example` files with **placeholders only**.
+- Use the `scripts/check-secrets.sh` tool to verify your changes before sharing.
+
+### 2. Automated Scanning
+- **Pre-commit**: Husky runs a local scan for common secret patterns (Stripe, JWT, etc.) before every commit.
+- **CI/CD**: GitHub Actions run `gitleaks` on every Push and Pull Request to identify historical or new leaks.
+
+### 3. Incident Response
+If a secret is accidentally committed:
+1. **Rotate immediately**: Change the secret in the provider dashboard (Stripe, AWS, etc.).
+2. **Invalidate**: Deactivate the old secret.
+3. **Clean History**: Use `git-filter-repo` or BFG Repo-Cleaner to remove the secret from history (requires force-push).
+
+---
 
 ---
 
