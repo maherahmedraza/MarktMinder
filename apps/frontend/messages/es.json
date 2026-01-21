@@ -1,0 +1,129 @@
+{
+    "common": {
+        "appName": "MarktMinder",
+        "loading": "Cargando...",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "add": "Añadir",
+        "search": "Buscar",
+        "close": "Cerrar",
+        "confirm": "Confirmar",
+        "back": "Atrás",
+        "next": "Siguiente",
+        "submit": "Enviar",
+        "error": "Error",
+        "success": "Éxito",
+        "yes": "Sí",
+        "no": "No"
+    },
+    "nav": {
+        "home": "Inicio",
+        "dashboard": "Panel",
+        "products": "Productos",
+        "alerts": "Alertas",
+        "settings": "Ajustes",
+        "logout": "Cerrar sesión",
+        "login": "Iniciar sesión",
+        "register": "Registrarse",
+        "pricing": "Precios",
+        "watchlist": "Lista de seguimiento",
+        "deals": "Ofertas",
+        "team": "Equipo",
+        "competitors": "Análisis competitivo"
+    },
+    "dashboard": {
+        "welcome": "Bienvenido, {name}",
+        "trackedProducts": "Productos rastreados",
+        "potentialSavings": "Ahorro potencial",
+        "activeAlerts": "Alertas activas",
+        "priceDrops": "Bajadas de precio hoy",
+        "recentActivity": "Actividad reciente",
+        "aiInsights": "Insights IA",
+        "quickActions": "Acciones rápidas",
+        "addProduct": "Añadir producto",
+        "viewAll": "Ver todo"
+    },
+    "products": {
+        "title": "Tus productos",
+        "noProducts": "Aún no hay productos rastreados",
+        "addFirst": "Añade tu primer producto para empezar",
+        "addProduct": "Añadir producto",
+        "currentPrice": "Precio actual",
+        "lowestPrice": "Precio más bajo",
+        "highestPrice": "Precio más alto",
+        "priceHistory": "Historial de precios",
+        "lastUpdated": "Última actualización",
+        "marketplace": "Marketplace",
+        "viewDetails": "Ver detalles",
+        "removeProduct": "Eliminar producto",
+        "setAlert": "Crear alerta"
+    },
+    "alerts": {
+        "title": "Alertas de precio",
+        "noAlerts": "No hay alertas configuradas",
+        "createFirst": "Crea tu primera alerta",
+        "createAlert": "Crear alerta",
+        "targetPrice": "Precio objetivo",
+        "currentPrice": "Precio actual",
+        "triggered": "Activada",
+        "active": "Activa",
+        "paused": "Pausada",
+        "type": {
+            "priceBelow": "Precio inferior a",
+            "priceAbove": "Precio superior a",
+            "percentDrop": "Bajada del %",
+            "anyChange": "Cualquier cambio de precio",
+            "backInStock": "Disponible de nuevo"
+        }
+    },
+    "settings": {
+        "title": "Ajustes",
+        "profile": "Perfil",
+        "notifications": "Notificaciones",
+        "preferences": "Preferencias",
+        "security": "Seguridad",
+        "language": "Idioma",
+        "currency": "Moneda",
+        "timezone": "Zona horaria",
+        "emailNotifications": "Notificaciones por email",
+        "pushNotifications": "Notificaciones push",
+        "saveChanges": "Guardar cambios"
+    },
+    "auth": {
+        "login": "Iniciar sesión",
+        "register": "Crear cuenta",
+        "email": "Email",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "name": "Nombre",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "noAccount": "¿No tienes cuenta?",
+        "hasAccount": "¿Ya tienes cuenta?",
+        "signUp": "Registrarse",
+        "signIn": "Iniciar sesión",
+        "orContinueWith": "O continuar con",
+        "termsAgree": "Al registrarte, aceptas nuestros Términos de Servicio"
+    },
+    "errors": {
+        "generic": "Algo salió mal. Por favor, inténtalo de nuevo.",
+        "notFound": "Página no encontrada",
+        "unauthorized": "No tienes autorización para ver esta página",
+        "networkError": "Error de red. Comprueba tu conexión.",
+        "validationError": "Por favor, revisa tus datos"
+    },
+    "currency": {
+        "eur": "Euro (€)",
+        "usd": "Dólar estadounidense ($)",
+        "gbp": "Libra esterlina (£)"
+    },
+    "locale": {
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français",
+        "es": "Español",
+        "pt": "Português",
+        "ja": "日本語"
+    }
+}

@@ -9,6 +9,9 @@ const locales = [
     { code: 'en', label: 'English', flag: '🇬🇧' },
     { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
     { code: 'fr', label: 'Français', flag: '🇫🇷' },
+    { code: 'es', label: 'Español', flag: '🇪🇸' },
+    { code: 'pt', label: 'Português', flag: '🇵🇹' },
+    { code: 'ja', label: '日本語', flag: '🇯🇵' },
 ] as const;
 
 export function LocaleSwitcher() {

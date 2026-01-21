@@ -1,0 +1,130 @@
+{
+    "common": {
+        "appName": "MarktMinder",
+        "loading": "読み込み中...",
+        "save": "保存",
+        "cancel": "キャンセル",
+        "delete": "削除",
+        "edit": "編集",
+        "add": "追加",
+        "search": "検索",
+        "close": "閉じる",
+        "confirm": "確認",
+        "back": "戻る",
+        "next": "次へ",
+        "submit": "送信",
+        "error": "エラー",
+        "success": "成功",
+        "yes": "はい",
+        "no": "いいえ"
+    },
+    "nav": {
+        "home": "ホーム",
+        "dashboard": "ダッシュボード",
+        "products": "商品",
+        "alerts": "アラート",
+        "settings": "設定",
+        "logout": "ログアウト",
+        "login": "ログイン",
+        "register": "登録",
+        "pricing": "料金",
+        "watchlist": "ウォッチリスト",
+        "deals": "お得情報",
+        "team": "チーム",
+        "competitors": "競合分析"
+    },
+    "dashboard": {
+        "welcome": "おかえりなさい、{name}さん",
+        "trackedProducts": "追跡中の商品",
+        "potentialSavings": "節約可能額",
+        "activeAlerts": "有効なアラート",
+        "priceDrops": "今日の値下げ",
+        "recentActivity": "最近のアクティビティ",
+        "aiInsights": "AIインサイト",
+        "quickActions": "クイックアクション",
+        "addProduct": "商品を追加",
+        "viewAll": "すべて見る"
+    },
+    "products": {
+        "title": "あなたの商品",
+        "noProducts": "追跡中の商品はありません",
+        "addFirst": "最初の商品を追加して始めましょう",
+        "addProduct": "商品を追加",
+        "currentPrice": "現在価格",
+        "lowestPrice": "最安値",
+        "highestPrice": "最高値",
+        "priceHistory": "価格履歴",
+        "lastUpdated": "最終更新",
+        "marketplace": "マーケットプレイス",
+        "viewDetails": "詳細を見る",
+        "removeProduct": "商品を削除",
+        "setAlert": "アラートを設定"
+    },
+    "alerts": {
+        "title": "価格アラート",
+        "noAlerts": "設定されているアラートはありません",
+        "createFirst": "最初のアラートを作成しましょう",
+        "createAlert": "アラートを作成",
+        "targetPrice": "目標価格",
+        "currentPrice": "現在価格",
+        "triggered": "発動済み",
+        "active": "有効",
+        "paused": "一時停止",
+        "type": {
+            "priceBelow": "価格が下回ったら",
+            "priceAbove": "価格が上回ったら",
+            "percentDrop": "価格が%下落したら",
+            "anyChange": "価格が変動したら",
+            "backInStock": "在庫復活時"
+        }
+    },
+    "settings": {
+        "title": "設定",
+        "profile": "プロフィール",
+        "notifications": "通知",
+        "preferences": "環境設定",
+        "security": "セキュリティ",
+        "language": "言語",
+        "currency": "通貨",
+        "timezone": "タイムゾーン",
+        "emailNotifications": "メール通知",
+        "pushNotifications": "プッシュ通知",
+        "saveChanges": "変更を保存"
+    },
+    "auth": {
+        "login": "ログイン",
+        "register": "アカウント作成",
+        "email": "メールアドレス",
+        "password": "パスワード",
+        "confirmPassword": "パスワード確認",
+        "name": "名前",
+        "forgotPassword": "パスワードをお忘れですか？",
+        "noAccount": "アカウントをお持ちでないですか？",
+        "hasAccount": "すでにアカウントをお持ちですか？",
+        "signUp": "登録",
+        "signIn": "ログイン",
+        "orContinueWith": "または続行",
+        "termsAgree": "登録することで利用規約に同意します"
+    },
+    "errors": {
+        "generic": "エラーが発生しました。もう一度お試しください。",
+        "notFound": "ページが見つかりません",
+        "unauthorized": "このページを表示する権限がありません",
+        "networkError": "ネットワークエラー。接続を確認してください。",
+        "validationError": "入力内容を確認してください"
+    },
+    "currency": {
+        "eur": "ユーロ (€)",
+        "usd": "米ドル ($)",
+        "gbp": "英ポンド (£)",
+        "jpy": "日本円 (¥)"
+    },
+    "locale": {
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français",
+        "es": "Español",
+        "pt": "Português",
+        "ja": "日本語"
+    }
+}
