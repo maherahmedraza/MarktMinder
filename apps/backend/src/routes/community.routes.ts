@@ -52,7 +52,7 @@ router.get(
     optionalAuth,
     validate([param('slug').isString().trim()]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { slug } = req.params;
+        const slug = req.params.slug as string;
 
         const folder = await prisma.watchlistFolder.findUnique({
             where: { slug },

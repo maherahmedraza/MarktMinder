@@ -24,10 +24,10 @@ export function validate(validations: ValidationChain[]) {
                 return {
                     field: err.path,
                     message: err.msg,
-                    value: err.value,
                 };
             }
             return {
+                field: 'generic',
                 message: err.msg,
             };
         });

@@ -189,7 +189,7 @@ router.get('/products', async (req: Request, res: Response) => {
  */
 router.get('/products/:id', async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         const product = await prisma.product.findUnique({
             where: { id },
@@ -262,7 +262,7 @@ router.get('/products/:id', async (req: Request, res: Response) => {
  */
 router.get('/products/:id/prediction', async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const days = Math.min(parseInt(req.query.days as string) || 7, 14);
 
         // Check permissions

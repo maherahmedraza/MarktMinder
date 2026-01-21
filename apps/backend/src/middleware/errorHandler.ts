@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../utils/errors.js';
+import { AppError } from '../utils/errors.js';
 import { logger } from '../utils/logger.js';
 import config from '../config/index.js';
 
@@ -21,8 +21,8 @@ export function errorHandler(
     });
 
     // Handle known API errors
-    if (err instanceof ApiError) {
-        res.status(err.statusCode).json(err.toJSON());
+    if (err instanceof AppError) {
+        res.status(err.status).json(err.toJSON());
         return;
     }
 

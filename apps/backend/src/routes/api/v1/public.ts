@@ -39,7 +39,7 @@ router.get(
     validate,
     async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
+            const id = req.params.id as string;
 
             const product = await prisma.product.findUnique({
                 where: { id },
@@ -87,7 +87,7 @@ router.get(
     validate,
     async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
+            const id = req.params.id as string;
             const limit = (req.query.limit as number | undefined) || 30;
 
             const history = await prisma.priceHistory.findMany({

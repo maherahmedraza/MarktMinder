@@ -85,7 +85,7 @@ router.delete(
         param('pattern').trim().notEmpty().withMessage('Pattern is required')
     ]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { pattern } = req.params;
+        const pattern = req.params.pattern as string;
         await invalidatePattern(pattern);
         res.json({ message: `Caches matching pattern "${pattern}" cleared successfully` });
     })

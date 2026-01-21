@@ -211,7 +211,7 @@ router.get(
     authenticate,
     validate([param('id').isString()]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
 
         const alert = await AlertModel.findByIdAndUser(id, userId);
@@ -242,7 +242,7 @@ router.patch(
         body('notifyOnce').optional().isBoolean(),
     ]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
         const updates = req.body;
 
@@ -287,7 +287,7 @@ router.delete(
     authenticate,
     validate([param('id').isString()]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
 
         const deleted = await AlertModel.delete(id, userId);
@@ -309,7 +309,7 @@ router.post(
     authenticate,
     validate([param('id').isString()]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
 
         // Get current alert

@@ -152,7 +152,7 @@ router.get(
     authenticate,
     asyncHandler(async (req: Request, res: Response) => {
         const userId = req.user!.id;
-        const alertId = req.params.id;
+        const alertId = req.params.id as string;
 
         const alerts = await conditionalAlerts.getUserConditionalAlerts(userId);
         const alert = alerts.find(a => a.id === alertId);
@@ -181,7 +181,7 @@ router.delete(
     authenticate,
     asyncHandler(async (req: Request, res: Response) => {
         const userId = req.user!.id;
-        const alertId = req.params.id;
+        const alertId = req.params.id as string;
 
         const success = await conditionalAlerts.deleteConditionalAlert(alertId, userId);
 

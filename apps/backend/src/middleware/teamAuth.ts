@@ -27,7 +27,7 @@ const roleHierarchy = {
 export function requireTeamRole(minRole: 'admin' | 'editor' | 'viewer') {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
             const userId = req.user?.id;
 
             if (!userId) {
@@ -76,7 +76,7 @@ export function requireTeamRole(minRole: 'admin' | 'editor' | 'viewer') {
  */
 export async function requireTeamOwner(req: Request, res: Response, next: NextFunction) {
     try {
-        const { teamId } = req.params;
+        const teamId = req.params.teamId as string;
         const userId = req.user?.id;
 
         if (!userId) {

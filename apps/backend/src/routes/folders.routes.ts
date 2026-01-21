@@ -67,7 +67,7 @@ router.get(
     authenticate,
     validate([param('id').isUUID().withMessage('Invalid folder ID')]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
 
         const folder = await FolderModel.findById(id);
@@ -121,7 +121,7 @@ router.patch(
         body('sortOrder').optional().isInt({ min: 0 }),
     ]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
         const updates = req.body;
 
@@ -147,7 +147,7 @@ router.delete(
     authenticate,
     validate([param('id').isUUID().withMessage('Invalid folder ID')]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
 
         const deleted = await FolderModel.delete(id, userId);

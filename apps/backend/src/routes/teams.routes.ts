@@ -66,7 +66,7 @@ router.get('/:teamId',
     requireTeamRole('viewer'),
     async (req: Request, res: Response) => {
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
             const team = await TeamModel.getTeamById(teamId as string);
 
             if (!team) {
@@ -105,7 +105,7 @@ router.patch('/:teamId',
         }
 
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
             const updates = req.body;
 
             const team = await TeamModel.updateTeam(teamId as string, updates);
@@ -129,7 +129,7 @@ router.delete('/:teamId',
     requireTeamOwner,
     async (req: Request, res: Response) => {
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
 
             await TeamModel.deleteTeam(teamId as string);
 
@@ -149,7 +149,7 @@ router.get('/:teamId/members',
     requireTeamRole('viewer'),
     async (req: Request, res: Response) => {
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
             const members = await TeamModel.getTeamMembers(teamId as string);
 
             res.json({ members });
@@ -177,7 +177,7 @@ router.post('/:teamId/members',
         }
 
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
             const { userId, role } = req.body;
 
             // Check if user is already a member
@@ -215,7 +215,7 @@ router.patch('/:teamId/members/:userId',
         }
 
         try {
-            const { teamId, userId } = req.params;
+            const teamId = req.params.teamId as string; const userId = req.params.userId as string;
             const { role } = req.body;
 
             // Prevent owner from changing their own role
@@ -248,7 +248,7 @@ router.delete('/:teamId/members/:userId',
     requireTeamRole('admin'),
     async (req: Request, res: Response) => {
         try {
-            const { teamId, userId } = req.params;
+            const teamId = req.params.teamId as string; const userId = req.params.userId as string;
 
             // Prevent owner from being removed
             const isOwner = await TeamModel.isTeamOwner(teamId, userId as string);

@@ -346,7 +346,7 @@ router.delete(
     asyncHandler(isAdmin),
     validate([param('id').isString()]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         // Prevent deleting self
         if (req.user!.id === id) {

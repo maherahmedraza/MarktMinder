@@ -32,7 +32,7 @@ router.get(
     [param('id').isUUID()],
     validate,
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         const { getProductComparison } = await import('../services/comparison.service.js');
         const comparison = await getProductComparison(id);
@@ -183,7 +183,7 @@ router.get(
             });
         }
 
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         try {
             const dna = await analyzePriceDNA(id);
@@ -212,7 +212,7 @@ router.get(
     [param('id').isUUID()],
     validate,
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         // Get current product data
         const product = await ProductModel.findById(id);
@@ -413,7 +413,7 @@ router.get(
         queryValidator('range').optional().isIn(['1d', '7d', '30d', '90d', '1y', 'all']),
     ]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const range = (req.query.range as TimeRange) || '30d';
         const userId = req.user!.id;
 
@@ -510,7 +510,7 @@ router.patch(
         body('folderId').optional().isString(),
     ]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const { customName, notes, isFavorite, folderId } = req.body;
         const userId = req.user!.id;
 
@@ -565,7 +565,7 @@ router.delete(
     authenticate,
     validate([param('id').isString()]),
     asyncHandler(async (req: Request, res: Response) => {
-        const { id } = req.params;
+        const id = req.params.id as string;
         const userId = req.user!.id;
 
         try {
@@ -694,7 +694,7 @@ router.get(
             });
         }
 
-        const { id } = req.params;
+        const id = req.params.id as string;
         const days = parseInt(req.query.days as string) || 7;
 
         const prediction = await getPricePrediction(id, days);
@@ -727,7 +727,7 @@ router.get(
             });
         }
 
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         const { getBuyWaitRecommendation } = await import('../services/shopping-assistant.service.js');
         const recommendation = await getBuyWaitRecommendation(id);

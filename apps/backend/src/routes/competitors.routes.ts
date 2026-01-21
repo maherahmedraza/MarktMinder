@@ -21,7 +21,7 @@ router.get(
     requireTeamRole('viewer'),
     async (req: Request, res: Response) => {
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
 
             const competitors = await prisma.$queryRaw`
                 SELECT 
@@ -87,7 +87,7 @@ router.post(
         }
 
         try {
-            const { teamId } = req.params;
+            const teamId = req.params.teamId as string;
             const { product_id, competitor_url } = req.body;
 
             // 1. Validate 'My Product' exists
