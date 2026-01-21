@@ -53,7 +53,7 @@ export default function HomePage() {
                                     Markt<span className="text-primary">Minder</span>
                                 </span>
                                 <span className="text-[8px] font-black text-primary/70 tracking-[0.3em] uppercase mt-1">
-                                    Neural_Control_v2.0
+                                    {t('nav.neuralControl')}
                                 </span>
                             </div>
                         </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
                         <div className="animate-reveal inline-flex items-center gap-3 bg-surface/30 dark:bg-white/[0.03] border border-border/10 dark:border-white/10 px-5 py-2 rounded-full mb-10 backdrop-blur-xl group hover:border-primary/40 transition-all duration-500">
                             <div className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-glow" />
                             <span className="text-[10px] font-black text-text-tertiary uppercase tracking-[0.2em]">
-                                {t('hero.status')}: <span className="text-primary">{t('hero.operational')}</span> // Neural_Engine_Active
+                                {t('hero.status')}: <span className="text-primary">{t('hero.operational')}</span> // {t('hero.engineActive')}
                             </span>
                         </div>
 
@@ -143,9 +143,9 @@ export default function HomePage() {
                         {/* Active Modules (Marketplaces) */}
                         <div className="animate-reveal flex items-center justify-center gap-12 flex-wrap opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700">
                             {[
-                                { name: 'Amazon_Module', color: 'text-amazon' },
-                                { name: 'Etsy_Pulse', color: 'text-etsy' },
-                                { name: 'Otto_Core', color: 'text-otto' }
+                                { name: t('hero.modules.amazon'), color: 'text-amazon' },
+                                { name: t('hero.modules.etsy'), color: 'text-etsy' },
+                                { name: t('hero.modules.otto'), color: 'text-otto' }
                             ].map((mod) => (
                                 <div key={mod.name} className="flex items-center gap-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-current opacity-50" />
@@ -161,7 +161,7 @@ export default function HomePage() {
                 {/* Features Section */}
                 <section id="features" className="container mx-auto px-6 py-32 border-t border-border/10 dark:border-white/[0.03]">
                     <div className="text-center mb-20 stagger-children">
-                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4">Core_Capabilities</div>
+                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4">{t('features.badge')}</div>
                         <h2 className="animate-reveal text-4xl md:text-5xl font-black text-text-primary mb-6 uppercase italic">
                             System <span className="text-primary">{t('features.title')}</span>
                         </h2>
@@ -216,27 +216,27 @@ export default function HomePage() {
                 {/* How It Works */}
                 <section className="container mx-auto px-6 py-32 border-t border-border/10 dark:border-white/[0.03]">
                     <div className="text-center mb-20">
-                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4">Onboarding_Sequence</div>
+                        <div className="text-primary font-black text-[10px] uppercase tracking-[0.4em] mb-4">{t('onboarding.badge')}</div>
                         <h2 className="text-4xl md:text-5xl font-black text-text-primary mb-6 uppercase italic">
-                            Initialize <span className="text-primary">Tracking</span>
+                            {t('onboarding.title')} <span className="text-primary">{t('onboarding.titleAccent')}</span>
                         </h2>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto stagger-children">
                         <StepCard
                             number="01"
-                            title="ASSET_INB_QUEUE"
-                            description="Inject product URL into the monitoring cluster."
+                            title={t('onboarding.step1.title')}
+                            description={t('onboarding.step1.desc')}
                         />
                         <StepCard
                             number="02"
-                            title="THRESHOLD_CONFIG"
-                            description="Define target delta or enable Neural_Price_Logic."
+                            title={t('onboarding.step2.title')}
+                            description={t('onboarding.step2.desc')}
                         />
                         <StepCard
                             number="03"
-                            title="REALTIME_DISPATCH"
-                            description="Instant notification on threshold collision."
+                            title={t('onboarding.step3.title')}
+                            description={t('onboarding.step3.desc')}
                         />
                     </div>
                 </section>
@@ -275,16 +275,18 @@ export default function HomePage() {
                                     <span className="font-black text-text-primary uppercase tracking-tighter">MarktMinder</span>
                                 </div>
                                 <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">
-                                    Autonomous_Asset_Sentry_Cluster
+                                    {t('footer.tagline')}
                                 </span>
                             </div>
                             <div className="flex items-center gap-8 text-[10px] font-black text-text-tertiary uppercase tracking-[0.2em]">
                                 {['privacy', 'terms', 'impressum', 'contact'].map(item => (
-                                    <Link key={item} href={`/${item}`} className="hover:text-primary transition-colors">{item}</Link>
+                                    <Link key={item} href={`/${item}`} className="hover:text-primary transition-colors">
+                                        {t(`footer.links.${item}`)}
+                                    </Link>
                                 ))}
                             </div>
                             <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest opacity-50">
-                                © 2026 MARKT_MINDER_CORE. ALL_RIGHTS_RESERVED.
+                                {t('footer.copyright')}
                             </p>
                         </div>
                     </div>

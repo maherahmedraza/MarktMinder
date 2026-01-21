@@ -1,17 +1,241 @@
 {
+    "home": {
+        "nav": {
+            "features": "Funcionalidades",
+            "howItWorks": "Como Funciona",
+            "pricing": "Preços",
+            "about": "Sobre",
+            "login": "Entrar",
+            "getStarted": "Começar",
+            "accessSystem": "Acessar Sistema",
+            "initialize": "INICIALIZAR_NÓ",
+            "docs": "Docs",
+            "neuralControl": "Neural_Control_v2.0"
+        },
+        "hero": {
+            "status": "Status do Sistema",
+            "operational": "Operacional",
+            "titleLine1": "Rastreamento de Ativos",
+            "titleGradient": "Neural",
+            "subtitle": "Implante monitoramento de alta frequência na Amazon, Etsy e Otto. Alertas de preço sem latência. Máxima preservação de capital.",
+            "deploy": "IMPLANTAR_MOTOR",
+            "specs": "ESPECIFICAÇÕES_DO_SISTEMA",
+            "engineActive": "Motor_Neural_Ativo",
+            "modules": {
+                "amazon": "Módulo_Amazon",
+                "etsy": "Pulso_Etsy",
+                "otto": "Núcleo_Otto"
+            }
+        },
+        "features": {
+            "badge": "Capacidades_Core",
+            "title": "Especificações do Sistema",
+            "subtitle": "Ferramentas de monitoramento de alta precisão projetadas para o gestor de ativos profissional.",
+            "fakeDiscount": {
+                "title": "Deteção_de_Falsos_Descontos",
+                "desc": "Análise lógica em tempo real para identificar inflação artificial de preços antes das promoções."
+            },
+            "multiMarket": {
+                "title": "Pulso_Multi_Mercado",
+                "desc": "Rastreamento sincronizado nos principais marketplaces com logs delta sub-segundo."
+            },
+            "neuralPrice": {
+                "title": "Previsão_de_Preço_Neural",
+                "desc": "Modelos de ML prevendo valores futuros de ativos baseados na volatilidade histórica."
+            },
+            "deltaAlert": {
+                "title": "Malha_de_Alerta_Delta",
+                "desc": "Pipeline de notificação universal via Telegram, Push e Neural_Link."
+            }
+        },
+        "onboarding": {
+            "badge": "Sequência_de_Integração",
+            "title": "Inicializar",
+            "titleAccent": "Rastreamento",
+            "step1": {
+                "title": "FILA_DE_ENTRADA_DE_ATIVOS",
+                "desc": "Injete a URL do produto no cluster de monitoramento."
+            },
+            "step2": {
+                "title": "CONFIG_DE_LIMIAR",
+                "desc": "Defina o delta alvo ou habilite a Lógica_de_Preço_Neural."
+            },
+            "step3": {
+                "title": "DESPACHO_EM_TEMPO_REAL",
+                "desc": "Notificação instantânea em caso de colisão de limiar."
+            }
+        },
+        "stats": {
+            "nodes": "NÓS_DE_DADOS",
+            "capital": "CAPITAL_PRESERVADO",
+            "domains": "DOMÍNIOS_ATIVOS",
+            "uptime": "TEMPO_DE_ATIVIDADE"
+        },
+        "cta": {
+            "title": "Pronto para garantir rendimentos?",
+            "subtitle": "Junte-se à rede de monitoramento de ativos de alta frequência.",
+            "button": "CRIAR_CONTA_GRATUITA",
+            "note": "Acesso ao Sistema: Restrito a 5 ativos para o nível gratuito"
+        },
+        "footer": {
+            "tagline": "Cluster_Sentinela_de_Ativos_Autônomo",
+            "copyright": "© 2026 MARKT_MINDER_CORE. TODOS OS DIREITOS RESERVADOS.",
+            "links": {
+                "privacy": "Privacidade",
+                "terms": "Termos",
+                "impressum": "Aviso Legal",
+                "contact": "Contato"
+            }
+        }
+    },
+    "pricing": {
+        "header": {
+            "returnBase": "Voltar_Para_Base"
+        },
+        "hero": {
+            "badge": "Acesso_ao_Protocolo",
+            "title": "Sistema de",
+            "titleAccent": "Assinatura",
+            "subtitle": "Selecione seu plano para monitoramento avançado de ativos."
+        },
+        "tiers": {
+            "free": {
+                "name": "Grátis",
+                "tagline": "Acesso Padrão",
+                "price": "0 €",
+                "cycle": "/ciclo",
+                "features": [
+                    "5 Produtos Rastreados",
+                    "3 Alertas Ativos",
+                    "Histórico de 30 dias",
+                    "Latência Padrão"
+                ],
+                "button": "INICIALIZAR"
+            },
+            "pro": {
+                "name": "Pro",
+                "tagline": "Intel Avançado",
+                "price": "4,99 €",
+                "cycle": "/ciclo",
+                "features": [
+                    "50 Produtos Rastreados",
+                    "25 Alertas Ativos",
+                    "Histórico Completo de Preços",
+                    "Previsões de IA",
+                    "Filas Prioritárias"
+                ],
+                "button": "INICIALIZAR_PRO",
+                "processing": "PROCESSANDO..."
+            },
+            "power": {
+                "name": "Power",
+                "badge": "Razão_Ideal",
+                "tagline": "Monitoramento Elite",
+                "price": "9,99 €",
+                "cycle": "/ciclo",
+                "features": [
+                    "200 Produtos Rastreados",
+                    "100 Alertas Ativos",
+                    "Radar de Ofertas & Price DNA",
+                    "Scraping Prioritário",
+                    "Gatilhos Personalizados"
+                ],
+                "button": "INICIALIZAR_POWER",
+                "processing": "PROCESSANDO..."
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "tagline": "Protocolo Total",
+                "price": "29,99 €",
+                "cycle": "/ciclo",
+                "features": [
+                    "Produtos Ilimitados",
+                    "Alertas Ilimitados",
+                    "Acesso à API (10k/dia)",
+                    "Embeds com Marca Própria",
+                    "Suporte Dedicado"
+                ],
+                "button": "CONTATAR_VENDAS"
+            }
+        },
+        "faq": {
+            "title": "Dúvidas_Comuns",
+            "items": [
+                {
+                    "q": "Posso cancelar a qualquer momento?",
+                    "a": "Sim. O cancelamento da sub-rotina está disponível sem penalidade a cada intervalo de ciclo."
+                },
+                {
+                    "q": "Métodos de Pagamento?",
+                    "a": "Todos os principais cartões de crédito, PayPal e débito direto SEPA são suportados."
+                },
+                {
+                    "q": "Segurança de Dados?",
+                    "a": "Criptografia AES-256 aplicada a todos os identificadores de ativos e métricas de usuário."
+                },
+                {
+                    "q": "Política de Reembolso?",
+                    "a": "Garantia de desempenho de 30 dias para todos os planos de assinatura pagos."
+                }
+            ]
+        },
+        "securityFooter": "GDPR_VALIDO • CRIPTOGRAFADO_SSL • FEITO_NA_ALEMANHA"
+    },
+    "features": {
+        "header": {
+            "returnBase": "Voltar_Para_Base"
+        },
+        "hero": {
+            "badge": "Capacidades_do_Sistema",
+            "title": "Especificações de",
+            "titleAccent": "Funcionalidades",
+            "subtitle": "Módulos de monitoramento de alta precisão projetados para análise técnica."
+        },
+        "grid": {
+            "analytics": {
+                "title": "Motor_de_Analytics",
+                "desc": "Ingestão de dados em tempo real e visualização do histórico de preços com precisão de milissegundos."
+            },
+            "signal": {
+                "title": "Relé_de_Sinal",
+                "desc": "Sistema de entrega de alertas de baixa latência compatível com os protocolos Discord, Email e Push."
+            },
+            "radar": {
+                "title": "Radar_Cross_Market",
+                "desc": "Monitoramento simultâneo nos marketplaces Amazon, Etsy e Otto com sincronização automática."
+            },
+            "forecast": {
+                "title": "Previsão_Neural",
+                "desc": "Algoritmos preditivos analisando a volatilidade do mercado para sinalizar pontos de entrada ideais."
+            },
+            "security": {
+                "title": "Segurança_de_Ativos",
+                "desc": "Criptografia de nível empresarial para todos os rastreadores e métricas de portfólio."
+            },
+            "scrapers": {
+                "title": "Scrapers_Automáticos",
+                "desc": "Arquitetura de scraping dinâmica que ignora medidas anti-bot para 99,9% de disponibilidade."
+            }
+        },
+        "cta": {
+            "title": "Pronto para inicializar o rastreamento?",
+            "createAccount": "CRIAR_CONTA",
+            "viewSubs": "VER_ASSINATURAS"
+        }
+    },
     "common": {
         "appName": "MarktMinder",
-        "loading": "A carregar...",
-        "save": "Guardar",
+        "loading": "Carregando...",
+        "save": "Salvar",
         "cancel": "Cancelar",
-        "delete": "Eliminar",
+        "delete": "Excluir",
         "edit": "Editar",
         "add": "Adicionar",
         "search": "Pesquisar",
         "close": "Fechar",
         "confirm": "Confirmar",
         "back": "Voltar",
-        "next": "Seguinte",
+        "next": "Próximo",
         "submit": "Enviar",
         "error": "Erro",
         "success": "Sucesso",
@@ -27,73 +251,76 @@
         }
     },
     "nav": {
-        "home": "Início",
-        "dashboard": "Painel",
+        "home": "Home",
+        "dashboard": "Dashboard",
         "products": "Produtos",
         "alerts": "Alertas",
-        "settings": "Definições",
+        "settings": "Configurações",
         "logout": "Sair",
         "login": "Entrar",
-        "register": "Registar",
+        "register": "Registrar",
         "pricing": "Preços",
-        "watchlist": "Lista de acompanhamento",
+        "watchlist": "Lista de Desejos",
         "deals": "Ofertas",
-        "team": "Equipa",
+        "team": "Equipe",
         "competitors": "Inteligência Competitiva",
         "community": "Comunidade",
         "operations": "Operações",
         "system": "Sistema",
-        "add_asset": "ADICIONAR_ATIVO"
+        "add_asset": "ADICIONAR_ATIVO",
+        "docs": "Docs",
+        "accessSystem": "Acessar Sistema",
+        "initialize": "INICIALIZAR_NÓ"
     },
     "dashboard": {
-        "welcome": "Bem-vindo, {name}",
-        "trackedProducts": "Produtos acompanhados",
-        "potentialSavings": "Poupança potencial",
-        "activeAlerts": "Alertas ativos",
-        "priceDrops": "Descidas de preço hoje",
-        "recentActivity": "Atividade recente",
-        "aiInsights": "Insights IA",
-        "quickActions": "Ações rápidas",
-        "viewAll": "Ver tudo",
-        "atLowestPrice": "No preço mais baixo",
+        "welcome": "Bem-vindo de volta, {name}",
+        "trackedProducts": "Produtos Rastreados",
+        "potentialSavings": "Economias Potenciais",
+        "activeAlerts": "Alertas Ativos",
+        "priceDrops": "Quedas de Preço Hoje",
+        "recentActivity": "Atividade Recente",
+        "aiInsights": "Insights de IA",
+        "quickActions": "Ações Rápidas",
+        "viewAll": "Ver Tudo",
+        "atLowestPrice": "Ao Menor Preço",
         "favoritesStats": "Favoritos",
-        "title": "Consola Operativa",
+        "title": "Console Operacional",
         "protocolMsg": "Sequência de protocolo inicializada",
         "addProduct": {
             "back": "Voltar aos produtos",
-            "title": "Integração de Ativos",
-            "phase": "Fase 1: Aquisição de Fonte",
-            "urlLabel": "URL de Destino do Produto",
+            "title": "Integração de Ativo",
+            "phase": "Fase 1: Aquisição de Origem",
+            "urlLabel": "URL do Produto Alvo",
             "urlPlaceholder": "https://www.amazon.com.br/dp/B0...",
-            "notesLabel": "Notas Operativas (opcional)",
-            "notesPlaceholder": "Adicionar metadados técnicos ou notas de acompanhamento...",
+            "notesLabel": "Notas Operacionais (opcional)",
+            "notesPlaceholder": "Adicionar metadados técnicos ou notas de rastreamento...",
             "detected": "Protocolo {marketplace} Detetado",
-            "scanning": "A procurar Assinatura do Marketplace...",
-            "buttonInit": "INICIAR ACOMPANHAMENTO",
-            "buttonLoading": "A INICIALIZAR SCRAPER...",
+            "scanning": "Escaneando Assinatura do Marketplace...",
+            "buttonInit": "INICIAR RASTREAMENTO",
+            "buttonLoading": "INICIALIZANDO SCRAPER...",
             "success": {
                 "title": "Ativo Calibrado!",
-                "redirect": "A redirecionar para Projeção Neural..."
+                "redirect": "Redirecionando para Projeção Neural..."
             },
             "guidelines": {
-                "title": "Diretrizes de Protocolo",
+                "title": "Diretrizes do Protocolo",
                 "items": [
-                    "Capture o URL de destino absoluto da barra de identidade do navegador.",
-                    "O motor Neural do MarktMinder irá autoverificar os metadados do produto.",
-                    "Frequência de scan padrão calibrada para intervalos de 4-24 horas."
+                    "Capture a URL alvo absoluta da barra de identidade do navegador.",
+                    "O motor Neural do MarktMinder verificará automaticamente os metadatos.",
+                    "Frequência de varredura padrão calibrada para intervalos de 4 a 24 horas."
                 ]
             },
             "errors": {
-                "invalidUrl": "Introduza um URL válido da Amazon, Etsy ou Otto.de",
+                "invalidUrl": "Insira uma URL válida da Amazon, Etsy ou Otto.de",
                 "failed": "Falha ao adicionar produto"
             }
         },
         "products": {
-            "title": "Registo de",
+            "title": "Livro de",
             "titleAccent": "Ativos",
-            "subtitle": "{total} ativos relativos sincronizados atualmente em múltiplos clusters de mercado.",
+            "subtitle": "{total} ativos relativos sincronizados em vários clusters de marketplaces.",
             "actions": {
-                "delete": "Eliminar ({count})",
+                "delete": "Excluir ({count})",
                 "collections": "Coleções",
                 "addProduct": "Adicionar Produto",
                 "export": "Exportar",
@@ -102,104 +329,36 @@
             "filters": {
                 "searchPlaceholder": "Pesquisar título, marca...",
                 "sort": {
-                    "newest": "Mais recentes",
-                    "oldest": "Mais antigos",
+                    "newest": "Mais novos primeiro",
+                    "oldest": "Mais antigos primeiro",
                     "highestPrice": "Preço mais alto",
-                    "lowestPrice": "Preço mais baixo",
+                    "lowestPrice": "Menor preço",
                     "biggestDrop": "Maior queda %"
                 },
-                "markets": "Cluster de mercados",
+                "markets": "Todos os clusters",
                 "allCollections": "Todas as coleções",
-                "dropsOnly": "Apenas baixas",
-                "selectAll": "Selecionar tudo",
-                "deselectAll": "Deselecionar tudo"
+                "dropsOnly": "Apenas quedas",
+                "selectAll": "Selecionar todos",
+                "deselectAll": "Desmarcar todos"
             },
             "empty": {
                 "title": "Nenhum produto encontrado",
-                "filtered": "Não encontrámos nada que corresponda aos seus filtros. Tente outra coisa?",
-                "empty": "A sua lista de acompanhamento está vazia. Comece a acompanhar produtos para os ver aqui!",
-                "button": "Adicione o seu primeiro produto"
+                "filtered": "Não encontramos nada correspondente aos seus filtros. Tente outra coisa?",
+                "empty": "Sua lista está vazia. Comece a rastrear produtos para vê-los aqui!",
+                "button": "Adicionar seu primeiro produto"
             },
             "pagination": "PÁGINA {current} / {total}",
             "error": "Erro ao carregar produtos: {error}",
-            "bulkDeleteConfirm": "Tem a certeza que deseja parar de acompanhar {count} produtos?",
-            "bulkDeleteSuccess": "{count} produtos removidos",
-            "bulkMoveSuccess": "{count} ativos movidos para a coleção",
+            "bulkDeleteConfirm": "Tem certeza de que deseja parar de rastrear {count} produtos?",
+            "bulkDeleteSuccess": "Removidos {count} produtos",
+            "bulkMoveSuccess": "Movidos {count} ativos para coleção",
             "bulkUpdateError": "Falha ao atualizar alguns ativos"
         }
     },
-    "products": {
-        "title": "Os seus produtos",
-        "noProducts": "Ainda não há produtos acompanhados",
-        "addFirst": "Adicione o seu primeiro produto para começar",
-        "addProduct": "Adicionar produto",
-        "currentPrice": "Preço atual",
-        "lowestPrice": "Preço mais baixo",
-        "highestPrice": "Preço mais alto",
-        "priceHistory": "Histórico de preços",
-        "lastUpdated": "Última atualização",
-        "marketplace": "Marketplace",
-        "viewDetails": "Ver detalhes",
-        "removeProduct": "Remover produto",
-        "setAlert": "Criar alerta"
-    },
-    "alerts": {
-        "title": "Alertas de preço",
-        "noAlerts": "Nenhum alerta configurado",
-        "createFirst": "Crie o seu primeiro alerta",
-        "createAlert": "Criar alerta",
-        "targetPrice": "Preço alvo",
-        "currentPrice": "Preço atual",
-        "triggered": "Acionado",
-        "active": "Ativo",
-        "paused": "Pausado",
-        "type": {
-            "priceBelow": "Preço inferior a",
-            "priceAbove": "Preço superior a",
-            "percentDrop": "Descida de %",
-            "anyChange": "Qualquer alteração de preço",
-            "backInStock": "De volta ao stock"
-        }
-    },
-    "settings": {
-        "title": "Definições",
-        "profile": "Perfil",
-        "notifications": "Notificações",
-        "preferences": "Preferências",
-        "security": "Segurança",
-        "language": "Idioma",
-        "currency": "Moeda",
-        "timezone": "Fuso horário",
-        "emailNotifications": "Notificações por email",
-        "pushNotifications": "Notificaciones push",
-        "saveChanges": "Guardar alterações"
-    },
-    "auth": {
-        "login": "Entrar",
-        "register": "Criar conta",
-        "email": "Email",
-        "password": "Palavra-passe",
-        "confirmPassword": "Confirmar palavra-passe",
-        "name": "Nome",
-        "forgotPassword": "Esqueceu a palavra-passe?",
-        "noAccount": "Não tem conta?",
-        "hasAccount": "Já tem conta?",
-        "signUp": "Registar",
-        "signIn": "Entrar",
-        "orContinueWith": "Ou continuar com",
-        "termsAgree": "Ao registar-se, aceita os nossos Termos de Serviço"
-    },
-    "errors": {
-        "generic": "Algo correu mal. Por favor, tente novamente.",
-        "notFound": "Página não encontrada",
-        "unauthorized": "Não tem autorização para ver esta página",
-        "networkError": "Erro de rede. Verifique a sua ligação.",
-        "validationError": "Por favor, verifique os seus dados"
-    },
     "currency": {
         "eur": "Euro (€)",
-        "usd": "Dólar americano ($)",
-        "gbp": "Libra esterlina (£)"
+        "usd": "Dólar Americano ($)",
+        "gbp": "Libra Esterlina (£)"
     },
     "locale": {
         "en": "English",
@@ -211,33 +370,214 @@
     },
     "community": {
         "watchlists": {
-            "title": "Listas de Acompanhamento Públicas",
+            "title": "Listas Públicas",
             "discover": "Descobrir",
-            "subtitle": "Explore coleções partilhadas de compradores experientes. Encontre os melhores rastreadores de preços, ofertas sazonais e categorias de nicho selecionadas pela comunidade.",
+            "subtitle": "Explore coleções compartilhadas por compradores experientes. Encontre os melhores rastreadores de preços e categorias curadas pela comunidade.",
             "stats": {
                 "activeTrackers": "Rastreadores Ativos",
-                "poupançaTotal": "Poupança Total",
-                "sharedLists": "Listas Partilhadas"
+                "totalSavings": "Economia Total",
+                "sharedLists": "Listas Compartilhadas"
             },
             "searchPlaceholder": "Pesquisar coleções ou criadores...",
             "sort": {
                 "popular": "Mais Populares",
                 "newest": "Mais Recentes"
             },
-            "loading": "A selecionar coleções públicas...",
+            "loading": "Curando coleções públicas...",
             "empty": {
                 "title": "Nenhuma lista encontrada",
                 "subtitle": "Tente um termo de pesquisa diferente ou volte mais tarde."
             },
             "cta": {
-                "title": "Quer partilhar as suas descobertas?",
-                "subtitle": "Torne as suas listas públicas para ajudar outros a poupar dinheiro e chegar ao topo da tabela de classificação de poupanças.",
-                "button": "Partilhar uma Lista"
+                "title": "Quer compartilhar seus achados?",
+                "subtitle": "Torne suas próprias listas públicas para ajudar outros a economizar e chegar ao topo do ranking de economia.",
+                "button": "Compartilhar uma Lista"
             },
             "card": {
                 "items": "{count} itens",
                 "noDescription": "Nenhuma descrição fornecida para esta coleção."
             }
         }
+    },
+    "privacy": {
+        "header": {
+            "badge": "Protocolo_de_Segurança",
+            "title": "Política de",
+            "titleAccent": "Privacidade",
+            "subtitle": "Ciclo de Revisão: 1 de janeiro de 2026",
+            "returnBase": "Voltar_Para_Base"
+        },
+        "sections": {
+            "encryption": {
+                "title": "1. Padrões_de_Criptografia_de_Dados",
+                "content": "O MarktMinder (\"nós\", \"nosso\") respeita sua privacidade e se compromete a proteger seus dados pessoais. Todos os ciclos de ingestão utilizam protocolos de criptografia de nível empresarial para garantir a integridade de seus ativos monitorados."
+            },
+            "metrics": {
+                "title": "Métricas_Coletadas",
+                "items": [
+                    "Credenciais_de_Conta",
+                    "Identificadores_de_Ativos (URLs)",
+                    "Logs_de_Interação_do_Usuário",
+                    "Dados_Técnicos_do_Sistema"
+                ]
+            },
+            "utilization": {
+                "title": "Fluxo_de_Utilização",
+                "items": [
+                    "Continuidade_do_Serviço",
+                    "Despacho_de_Relé_de_Sinal",
+                    "Otimização_do_Sistema",
+                    "Segurança_do_Protocolo"
+                ]
+            },
+            "compliance": {
+                "title": "2. Direitos_e_Conformidade (GDPR)",
+                "content": "De acordo com o Regulamento Geral sobre a Proteção de Dados (GDPR), os usuários mantêm total controle sobre seus índices de dados.",
+                "rights": [
+                    "Acesso_a_Dados",
+                    "Correção_de_Índice",
+                    "Exclusão_de_Ativos",
+                    "Restrição_de_Processamento",
+                    "Portabilidade",
+                    "Retirada_de_Consentimento"
+                ]
+            },
+            "contact": {
+                "title": "3. Contato_Técnico",
+                "content": "Para consultas sobre protocolos de segurança de dados, estabeleça contato através do seguinte endpoint:"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Motor_de_Privacidade_v1.0"
+    },
+    "terms": {
+        "header": {
+            "badge": "Estrutura_Legal",
+            "title": "Termos",
+            "titleAccent": "De_Serviço",
+            "subtitle": "Implantação do Sistema: 1 de janeiro de 2026",
+            "returnBase": "Voltar_Para_Base"
+        },
+        "sections": {
+            "agreement": {
+                "title": "1. Acordo_de_Acesso_ao_Protocolo",
+                "content": "Ao acessar ou usar o ambiente MarktMinder, você concorda em cumprir estes Termos do Sistema. A entrada não autorizada em camadas de serviço restritas é estritamente proibida."
+            },
+            "obligations": {
+                "title": "Obrigações_do_Usuário",
+                "items": [
+                    "Segurança_de_Credenciais",
+                    "Precisão_de_Dados",
+                    "Integridade_do_Sistema",
+                    "Uso_Autorizado"
+                ]
+            },
+            "restricted": {
+                "title": "Ações_Restritas",
+                "items": [
+                    "Engenharia_Reversa",
+                    "Extração_Automatizada",
+                    "Inundação_de_Recursos",
+                    "Compartilhamento_de_Credenciais"
+                ]
+            },
+            "reliability": {
+                "title": "2. Aviso_de_Confiabilidade_de_Dados",
+                "content": "Embora nossos módulos de scraping visem 99,9% de precisão, a volatilidade do mercado pode resultar em discordância de milissegundos entre nossas leituras e os endpoints dos varejistas ao vivo. Verifique todas as métricas antes de realizar transações externas."
+            },
+            "jurisdiction": {
+                "title": "3. Módulo_de_Jurisdição",
+                "content": "Estes termos são regidos pelas leis da República Federal da Alemanha. As disputas estarão sujeitas à jurisdição exclusiva dos tribunais regionais.",
+                "entity": "Entidade_Legal: MarktMinder GmbH // Registro: Berlin-Charlottenburg HRB 123456"
+            },
+            "contact": {
+                "title": "4. Relé_de_Contato",
+                "content": "Para consultas sobre protocolos legais, estabeleça contato através do seguinte endpoint:"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Termos_do_Sistema_v1.2.4"
+    },
+    "contact": {
+        "header": {
+            "badge": "Interface_de_Comunicações",
+            "title": "Estabelecer",
+            "titleAccent": "Contato",
+            "subtitle": "Inicialize um relé de mensagens para o nosso cluster de suporte técnico.",
+            "returnBase": "Voltar_Para_Base"
+        },
+        "info": {
+            "title": "Informações_do_Nó",
+            "support": {
+                "title": "Relé_de_Suporte",
+                "latency": "Latência: < 24h"
+            },
+            "bulletins": {
+                "title": "Boletins_Técnicos",
+                "content": "Inclua logs do sistema ou identificadores de conta para ciclos de resolução acelerados."
+            },
+            "mobile": {
+                "title": "Operações_Móveis",
+                "content": "Nossos módulos de campo são otimizados para protocolos de comunicação móvel."
+            },
+            "status": "Estado_Operacional: ATIVO"
+        },
+        "form": {
+            "name": "Identificador_de_Entidade",
+            "namePlaceholder": "NOME_OU_ID",
+            "email": "Endpoint_de_Comunicações",
+            "emailPlaceholder": "ENDEREÇO_DE_E-MAIL",
+            "subject": "Assunto_do_Protocolo",
+            "subjectPlaceholder": "TIPO_DE_CONSULTA_DO_SISTEMA",
+            "message": "Carga_Útil_de_Transmissão",
+            "messagePlaceholder": "INSIRA_O_CONTEÚDO_DA_MENSAGEM...",
+            "submit": "EXECUTAR_TRANSMISSÃO",
+            "success": {
+                "title": "Transmissão_Bem-sucedida",
+                "content": "Sua mensagem foi enfileirada para processamento. Estabelecer novo relé?",
+                "button": "REINICIALIZAR_REPORTER"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Comms_Core_v1.0.2"
+    },
+    "impressum": {
+        "header": {
+            "badge": "Registro_de_Divulgação",
+            "title": "Sistema",
+            "titleAccent": "Impressum",
+            "subtitle": "Informações de acordo com § 5 TMG",
+            "returnBase": "Voltar_Para_Base"
+        },
+        "sections": {
+            "provider": {
+                "title": "Provedor",
+                "name": "MarktMinder GmbH",
+                "address": "Musterstraße 123",
+                "city": "10115 Berlim",
+                "country": "Alemanha"
+            },
+            "contact": {
+                "title": "Contato"
+            },
+            "register": {
+                "title": "Registro",
+                "court": "Amtsgericht Berlim",
+                "number": "HRB 123456",
+                "vatId": "NIF-IVA:",
+                "vatNumber": "DE123456789"
+            },
+            "dispute": {
+                "title": "Resolução de Disputas",
+                "content": "A Comissão Europeia fornece uma plataforma para resolução de litígios online (OS):",
+                "note": "Não estamos dispostos ou obrigados a participar de processos de resolução de disputas perante uma junta de arbitragem de consumo."
+            },
+            "liability": {
+                "title": "Responsabilidade_Pelo_Conteúdo",
+                "content": "Como prestador de serviços, somos responsáveis pelo nosso próprio conteúdo nestas páginas de acordo com as leis gerais segundo § 7 Para.1 TMG. De acordo com os §§ 8 a 10 TMG, nós, como prestadores de serviços, não somos obrigados a monitorar informações de terceiros transmitidas ou armazenadas."
+            },
+            "copyright": {
+                "title": "Direitos Autorais",
+                "content": "O conteúdo e as obras criadas pelos operadores do site nestas páginas estão sujeitos à lei alemã de direitos autorais. Downloads e cópias deste site só são permitidos para uso privado e não comercial."
+            }
+        },
+        "footer": "© 2026 MarktMinder // Módulo_Impressum_PT"
     }
 }

@@ -43,7 +43,10 @@
         "community": "Community",
         "operations": "Operations",
         "system": "System",
-        "add_asset": "ADD_ASSET"
+        "add_asset": "ADD_ASSET",
+        "docs": "Docs",
+        "accessSystem": "Access System",
+        "initialize": "INITIALIZE_NODE"
     },
     "dashboard": {
         "welcome": "Welcome back, {name}",
@@ -152,48 +155,84 @@
             "login": "Login",
             "getStarted": "Get Started",
             "accessSystem": "Access System",
-            "initialize": "INITIALIZE_NODE"
+            "initialize": "Initialize",
+            "docs": "Docs",
+            "neuralControl": "NEURAL PRICE CONTROL"
         },
         "hero": {
             "status": "System Status",
             "operational": "Operational",
             "titleLine1": "Neural",
-            "titleGradient": "Asset Tracking",
+            "titleGradient": "Price Control",
             "subtitle": "Deploy high-frequency monitoring across Amazon, Etsy, and Otto. Zero-latency price alerts. Maximum capital preservation.",
-            "deploy": "DEPLOY_ENGINE",
-            "specs": "SYSTEM_SPECIFICATIONS"
+            "deploy": "Deploy Engine",
+            "specs": "System Specifications",
+            "engineActive": "Neural Engine Active",
+            "modules": {
+                "amazon": "Amazon Module",
+                "etsy": "Etsy Pulse",
+                "otto": "Otto Core"
+            }
         },
         "features": {
+            "badge": "Core Capabilities",
             "title": "System Specifications",
             "subtitle": "High-precision monitoring tools engineered for the professional asset manager.",
             "fakeDiscount": {
-                "title": "Fake_Discount_Detection",
+                "title": "Fake Discount Detection",
                 "desc": "Real-time logic analysis to identify artificial price inflating before sales."
             },
             "multiMarket": {
-                "title": "Multi_Market_Pulse",
+                "title": "Multi Market Pulse",
                 "desc": "Synchronized tracking across core marketplaces with sub-second delta logs."
             },
             "neuralPrice": {
-                "title": "Neural_Price_Forecasting",
+                "title": "Neural Price Forecasting",
                 "desc": "ML models predicting future asset values based on historical volatility."
             },
             "deltaAlert": {
-                "title": "Delta_Alert_Mesh",
+                "title": "Delta Alert Mesh",
                 "desc": "Universal notification pipeline via Telegram, Push, and Neural_Link."
             }
         },
+        "onboarding": {
+            "badge": "Onboarding Sequence",
+            "title": "Initialize",
+            "titleAccent": "Tracking",
+            "step1": {
+                "title": "Asset Queue",
+                "desc": "Inject product URL into the monitoring cluster."
+            },
+            "step2": {
+                "title": "Threshold Config",
+                "desc": "Define target delta or enable Neural_Price_Logic."
+            },
+            "step3": {
+                "title": "Realtime Dispatch",
+                "desc": "Instant notification on threshold collision."
+            }
+        },
         "stats": {
-            "nodes": "DATA_NODES",
-            "capital": "CAPITAL_PRESERVED",
-            "domains": "ACTIVE_DOMAINS",
-            "uptime": "ENGINE_UPTIME"
+            "nodes": "Data Nodes",
+            "capital": "Capital Preserved",
+            "domains": "Active Domains",
+            "uptime": "Engine Uptime"
         },
         "cta": {
             "title": "Ready to Secure Yield?",
             "subtitle": "Join the high-frequency asset monitoring network.",
-            "button": "CREATE_FREE_ACCOUNT",
+            "button": "Create Free Account",
             "note": "System Access: Restricted to 5 Assets for Free Tier"
+        },
+        "footer": {
+            "tagline": "Autonomous Asset Sentry Cluster",
+            "copyright": "© 2026 MarktMinder Core. All Rights Reserved.",
+            "links": {
+                "privacy": "Privacy",
+                "terms": "Terms",
+                "impressum": "Impressum",
+                "contact": "Contact"
+            }
         }
     },
     "alerts": {
@@ -261,10 +300,10 @@
     },
     "pricing": {
         "header": {
-            "returnBase": "Return_To_Base"
+            "returnBase": "Return to Base"
         },
         "hero": {
-            "badge": "Protocol_Access",
+            "badge": "Protocol Access",
             "title": "System",
             "titleAccent": "Subscription",
             "subtitle": "Select your tier for advanced asset monitoring."
@@ -281,7 +320,7 @@
                     "30-Day History",
                     "Standard Latency"
                 ],
-                "button": "INITIALIZE"
+                "button": "Initialize"
             },
             "pro": {
                 "name": "Pro",
@@ -295,12 +334,12 @@
                     "AI Predictions",
                     "Priority Queuing"
                 ],
-                "button": "INITIALIZE_PRO",
-                "processing": "PROCESSING..."
+                "button": "Initialize Pro",
+                "processing": "Processing..."
             },
             "power": {
                 "name": "Power",
-                "badge": "OptimaL_Ratio",
+                "badge": "Optimal Ratio",
                 "tagline": "Elite Monitoring",
                 "price": "€9.99",
                 "cycle": "/cycle",
@@ -311,8 +350,8 @@
                     "Priority Scraping",
                     "Custom Triggers"
                 ],
-                "button": "INITIALIZE_POWER",
-                "processing": "PROCESSING..."
+                "button": "Initialize Power",
+                "processing": "Processing..."
             },
             "enterprise": {
                 "name": "Enterprise",
@@ -326,11 +365,11 @@
                     "White-label Embeds",
                     "Dedicated Support"
                 ],
-                "button": "CONTACT_SALES"
+                "button": "Contact Sales"
             }
         },
         "faq": {
-            "title": "Common_Inquiries",
+            "title": "Common Inquiries",
             "items": [
                 {
                     "q": "Can I cancel anytime?",
@@ -350,48 +389,48 @@
                 }
             ]
         },
-        "securityFooter": "GDPR_VALID • SSL_ENCRYPTED • MADE_IN_GERMANY"
+        "securityFooter": "GDPR Valid • SSL Encrypted • Made in Germany"
     },
     "features": {
         "header": {
-            "returnBase": "Return_To_Base"
+            "returnBase": "Return to Base"
         },
         "hero": {
-            "badge": "System_Capabilities",
+            "badge": "System Capabilities",
             "title": "Feature",
             "titleAccent": "Specifications",
             "subtitle": "High-precision monitoring modules engineered for technical analysis."
         },
         "grid": {
             "analytics": {
-                "title": "Analytics_Engine",
+                "title": "Analytics Engine",
                 "desc": "Real-time data ingestion and price history visualization with millisecond precision."
             },
             "signal": {
-                "title": "Signal_Relay",
+                "title": "Signal Relay",
                 "desc": "Low-latency alert delivery system supporting Discord, Email, and Push protocols."
             },
             "radar": {
-                "title": "Cross_Market_Radar",
+                "title": "Cross Market Radar",
                 "desc": "Simultaneous monitoring across Amazon, Etsy, and Otto marketplaces with automated sync."
             },
             "forecast": {
-                "title": "Neural_Forecast",
+                "title": "Neural Forecast",
                 "desc": "Predictive algorithms analyzing market volatility to signal optimal entry points."
             },
             "security": {
-                "title": "Asset_Security",
+                "title": "Asset Security",
                 "desc": "Enterprise-grade encryption for all tracking identifiers and portfolio metrics."
             },
             "scrapers": {
-                "title": "Automated_Scrapers",
+                "title": "Automated Scrapers",
                 "desc": "Dynamic scraping architecture that bypasses anti-bot measures for 99.9% uptime."
             }
         },
         "cta": {
             "title": "Ready to Initialize Tracking?",
-            "createAccount": "CREATE_ACCOUNT",
-            "viewSubs": "VIEW_SUBSCRIPTIONS"
+            "createAccount": "Create Account",
+            "viewSubs": "View Subscriptions"
         }
     },
     "community": {
@@ -424,5 +463,186 @@
                 "noDescription": "No description provided for this collection."
             }
         }
+    },
+    "privacy": {
+        "header": {
+            "badge": "Security_Protocol",
+            "title": "Privacy",
+            "titleAccent": "Policy",
+            "subtitle": "Last Revision_Cycle: January 1, 2026",
+            "returnBase": "Return_To_Base"
+        },
+        "sections": {
+            "encryption": {
+                "title": "1. Data_Encryption_Standards",
+                "content": "MarktMinder (\"we\", \"our\", or \"us\") respects your privacy and is committed to protecting your personal data. All ingestion cycles use enterprise-grade encryption protocols to ensure the integrity of your monitored assets."
+            },
+            "metrics": {
+                "title": "Collected_Metrics",
+                "items": [
+                    "Account_Credentials",
+                    "Asset_Identifiers (URLs)",
+                    "User_Interaction_Logs",
+                    "System_Technical_Data"
+                ]
+            },
+            "utilization": {
+                "title": "Utilization_Flow",
+                "items": [
+                    "Service_Continuity",
+                    "Signal_Relay_Dispatch",
+                    "System_Optimization",
+                    "Protocol_Security"
+                ]
+            },
+            "compliance": {
+                "title": "2. Rights_And_Compliance (GDPR)",
+                "content": "Under the General Data Protection Regulation (GDPR), users maintain full control over their data indices.",
+                "rights": [
+                    "Data_Access",
+                    "Index_Correction",
+                    "Asset_Deletion",
+                    "Processing_Restriction",
+                    "Portability",
+                    "Consent_Withdrawal"
+                ]
+            },
+            "contact": {
+                "title": "3. Technical_Contact",
+                "content": "For inquiries regarding data security protocols, establish contact via the following endpoint:"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Privacy_Engine_v1.0"
+    },
+    "terms": {
+        "header": {
+            "badge": "Legal_Framework",
+            "title": "Terms",
+            "titleAccent": "Of_Service",
+            "subtitle": "System_Deployment: January 1, 2026",
+            "returnBase": "Return_To_Base"
+        },
+        "sections": {
+            "agreement": {
+                "title": "1. Protocol_Access_Agreement",
+                "content": "By accessing or using the MarktMinder environment, you agree to be bound by these System Terms. Unauthorized entry into restricted service layers is strictly prohibited."
+            },
+            "obligations": {
+                "title": "User_Obligations",
+                "items": [
+                    "Credential_Security",
+                    "Data_Accuracy",
+                    "System_Integrity",
+                    "Authorized_Use"
+                ]
+            },
+            "restricted": {
+                "title": "Restricted_Actions",
+                "items": [
+                    "Reverse_Engineering",
+                    "Automated_Extraction",
+                    "Resource_Flooding",
+                    "Credential_Sharing"
+                ]
+            },
+            "reliability": {
+                "title": "2. Data_Reliability_Notice",
+                "content": "While our scraping modules target 99.9% accuracy, market volatility may result in millisecond discordance between our readings and live retailer endpoints. Verify all metrics before executing external transactions."
+            },
+            "jurisdiction": {
+                "title": "3. Jurisdiction_Module",
+                "content": "These terms are governed by the laws of the Federal Republic of Germany. Disputes shall be subject to the exclusive jurisdiction of the regional courts.",
+                "entity": "Legal_Entity: MarktMinder GmbH // Registry: Berlin-Charlottenburg HRB 123456"
+            },
+            "contact": {
+                "title": "4. Contact_Relay",
+                "content": "For inquiries regarding legal protocols, establish contact via the following endpoint:"
+            }
+        },
+        "footer": "© 2026 MarktMinder // System_Terms_v1.2.4"
+    },
+    "contact": {
+        "header": {
+            "badge": "Comms_Interface",
+            "title": "Establish",
+            "titleAccent": "Contact",
+            "subtitle": "Initialize a message relay to our technical support cluster.",
+            "returnBase": "Return_To_Base"
+        },
+        "info": {
+            "title": "Node_Information",
+            "support": {
+                "title": "Support_Relay",
+                "latency": "Latency: < 24h"
+            },
+            "bulletins": {
+                "title": "Technical_Bulletins",
+                "content": "Include system logs or account identifiers for expedited resolution cycles."
+            },
+            "mobile": {
+                "title": "Mobile_Ops",
+                "content": "Our field modules are optimized for mobile communication protocols."
+            },
+            "status": "Operational_Status: ACTIVE"
+        },
+        "form": {
+            "name": "Entity_Identifier",
+            "namePlaceholder": "NAME_OR_ID",
+            "email": "Comms_Endpoint",
+            "emailPlaceholder": "EMAIL_ADDRESS",
+            "subject": "Protocol_Subject",
+            "subjectPlaceholder": "SYSTEM_QUERY_TYPE",
+            "message": "Transmission_Payload",
+            "messagePlaceholder": "ENTER_MESSAGE_CONTENTS...",
+            "submit": "EXECUTE_TRANSMISSION",
+            "success": {
+                "title": "Transmission_Successful",
+                "content": "Your message has been queued for processing. Establish new relay?",
+                "button": "REINITIALIZE_REPORTER"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Comms_Core_v1.0.2"
+    },
+    "impressum": {
+        "header": {
+            "badge": "Disclosure_Registry",
+            "title": "System",
+            "titleAccent": "Impressum",
+            "subtitle": "Information according to § 5 TMG",
+            "returnBase": "Return_To_Base"
+        },
+        "sections": {
+            "provider": {
+                "title": "Provider",
+                "name": "MarktMinder GmbH",
+                "address": "Musterstraße 123",
+                "city": "10115 Berlin",
+                "country": "Germany"
+            },
+            "contact": {
+                "title": "Contact"
+            },
+            "register": {
+                "title": "Register",
+                "court": "Amtsgericht Berlin",
+                "number": "HRB 123456",
+                "vatId": "VAT-ID:",
+                "vatNumber": "DE123456789"
+            },
+            "dispute": {
+                "title": "Dispute Resolution",
+                "content": "The European Commission provides a platform for online dispute resolution (OS):",
+                "note": "We are not willing or obliged to participate in dispute resolution proceedings before a consumer arbitration board."
+            },
+            "liability": {
+                "title": "Liability_For_Content",
+                "content": "As a service provider, we are responsible for our own content on these pages in accordance with general laws according to § 7 Para.1 TMG. According to §§ 8 to 10 TMG, we as a service provider are not obliged to monitor transmitted or stored third-party information."
+            },
+            "copyright": {
+                "title": "Copyright",
+                "content": "The content and works created by the site operators on these pages are subject to German copyright law. Downloads and copies of this site are only permitted for private, non-commercial use."
+            }
+        },
+        "footer": "© 2026 MarktMinder // Impressum_Module_EN"
     }
 }

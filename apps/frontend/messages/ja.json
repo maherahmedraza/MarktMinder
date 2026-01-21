@@ -1,4 +1,228 @@
 {
+    "home": {
+        "nav": {
+            "features": "機能",
+            "howItWorks": "仕組み",
+            "pricing": "料金",
+            "about": "概要",
+            "login": "ログイン",
+            "getStarted": "始める",
+            "accessSystem": "システムアクセス",
+            "initialize": "ノード初期化",
+            "docs": "ドキュメント",
+            "neuralControl": "Neural_Control_v2.0"
+        },
+        "hero": {
+            "status": "システムステータス",
+            "operational": "正常稼働中",
+            "titleLine1": "ニューラル",
+            "titleGradient": "資産追跡",
+            "subtitle": "Amazon、Etsy、Otto全体で高頻度モニタリングを展開。遅延ゼロの価格アラート。資本の最大限の保護。",
+            "deploy": "エンジン展開",
+            "specs": "システム仕様",
+            "engineActive": "ニューラルエンジン稼働中",
+            "modules": {
+                "amazon": "Amazonモジュール",
+                "etsy": "Etsyパルス",
+                "otto": "Ottoコア"
+            }
+        },
+        "features": {
+            "badge": "コア機能",
+            "title": "システム仕様",
+            "subtitle": "プロフェッショナルな資産管理者のために設計された高精度モニタリングツール。",
+            "fakeDiscount": {
+                "title": "偽装割引検出",
+                "desc": "セール前の人為的な価格吊り上げを特定するためのリアルタイム論理分析。"
+            },
+            "multiMarket": {
+                "title": "多市場パルス",
+                "desc": "主要マーケットプレイス全体での同期追跡とサブ秒単位のデルタログ。"
+            },
+            "neuralPrice": {
+                "title": "ニューラル価格予測",
+                "desc": "過去のボラティリティに基づき将来の資産価値を予測するMLモデル。"
+            },
+            "deltaAlert": {
+                "title": "デルタアラートメッシュ",
+                "desc": "Telegram、プッシュ通知、Neural_Linkを介したユニバーサル通知パイプライン。"
+            }
+        },
+        "onboarding": {
+            "badge": "オンボーディングシーケンス",
+            "title": "追跡の",
+            "titleAccent": "初期化",
+            "step1": {
+                "title": "資産投入キュー",
+                "desc": "モニタリングクラスターに製品URLを投入します。"
+            },
+            "step2": {
+                "title": "閾値設定",
+                "desc": "ターゲットデルタを定義するか、ニューラル価格ロジックを有効にします。"
+            },
+            "step3": {
+                "title": "リアルタイム配信",
+                "desc": "閾値に達した際の即時通知。"
+            }
+        },
+        "stats": {
+            "nodes": "データノード",
+            "capital": "保護された資本",
+            "domains": "有効なドメイン",
+            "uptime": "エンジン稼働時間"
+        },
+        "cta": {
+            "title": "収益を確保する準備はできましたか？",
+            "subtitle": "高頻度資産モニタリングネットワークに参加しましょう。",
+            "button": "無料アカウント作成",
+            "note": "システムアクセス：無料プランは5つの資産に制限されています"
+        },
+        "footer": {
+            "tagline": "自律型資産監視クラスター",
+            "copyright": "© 2026 MARKT_MINDER_CORE. ALL RIGHTS RESERVED.",
+            "links": {
+                "privacy": "プライバシー",
+                "terms": "規約",
+                "impressum": "法的通知",
+                "contact": "お問い合わせ"
+            }
+        }
+    },
+    "pricing": {
+        "header": {
+            "returnBase": "ベースに戻る"
+        },
+        "hero": {
+            "badge": "プロトコルアクセス",
+            "title": "システム",
+            "titleAccent": "サブスクリプション",
+            "subtitle": "高度な資産モニタリングのためのティアを選択してください。"
+        },
+        "tiers": {
+            "free": {
+                "name": "無料",
+                "tagline": "標準アクセス",
+                "price": "¥0",
+                "cycle": "/サイクル",
+                "features": [
+                    "5つの追跡製品",
+                    "3つの有効なアラート",
+                    "30日間の履歴",
+                    "標準レイテンシ"
+                ],
+                "button": "初期化"
+            },
+            "pro": {
+                "name": "プロ",
+                "tagline": "強化されたインテル",
+                "price": "¥750",
+                "cycle": "/サイクル",
+                "features": [
+                    "50つの追跡製品",
+                    "25のアクティブアラート",
+                    "完全な価格履歴",
+                    "AI予測",
+                    "優先キューイング"
+                ],
+                "button": "プロ初期化",
+                "processing": "処理中..."
+            },
+            "power": {
+                "name": "パワー",
+                "badge": "最適比率",
+                "tagline": "エリートモニタリング",
+                "price": "¥1,500",
+                "cycle": "/サイクル",
+                "features": [
+                    "200の追跡製品",
+                    "100のアクティブアラート",
+                    "ディールレーダー & 価格DNA",
+                    "優先スクレイピング",
+                    "カスタムトリガー"
+                ],
+                "button": "パワー初期化",
+                "processing": "処理中..."
+            },
+            "enterprise": {
+                "name": "エンタープライズ",
+                "tagline": "フルプロトコル",
+                "price": "¥4,500",
+                "cycle": "/サイクル",
+                "features": [
+                    "無制限の製品",
+                    "無制限のアラート",
+                    "APIアクセス (1万回/日)",
+                    "ホワイトラベル埋め込み",
+                    "専用サポート"
+                ],
+                "button": "営業に問い合わせ"
+            }
+        },
+        "faq": {
+            "title": "よくある質問",
+            "items": [
+                {
+                    "q": "いつでもキャンセルできますか？",
+                    "a": "はい。サブルーチンの終了は、どのサイクル間隔でもペナルティなしで可能です。"
+                },
+                {
+                    "q": "支払い方法は？",
+                    "a": "すべての主要なクレジットカード、PayPal、およびSEPA口座振替がサポートされています。"
+                },
+                {
+                    "q": "データセキュリティは？",
+                    "a": "すべての資産識別子とユーザーメトリクスにAES-256暗号化が適用されます。"
+                },
+                {
+                    "q": "返金ポリシーは？",
+                    "a": "すべての有料サブスクリプションティアに対して30日間のパフォーマンス保証があります。"
+                }
+            ]
+        },
+        "securityFooter": "GDPR準拠 • SSL暗号化 • ドイツ製"
+    },
+    "features": {
+        "header": {
+            "returnBase": "ベースに戻る"
+        },
+        "hero": {
+            "badge": "システム機能",
+            "title": "機能",
+            "titleAccent": "仕様",
+            "subtitle": "テクニカル分析用に設計された高精度モニタリングモジュール。"
+        },
+        "grid": {
+            "analytics": {
+                "title": "分析エンジン",
+                "desc": "ミリ秒単位の精度を持つリアルタイムデータ取り込みと価格履歴の可視化。"
+            },
+            "signal": {
+                "title": "信号リレー",
+                "desc": "Discord、電子メール、プッシュプロトコルをサポートする低遅延アラート配信システム。"
+            },
+            "radar": {
+                "title": "クロスマーケットレーダー",
+                "desc": "Amazon、Etsy、Ottoマーケットプレイス間での同時モニタリングと自動同期。"
+            },
+            "forecast": {
+                "title": "ニューラル予測",
+                "desc": "市場のボラティリティを分析して最適なエントリーポイントを知らせる予測アルゴリズム。"
+            },
+            "security": {
+                "title": "資産セキュリティ",
+                "desc": "すべての追跡識別子とポートフォリオメトリクスに対するエンタープライズグレードの暗号化。"
+            },
+            "scrapers": {
+                "title": "自動スクレイパー",
+                "desc": "アンチボット対策を回避し、99.9%のアップタイムを実現する動的スクレイピングアーキテクチャ。"
+            }
+        },
+        "cta": {
+            "title": "追跡を開始する準備はできましたか？",
+            "createAccount": "アカウント作成",
+            "viewSubs": "サブスクリプションを表示"
+        }
+    },
     "common": {
         "appName": "MarktMinder",
         "loading": "読み込み中...",
@@ -19,17 +243,17 @@
         "no": "いいえ",
         "productCard": {
             "void": "Voidプロトコル",
-            "lowest": "ローカル・ミニマ",
+            "lowest": "ローカルミニマ",
             "depleted": "枯渇",
-            "currentValue": "現在価値",
+            "currentValue": "現在の価格",
             "remove": "ウォッチリストから削除",
-            "select": "一括操作用にアセットを選択"
+            "select": "一括操作用の資産を選択"
         }
     },
     "nav": {
         "home": "ホーム",
         "dashboard": "ダッシュボード",
-        "products": "商品",
+        "products": "製品",
         "alerts": "アラート",
         "settings": "設定",
         "logout": "ログアウト",
@@ -37,65 +261,68 @@
         "register": "登録",
         "pricing": "料金",
         "watchlist": "ウォッチリスト",
-        "deals": "お得情報",
+        "deals": "ディール",
         "team": "チーム",
         "competitors": "競合インテリジェンス",
         "community": "コミュニティ",
         "operations": "オペレーション",
         "system": "システム",
-        "add_asset": "アセットを追加"
+        "add_asset": "資産追加",
+        "docs": "ドキュメント",
+        "accessSystem": "システムアクセス",
+        "initialize": "ノード初期化"
     },
     "dashboard": {
-        "welcome": "おかえりなさい、{name}さん",
-        "trackedProducts": "追跡中の商品",
-        "potentialSavings": "節約可能額",
-        "activeAlerts": "有効なアラート",
-        "priceDrops": "今日の値下げ",
+        "welcome": "ようこそ、 {name}さん",
+        "trackedProducts": "追跡中の製品",
+        "potentialSavings": "節約の可能性",
+        "activeAlerts": "アクティブなアラート",
+        "priceDrops": "本日の値下げ",
         "recentActivity": "最近のアクティビティ",
         "aiInsights": "AIインサイト",
-        "quickActions": "クイックアクション",
-        "viewAll": "すべて見る",
+        "quickActions": "クイック操作",
+        "viewAll": "すべて表示",
         "atLowestPrice": "最安値",
         "favoritesStats": "お気に入り",
-        "title": "運用コンソール",
-        "protocolMsg": "プロトコル・シーケンス初期化完了",
+        "title": "オペレーショナルコンソール",
+        "protocolMsg": "プロトコルシーケンスが初期化されました",
         "addProduct": {
-            "back": "商品リストに戻る",
-            "title": "アセット統合",
-            "phase": "フェーズ1: ソース取得",
-            "urlLabel": "ターゲットURL",
+            "back": "製品に戻る",
+            "title": "資産統合",
+            "phase": "フェーズ 1: ソース取得",
+            "urlLabel": "製品ターゲットURL",
             "urlPlaceholder": "https://www.amazon.co.jp/dp/B0...",
-            "notesLabel": "運用メモ (任意)",
-            "notesPlaceholder": "技術的なメタデータや追跡メモを追加...",
+            "notesLabel": "オペレーショナルノート (オプション)",
+            "notesPlaceholder": "技術的なメタデータや追跡ノートを追加...",
             "detected": "{marketplace} プロトコルを検出",
             "scanning": "マーケットプレイス署名をスキャン中...",
             "buttonInit": "追跡を開始",
             "buttonLoading": "スクレイパーを初期化中...",
             "success": {
-                "title": "アセット調整完了",
-                "redirect": "ニューラル投影にリダイレクト中..."
+                "title": "資産のキャリブレーション完了！",
+                "redirect": "ニューラルプロジェクションにリダイレクト中..."
             },
             "guidelines": {
-                "title": "プロトコル・ガイドライン",
+                "title": "プロトコルガイドライン",
                 "items": [
-                    "ブラウザのアドレスバーから絶対ターゲットURLを取得してください。",
-                    "MarktMinderニューラルエンジンが商品メタデータを自動検証します。",
-                    "標準スキャン頻度は4〜24時間間隔に調整されています。"
+                    "ブラウザのアイデンティティバーから絶対ターゲットURLを取得してください。",
+                    "MarktMinderニューラルエンジンが製品メタデータを自動検証します。",
+                    "標準スキャン頻度は4〜24時間の間隔に調整されています。"
                 ]
             },
             "errors": {
-                "invalidUrl": "有効なAmazon、Etsy、またはOtto.deのURLを入力してください",
-                "failed": "商品の追加に失敗しました"
+                "invalidUrl": "有効なAmazon、Etsy、またはOtto.deの製品URLを入力してください",
+                "failed": "製品の追加に失敗しました"
             }
         },
         "products": {
-            "title": "アセット・",
+            "title": "資産",
             "titleAccent": "台帳",
-            "subtitle": "現在、複数のマーケットプレイス・クラスターにわたって{total}件のアセットが同期されています。",
+            "subtitle": "{total} 個の関連資産が複数のマーケットプレイスクラスター間で現在同期されています。",
             "actions": {
                 "delete": "削除 ({count})",
                 "collections": "コレクション",
-                "addProduct": "商品を追加",
+                "addProduct": "製品追加",
                 "export": "エクスポート",
                 "moveTo": "移動先..."
             },
@@ -106,101 +333,32 @@
                     "oldest": "古い順",
                     "highestPrice": "価格が高い順",
                     "lowestPrice": "価格が低い順",
-                    "biggestDrop": "下落率が高い順"
+                    "biggestDrop": "下落率順 %"
                 },
-                "markets": "すべてのマーケット・クラスター",
+                "markets": "すべてのマーケットクラスター",
                 "allCollections": "すべてのコレクション",
                 "dropsOnly": "値下げのみ",
                 "selectAll": "すべて選択",
                 "deselectAll": "選択解除"
             },
             "empty": {
-                "title": "商品が見つかりません",
-                "filtered": "フィルターに一致する商品がありません。条件を変更してください。",
-                "empty": "ウォッチリストが空です。商品の追跡を開始するとここに表示されます。",
-                "button": "最初の商品を追加"
+                "title": "製品が見つかりません",
+                "filtered": "フィルターに一致するものは見つかりませんでした。別の条件を試しますか？",
+                "empty": "ウォッチリストが空です。製品の追跡を開始してここに表示しましょう！",
+                "button": "最初の製品を追加"
             },
-            "pagination": "{current} / {total} ページ",
-            "error": "読み込みエラー: {error}",
-            "bulkDeleteConfirm": "{count}件の商品の追跡を停止してもよろしいですか？",
-            "bulkDeleteSuccess": "{count}件の商品を削除しました",
-            "bulkMoveSuccess": "{count}件のアセットをコレクションに移動しました",
-            "bulkUpdateError": "一部のアセットの更新に失敗しました"
+            "pagination": "ページ {current} / {total}",
+            "error": "製品の読み込みエラー: {error}",
+            "bulkDeleteConfirm": "{count} 個の製品の追跡を停止してもよろしいですか？",
+            "bulkDeleteSuccess": "{count} 個の製品を削除しました",
+            "bulkMoveSuccess": "{count} 個の資産をコレクションに移動しました",
+            "bulkUpdateError": "一部の資産の更新に失敗しました"
         }
-    },
-    "products": {
-        "title": "あなたの商品",
-        "noProducts": "追跡中の商品はありません",
-        "addFirst": "最初の商品を追加して始めましょう",
-        "addProduct": "商品を追加",
-        "currentPrice": "現在価格",
-        "lowestPrice": "最安値",
-        "highestPrice": "最高値",
-        "priceHistory": "価格履歴",
-        "lastUpdated": "最終更新",
-        "marketplace": "マーケットプレイス",
-        "viewDetails": "詳細を見る",
-        "removeProduct": "商品を削除",
-        "setAlert": "アラートを設定"
-    },
-    "alerts": {
-        "title": "価格アラート",
-        "noAlerts": "設定されているアラートはありません",
-        "createFirst": "最初のアラートを作成しましょう",
-        "createAlert": "アラートを作成",
-        "targetPrice": "目標価格",
-        "currentPrice": "現在価格",
-        "triggered": "発動済み",
-        "active": "有効",
-        "paused": "一時停止",
-        "type": {
-            "priceBelow": "価格が下回ったら",
-            "priceAbove": "価格が上回ったら",
-            "percentDrop": "価格が%下落したら",
-            "anyChange": "価格が変動したら",
-            "backInStock": "在庫復活時"
-        }
-    },
-    "settings": {
-        "title": "設定",
-        "profile": "プロフィール",
-        "notifications": "通知",
-        "preferences": "環境設定",
-        "security": "セキュリティ",
-        "language": "言語",
-        "currency": "通貨",
-        "timezone": "タイムゾーン",
-        "emailNotifications": "メール通知",
-        "pushNotifications": "プッシュ通知",
-        "saveChanges": "変更を保存"
-    },
-    "auth": {
-        "login": "ログイン",
-        "register": "アカウント作成",
-        "email": "メールアドレス",
-        "password": "パスワード",
-        "confirmPassword": "パスワード確認",
-        "name": "名前",
-        "forgotPassword": "パスワードをお忘れですか？",
-        "noAccount": "アカウントをお持ちでないですか？",
-        "hasAccount": "すでにアカウントをお持ちですか？",
-        "signUp": "登録",
-        "signIn": "ログイン",
-        "orContinueWith": "または続行",
-        "termsAgree": "登録することで利用規約に同意します"
-    },
-    "errors": {
-        "generic": "エラーが発生しました。もう一度お試しください。",
-        "notFound": "ページが見つかりません",
-        "unauthorized": "このページを表示する権限がありません",
-        "networkError": "ネットワークエラー。接続を確認してください。",
-        "validationError": "入力内容を確認してください"
     },
     "currency": {
         "eur": "ユーロ (€)",
         "usd": "米ドル ($)",
-        "gbp": "英ポンド (£)",
-        "jpy": "日本円 (¥)"
+        "gbp": "英ポンド (£)"
     },
     "locale": {
         "en": "English",
@@ -213,14 +371,14 @@
     "community": {
         "watchlists": {
             "title": "公開ウォッチリスト",
-            "discover": "発見する",
-            "subtitle": "賢いショッパーが共有したコレクションを探索しましょう。コミュニティによってキュレーションされた最高の価格トラッカー、季節ごとのセール、ニッチなカテゴリーを見つけましょう。",
+            "discover": "見つける",
+            "subtitle": "賢い買い物客が共有するコレクションを探索しましょう。コミュニティによってキュレーションされた最高の価格トラッカー、季節のディール、ニッチなカテゴリーを見つけましょう。",
             "stats": {
                 "activeTrackers": "アクティブなトラッカー",
                 "totalSavings": "総節約額",
                 "sharedLists": "共有リスト"
             },
-            "searchPlaceholder": "コレクションまたは作成者を検索...",
+            "searchPlaceholder": "コレクションやクリエイターを検索...",
             "sort": {
                 "popular": "人気順",
                 "newest": "新着順"
@@ -228,17 +386,198 @@
             "loading": "公開コレクションをキュレーション中...",
             "empty": {
                 "title": "ウォッチリストが見つかりません",
-                "subtitle": "別の検索用語を試すか、後でもう一度確認してください。"
+                "subtitle": "別の検索語を試すか、後でもう一度確認してください。"
             },
             "cta": {
                 "title": "あなたの発見を共有しませんか？",
-                "subtitle": "自分のウォッチリストを公開して、他の人の節約を助け、節約リーダーボードのトップを目指しましょう。",
-                "button": "ウォッチリストを共有する"
+                "subtitle": "自分のウォッチリストを公開して、他の人がお金を節約するのを助け、節約リーダーボードのトップを目指しましょう。",
+                "button": "ウォッチリストを共有"
             },
             "card": {
-                "items": "{count} 個のアイテム",
-                "noDescription": "このコレクションの説明はありません。"
+                "items": "{count} アイテム",
+                "noDescription": "このコレクションには説明がありません。"
             }
         }
+    },
+    "privacy": {
+        "header": {
+            "badge": "セキュリティプロトコル",
+            "title": "プライバシー",
+            "titleAccent": "ポリシー",
+            "subtitle": "最終改訂サイクル：2026年1月1日",
+            "returnBase": "ベースに戻る"
+        },
+        "sections": {
+            "encryption": {
+                "title": "1. データ暗号化標準",
+                "content": "MarktMinder（「当社」）はお客様のプライバシーを尊重し、個人データの保護に努めています。すべての取り込みサイクルでは、監視対象資産の完全性を確保するために企業グレードの暗号化プロトコルを使用しています。"
+            },
+            "metrics": {
+                "title": "収集されるメトリクス",
+                "items": [
+                    "アカウント資格情報",
+                    "資産識別子（URL）",
+                    "ユーザーインタラクションログ",
+                    "システム技術データ"
+                ]
+            },
+            "utilization": {
+                "title": "利用フロー",
+                "items": [
+                    "サービスの継続性",
+                    "信号リレー配信",
+                    "システム最適化",
+                    "プロトコルセキュリティ"
+                ]
+            },
+            "compliance": {
+                "title": "2. 権利とコンプライアンス（GDPR）",
+                "content": "欧州一般データ保護規則（GDPR）に基づき、ユーザーは自身のデータインデックスに対して完全な制御を維持します。",
+                "rights": [
+                    "データアクセス",
+                    "インデックス修正",
+                    "資産削除",
+                    "処理の制限",
+                    "ポータビリティ",
+                    "同意の撤回"
+                ]
+            },
+            "contact": {
+                "title": "3. 技術連絡先",
+                "content": "データセキュリティプロトコルに関するお問い合わせは、以下のエンドポイントを介して連絡を確立してください："
+            }
+        },
+        "footer": "© 2026 MarktMinder // プライバシーエンジン v1.0"
+    },
+    "terms": {
+        "header": {
+            "badge": "法的枠組み",
+            "title": "利用",
+            "titleAccent": "規約",
+            "subtitle": "システム展開：2026年1月1日",
+            "returnBase": "ベースに戻る"
+        },
+        "sections": {
+            "agreement": {
+                "title": "1. プロトコルアクセス合意",
+                "content": "MarktMinder環境にアクセスまたは使用することにより、これらのシステム規約に拘束されることに同意したものとみなされます。制限されたサービスレイヤーへの不正な侵入は厳格に禁止されています。"
+            },
+            "obligations": {
+                "title": "ユーザーの義務",
+                "items": [
+                    "資格情報のセキュリティ",
+                    "データの正確性",
+                    "システムの完全性",
+                    "許可された使用"
+                ]
+            },
+            "restricted": {
+                "title": "制限事項",
+                "items": [
+                    "リバースエンジニアリング",
+                    "自動抽出",
+                    "リソースフラッディング",
+                    "資格情報の共有"
+                ]
+            },
+            "reliability": {
+                "title": "2. データ信頼性通知",
+                "content": "当社のスクレイピングモジュールは99.9%の精度を目指していますが、市場のボラティリティにより、当社の読み取り値とライブ小売店のエンドポイントとの間にミリ秒単位の不一致が生じる可能性があります。外部取引を実行する前に、すべての指標を確認してください。"
+            },
+            "jurisdiction": {
+                "title": "3. 管轄モジュール",
+                "content": "これらの規約はドイツ連邦共和国の法律に準拠します。紛争については、地方裁判所の専属管轄権に服するものとします。",
+                "entity": "法的実体: MarktMinder GmbH // 登録: Berlin-Charlottenburg HRB 123456"
+            },
+            "contact": {
+                "title": "4. 連絡リレー",
+                "content": "法的プロトコルに関するお問い合わせは、以下のエンドポイントを介して連絡を確立してください："
+            }
+        },
+        "footer": "© 2026 MarktMinder // システム規約 v1.2.4"
+    },
+    "contact": {
+        "header": {
+            "badge": "通信インターフェース",
+            "title": "連絡を",
+            "titleAccent": "確立",
+            "subtitle": "当社のテクニカルサポートクラスターへのメッセージリレーを初期化します。",
+            "returnBase": "ベースに戻る"
+        },
+        "info": {
+            "title": "ノード情報",
+            "support": {
+                "title": "サポートリレー",
+                "latency": "レイテンシ：24時間以内"
+            },
+            "bulletins": {
+                "title": "テクニカル速報",
+                "content": "迅速な解決サイクルのために、システムログまたはアカウント識別子を含めてください。"
+            },
+            "mobile": {
+                "title": "モバイル運用",
+                "content": "当社のフィールドモジュールは、モバイル通信プロトコル用に最適化されています。"
+            },
+            "status": "稼働ステータス：アクティブ"
+        },
+        "form": {
+            "name": "実体識別子",
+            "namePlaceholder": "名前またはID",
+            "email": "通信エンドポイント",
+            "emailPlaceholder": "メールアドレス",
+            "subject": "プロトコル件名",
+            "subjectPlaceholder": "システムクエリタイプ",
+            "message": "送信ペイロード",
+            "messagePlaceholder": "メッセージ内容を入力してください...",
+            "submit": "送信を実行",
+            "success": {
+                "title": "送信成功",
+                "content": "メッセージは処理待ちキューに入れられました。新しいリレーを確立しますか？",
+                "button": "レポーターを再初期化"
+            }
+        },
+        "footer": "© 2026 MarktMinder // 通信コア v1.0.2"
+    },
+    "impressum": {
+        "header": {
+            "badge": "開示登録",
+            "title": "システム",
+            "titleAccent": "法的通知",
+            "subtitle": "TMG 第5条に基づく情報",
+            "returnBase": "ベースに戻る"
+        },
+        "sections": {
+            "provider": {
+                "title": "提供者",
+                "name": "MarktMinder GmbH",
+                "address": "Musterstraße 123",
+                "city": "10115 Berlin",
+                "country": "Germany"
+            },
+            "contact": {
+                "title": "連絡先"
+            },
+            "register": {
+                "title": "登録",
+                "court": "Amtsgericht Berlin",
+                "number": "HRB 123456",
+                "vatId": "VAT-ID:",
+                "vatNumber": "DE123456789"
+            },
+            "dispute": {
+                "title": "紛争解決",
+                "content": "欧州委員会は、オンライン紛争解決（OS）のためのプラットフォームを提供しています：",
+                "note": "当社は、消費者仲裁委員会による紛争解決手続きに参加する意思はなく、またその義務も負いません。"
+            },
+            "liability": {
+                "title": "コンテンツに関する責任",
+                "content": "サービス提供者として、当社はTMG第7条第1項に基づき、一般法に従ってこれらのページ上の自社コンテンツに対して責任を負います。TMG第8条から第10条に基づき、サービス提供者として当社は送信または保存された第三者の情報を監視する義務を負いません。"
+            },
+            "copyright": {
+                "title": "著作権",
+                "content": "サイト運営者によって作成されたこれらのページ上のコンテンツおよび作品は、ドイツの著作権法の対象となります。本サイトのダウンロードおよびコピーは、私的な非営利目的でのみ許可されます。"
+            }
+        },
+        "footer": "© 2026 MarktMinder // 法的通知モジュール JA"
     }
 }

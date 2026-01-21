@@ -2,54 +2,90 @@
     "home": {
         "nav": {
             "features": "Funktionen",
-            "howItWorks": "Wie es funktioniert",
+            "howItWorks": "Funktionsweise",
             "pricing": "Preise",
             "about": "Über uns",
             "login": "Anmelden",
             "getStarted": "Loslegen",
-            "accessSystem": "Systemzugriff",
-            "initialize": "KNOTEN_INITIALISIEREN"
+            "accessSystem": "Systemzugang",
+            "initialize": "Initialisieren",
+            "docs": "Dokumentation",
+            "neuralControl": "NEURALE PREISKONTROLLE"
         },
         "hero": {
             "status": "Systemstatus",
-            "operational": "Betriebsbereit",
+            "operational": "Operativ",
             "titleLine1": "Neurale",
-            "titleGradient": "Vermögensverfolgung",
-            "subtitle": "Setzen Sie Hochfrequenzüberwachung auf Amazon, Etsy und Otto ein. Preisalarme ohne Latenz. Maximale Kapitalerhaltung.",
-            "deploy": "MASCHINE_BETREIBEN",
-            "specs": "SYSTEM_SPEZIFIKATIONEN"
+            "titleGradient": "Preiskontrolle",
+            "subtitle": "Hocheffizientes Monitoring für Amazon, Etsy und Otto. Preisalarme ohne Latenz. Maximale Kapitalerhaltung.",
+            "deploy": "Engine bereitstellen",
+            "specs": "Systemspezifikationen",
+            "engineActive": "Neural Engine Aktiv",
+            "modules": {
+                "amazon": "Amazon-Modul",
+                "etsy": "Etsy-Puls",
+                "otto": "Otto-Kern"
+            }
         },
         "features": {
+            "badge": "Kernkompetenzen",
             "title": "Systemspezifikationen",
-            "subtitle": "Hochpräzise Überwachungswerkzeuge, entwickelt für den professionellen Asset Manager.",
+            "subtitle": "Hochpräzise Überwachungswerkzeuge für das professionelle Asset-Management.",
             "fakeDiscount": {
-                "title": "Erkennung_Falscher_Rabatte",
-                "desc": "Echtzeit-Logikanalyse zur Identifizierung künstlicher Preisinflation vor Verkäufen."
+                "title": "Rabatt-Erkennung",
+                "desc": "Echtzeit-Logikanalyse zur Identifizierung künstlich aufgeblähter Preise vor dem Verkauf."
             },
             "multiMarket": {
-                "title": "Multi_Markt_Puls",
-                "desc": "Synchronisierte Verfolgung über Kernmarktplätze mit Sub-Sekunden-Delta-Logs."
+                "title": "Multi-Markt-Puls",
+                "desc": "Synchronisierte Überwachung der Kernmärkte mit Delta-Protokollen im Sub-Sekunden-Bereich."
             },
             "neuralPrice": {
-                "title": "Neurale_Preisvorhersage",
-                "desc": "ML-Modelle zur Vorhersage zukünftiger Vermögenswerte basierend auf historischer Volatilität."
+                "title": "Neurale Preisprognose",
+                "desc": "ML-Modelle zur Vorhersage künftiger Asset-Werte auf Basis historischer Volatilität."
             },
             "deltaAlert": {
-                "title": "Delta_Alarm_Netz",
+                "title": "Delta-Alarm-Netz",
                 "desc": "Universelle Benachrichtigungspipeline via Telegram, Push und Neural_Link."
             }
         },
+        "onboarding": {
+            "badge": "Onboarding-Sequenz",
+            "title": "Tracking",
+            "titleAccent": "Initialisieren",
+            "step1": {
+                "title": "Asset-Warteschlange",
+                "desc": "Produkt-URL in den Monitoring-Cluster einspeisen."
+            },
+            "step2": {
+                "title": "Schwellenwert-Konfig",
+                "desc": "Ziel-Delta definieren oder Neurale_Preislogik aktivieren."
+            },
+            "step3": {
+                "title": "Echtzeit-Versand",
+                "desc": "Sofortige Benachrichtigung bei Schwellenwert-Kollision."
+            }
+        },
         "stats": {
-            "nodes": "DATENKNOTEN",
-            "capital": "KAPITAL_ERHALTEN",
-            "domains": "AKTIVE_DOMÄNEN",
-            "uptime": "MASCHINENLAUFZEIT"
+            "nodes": "Datenknoten",
+            "capital": "Kapital Erhalten",
+            "domains": "Aktive Domänen",
+            "uptime": "Betriebszeit"
         },
         "cta": {
-            "title": "Bereit für Rendite?",
-            "subtitle": "Treten Sie dem Hochfrequenz-Überwachungsnetzwerk bei.",
-            "button": "KOSTENLOSES_KONTO_ERSTELLEN",
-            "note": "Systemzugriff: Beschränkt auf 5 Assets für die kostenlose Stufe"
+            "title": "Bereit zur Renditesicherung?",
+            "subtitle": "Treten Sie dem Hochfrequenz-Netzwerk zur Asset-Überwachung bei.",
+            "button": "Kostenloses Konto erstellen",
+            "note": "Systemzugang: Beschränkt auf 5 Assets im kostenlosen Tarif"
+        },
+        "footer": {
+            "tagline": "Autonomer Preiswächter-Cluster",
+            "copyright": "© 2026 MarktMinder Core. Alle Rechte vorbehalten.",
+            "links": {
+                "privacy": "Datenschutz",
+                "terms": "AGB",
+                "impressum": "Impressum",
+                "contact": "Kontakt"
+            }
         }
     },
     "common": {
@@ -96,7 +132,10 @@
         "community": "Community",
         "operations": "Operationen",
         "system": "System",
-        "add_asset": "ASSET_HINZUFÜGEN"
+        "add_asset": "Asset hinzufügen",
+        "docs": "Dokumentation",
+        "accessSystem": "Systemzugang",
+        "initialize": "Initialisieren"
     },
     "dashboard": {
         "welcome": "Willkommen zurück, {name}",
@@ -261,10 +300,10 @@
     },
     "pricing": {
         "header": {
-            "returnBase": "ZURÜCK_ZUR_BASIS"
+            "returnBase": "Zurück zur Basis"
         },
         "hero": {
-            "badge": "Protokoll_Zugriff",
+            "badge": "Protokoll-Zugriff",
             "title": "System-",
             "titleAccent": "Abonnement",
             "subtitle": "Wählen Sie Ihre Stufe für die erweiterte Asset-Überwachung."
@@ -281,7 +320,7 @@
                     "30 Tage Historie",
                     "Standard-Latenz"
                 ],
-                "button": "INITIALISIEREN"
+                "button": "Initialisieren"
             },
             "pro": {
                 "name": "Pro",
@@ -295,12 +334,12 @@
                     "KI-Vorhersagen",
                     "Priorisierte Warteschlange"
                 ],
-                "button": "PRO_INITIALISIEREN",
-                "processing": "VERARBEITUNG..."
+                "button": "Pro initialisieren",
+                "processing": "Verarbeitung..."
             },
             "power": {
                 "name": "Power",
-                "badge": "Optimales_Verhältnis",
+                "badge": "Optimales Verhältnis",
                 "tagline": "Elite-Überwachung",
                 "price": "€9,99",
                 "cycle": "/zyklus",
@@ -311,8 +350,8 @@
                     "Priorisiertes Scraping",
                     "Benutzerdefinierte Trigger"
                 ],
-                "button": "POWER_INITIALISIEREN",
-                "processing": "VERARBEITUNG..."
+                "button": "Power initialisieren",
+                "processing": "Verarbeitung..."
             },
             "enterprise": {
                 "name": "Enterprise",
@@ -326,11 +365,11 @@
                     "White-Label-Embeds",
                     "Engagierter Support"
                 ],
-                "button": "VERTRIEB_KONTAKTIEREN"
+                "button": "Vertrieb kontaktieren"
             }
         },
         "faq": {
-            "title": "Häufige_Anfragen",
+            "title": "Häufige Fragen",
             "items": [
                 {
                     "q": "Kann ich jederzeit kündigen?",
@@ -350,48 +389,48 @@
                 }
             ]
         },
-        "securityFooter": "DSGVO_VALID • SSL_VERSCHLÜSSELT • HERGESTELLT_IN_DEUTSCHLAND"
+        "securityFooter": "DSGVO valid • SSL verschlüsselt • Hergestellt in Deutschland"
     },
     "features": {
         "header": {
-            "returnBase": "ZURÜCK_ZUR_BASIS"
+            "returnBase": "Zurück zur Basis"
         },
         "hero": {
-            "badge": "System_Kapazitäten",
+            "badge": "System-Kapazitäten",
             "title": "Feature-",
             "titleAccent": "Spezifikationen",
             "subtitle": "Hochpräzise Überwachungsmodule, entwickelt für die technische Analyse."
         },
         "grid": {
             "analytics": {
-                "title": "Analyse_Engine",
+                "title": "Analyse-Engine",
                 "desc": "Echtzeit-Datenaufnahme und Preishistorien-Visualisierung mit Millisekunden-Präzision."
             },
             "signal": {
-                "title": "Signal_Relais",
+                "title": "Signal-Relais",
                 "desc": "Latenzarmes Alarm-Auslieferungssystem mit Unterstützung für Discord-, E-Mail- und Push-Protokolle."
             },
             "radar": {
-                "title": "Cross_Markt_Radar",
+                "title": "Cross-Markt-Radar",
                 "desc": "Gleichzeitige Überwachung von Amazon-, Etsy- und Otto-Marktplätzen mit automatisiertem Sync."
             },
             "forecast": {
-                "title": "Neurale_Vorhersage",
+                "title": "Neurale Vorhersage",
                 "desc": "Prädiktive Algorithmen, die die Marktvolatilität analysieren, um optimale Einstiegspunkte zu signalisieren."
             },
             "security": {
-                "title": "Asset_Sicherheit",
+                "title": "Asset-Sicherheit",
                 "desc": "Verschlüsselung auf Unternehmensniveau für alle Tracking-Identifikatoren und Portfolio-Metriken."
             },
             "scrapers": {
-                "title": "Automatisierte_Scraper",
+                "title": "Automatisierte Scraper",
                 "desc": "Dynamische Scraping-Architektur, die Anti-Bot-Maßnahmen für 99,9 % Verfügbarkeit umgeht."
             }
         },
         "cta": {
             "title": "Bereit, das Tracking zu initialisieren?",
-            "createAccount": "KONTO_ERSTELLEN",
-            "viewSubs": "ABONNEMENTS_ANZEIGEN"
+            "createAccount": "Konto erstellen",
+            "viewSubs": "Abonnements anzeigen"
         }
     },
     "community": {
@@ -424,5 +463,186 @@
                 "noDescription": "Keine Beschreibung für diese Sammlung vorhanden."
             }
         }
+    },
+    "privacy": {
+        "header": {
+            "badge": "Sicherheitsprotokoll",
+            "title": "Datenschutz",
+            "titleAccent": "Richtlinie",
+            "subtitle": "Letzter Revisionszyklus: 1. Januar 2026",
+            "returnBase": "Zurück_Zur_Basis"
+        },
+        "sections": {
+            "encryption": {
+                "title": "1. Datenverschlüsselungsstandards",
+                "content": "MarktMinder (\"wir\", \"unser\" oder \"uns\") respektiert Ihre Privatsphäre und setzt sich für den Schutz Ihrer personenbezogenen Daten ein. Alle Erfassungszyklen verwenden Verschlüsselungsprotokolle nach Unternehmensstandard, um die Integrität Ihrer überwachten Assets zu gewährleisten."
+            },
+            "metrics": {
+                "title": "Gesammelte_Kennzahlen",
+                "items": [
+                    "Kontoinformationen",
+                    "Asset-Identifikatoren (URLs)",
+                    "Benutzerinteraktionsprotokolle",
+                    "Systemspezifische technische Daten"
+                ]
+            },
+            "utilization": {
+                "title": "Nutzungsfluss",
+                "items": [
+                    "Dienstkontinuität",
+                    "Signalweiterleitung",
+                    "Systemoptimierung",
+                    "Protokollsicherheit"
+                ]
+            },
+            "compliance": {
+                "title": "2. Rechte_und_Konformität (DSGVO)",
+                "content": "Gemäß der Datenschutz-Grundverordnung (DSGVO) behalten die Nutzer die volle Kontrolle über ihre Datenindizes.",
+                "rights": [
+                    "Datenauskunft",
+                    "Indexkorrektur",
+                    "Asset-Löschung",
+                    "Verarbeitungsbeschränkung",
+                    "Übertragbarkeit",
+                    "Einwilligungswiderruf"
+                ]
+            },
+            "contact": {
+                "title": "3. Technischer_Kontakt",
+                "content": "Für Anfragen zu Datensicherheitsprotokollen nehmen Sie bitte über den folgenden Endpunkt Kontakt auf:"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Privacy_Engine_v1.0"
+    },
+    "terms": {
+        "header": {
+            "badge": "Rechtlicher_Rahmen",
+            "title": "Nutzungs-",
+            "titleAccent": "Bedingungen",
+            "subtitle": "Systembereitstellung: 1. Januar 2026",
+            "returnBase": "Zurück_Zur_Basis"
+        },
+        "sections": {
+            "agreement": {
+                "title": "1. Protokollzugriffsvereinbarung",
+                "content": "Durch den Zugriff auf oder die Nutzung der MarktMinder-Umgebung erklären Sie sich mit diesen Systembedingungen einverstanden. Unbefugter Zugriff auf eingeschränkte Serviceebenen ist strengstens untersagt."
+            },
+            "obligations": {
+                "title": "Benutzerverpflichtungen",
+                "items": [
+                    "Zugangsdatensicherheit",
+                    "Datengenauigkeit",
+                    "Systemintegrität",
+                    "Autorisierte Nutzung"
+                ]
+            },
+            "restricted": {
+                "title": "Eingeschränkte_Aktionen",
+                "items": [
+                    "Reverse Engineering",
+                    "Automatisierte Extraktion",
+                    "Ressourcenflutung",
+                    "Weitergabe von Zugangsdaten"
+                ]
+            },
+            "reliability": {
+                "title": "2. Hinweis_zur_Datenzuverlässigkeit",
+                "content": "Obwohl unsere Scraping-Module eine Genauigkeit von 99,9 % anstreben, kann die Marktvolatilität zu Millisekundenabweichungen zwischen unseren Messwerten und den Live-Endpunkten der Händler führen. Verifizieren Sie alle Kennzahlen, bevor Sie externe Transaktionen durchführen."
+            },
+            "jurisdiction": {
+                "title": "3. Gerichtsstandsmodul",
+                "content": "Diese Bedingungen unterliegen dem Recht der Bundesrepublik Deutschland. Für Streitigkeiten sind ausschließlich die regionalen Gerichte zuständig.",
+                "entity": "Rechtsträger: MarktMinder GmbH // Register: Berlin-Charlottenburg HRB 123456"
+            },
+            "contact": {
+                "title": "4. Kontaktweiterleitung",
+                "content": "Für Anfragen zu rechtlichen Protokollen nehmen Sie bitte über den folgenden Endpunkt Kontakt auf:"
+            }
+        },
+        "footer": "© 2026 MarktMinder // System_Terms_v1.2.4"
+    },
+    "contact": {
+        "header": {
+            "badge": "Kommunikationsschnittstelle",
+            "title": "Kontakt",
+            "titleAccent": "Aufnehmen",
+            "subtitle": "Initialisieren Sie eine Nachrichtenweiterleitung an unseren technischen Support-Cluster.",
+            "returnBase": "Zurück_Zur_Basis"
+        },
+        "info": {
+            "title": "Knoteninformationen",
+            "support": {
+                "title": "Support-Relais",
+                "latency": "Latenz: < 24h"
+            },
+            "bulletins": {
+                "title": "Technische_Bulletins",
+                "content": "Fügen Sie Systemprotokolle oder Konto-Identifikatoren für beschleunigte Lösungszyklen bei."
+            },
+            "mobile": {
+                "title": "Mobile_Ops",
+                "content": "Unsere Feldmodule sind für mobile Kommunikationsprotokolle optimiert."
+            },
+            "status": "Betriebsstatus: AKTIV"
+        },
+        "form": {
+            "name": "Entity_Identifier",
+            "namePlaceholder": "NAME_ODER_ID",
+            "email": "Kommunikations-Endpunkt",
+            "emailPlaceholder": "E-MAIL-ADRESSE",
+            "subject": "Protokollgegenstand",
+            "subjectPlaceholder": "SYSTEM_ABFRAGETYP",
+            "message": "Übertragungsnutzlast",
+            "messagePlaceholder": "NACHRICHTENINHALT EINGEBEN...",
+            "submit": "ÜBERTRAGUNG AUSFÜHREN",
+            "success": {
+                "title": "Übertragung_Erfolgreich",
+                "content": "Ihre Nachricht wurde zur Verarbeitung in die Warteschlange gestellt. Neue Weiterleitung einrichten?",
+                "button": "REINITALISIEREN"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Comms_Core_v1.0.2"
+    },
+    "impressum": {
+        "header": {
+            "badge": "Offenlegungsregister",
+            "title": "System-",
+            "titleAccent": "Impressum",
+            "subtitle": "Angaben gemäß § 5 TMG",
+            "returnBase": "Zurück_Zur_Basis"
+        },
+        "sections": {
+            "provider": {
+                "title": "Anbieter",
+                "name": "MarktMinder GmbH",
+                "address": "Musterstraße 123",
+                "city": "10115 Berlin",
+                "country": "Deutschland"
+            },
+            "contact": {
+                "title": "Kontakt"
+            },
+            "register": {
+                "title": "Register",
+                "court": "Amtsgericht Berlin",
+                "number": "HRB 123456",
+                "vatId": "USt-ID:",
+                "vatNumber": "DE123456789"
+            },
+            "dispute": {
+                "title": "Streitschlichtung",
+                "content": "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:",
+                "note": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+            },
+            "liability": {
+                "title": "Haftung_für_Inhalte",
+                "content": "Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen."
+            },
+            "copyright": {
+                "title": "Urheberrecht",
+                "content": "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet."
+            }
+        },
+        "footer": "© 2026 MarktMinder // Impressum_Module_DE"
     }
 }

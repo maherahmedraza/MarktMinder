@@ -1,4 +1,228 @@
 {
+    "home": {
+        "nav": {
+            "features": "Fonctionnalités",
+            "howItWorks": "Fonctionnement",
+            "pricing": "Tarifs",
+            "about": "À propos",
+            "login": "Connexion",
+            "getStarted": "Démarrer",
+            "accessSystem": "Accès Système",
+            "initialize": "Initialiser",
+            "docs": "Docs",
+            "neuralControl": "CONTRÔLE NEURAL DES PRIX"
+        },
+        "hero": {
+            "status": "Statut Système",
+            "operational": "Opérationnel",
+            "titleLine1": "Contrôle des Prix",
+            "titleGradient": "Neural",
+            "subtitle": "Déployez une surveillance haute fréquence sur Amazon, Etsy et Otto. Alertes de prix sans latence. Préservation maximale du capital.",
+            "deploy": "Déployer le Moteur",
+            "specs": "Spécifications Système",
+            "engineActive": "Moteur Neural Actif",
+            "modules": {
+                "amazon": "Module Amazon",
+                "etsy": "Pouls Etsy",
+                "otto": "Cœur Otto"
+            }
+        },
+        "features": {
+            "badge": "Capacités de Base",
+            "title": "Spécifications Système",
+            "subtitle": "Outils de surveillance haute précision conçus pour le gestionnaire d'actifs professionnel.",
+            "fakeDiscount": {
+                "title": "Détection de Faux Rabais",
+                "desc": "Analyse logique en temps réel pour identifier l'inflation artificielle des prix avant les soldes."
+            },
+            "multiMarket": {
+                "title": "Pouls Multi-Marché",
+                "desc": "Suivi synchronisé sur les places de marché cibles avec des logs delta en sous-seconde."
+            },
+            "neuralPrice": {
+                "title": "Prévision de Prix Neurale",
+                "desc": "Modèles ML prédisant les valeurs futures des actifs basés sur la volatilité historique."
+            },
+            "deltaAlert": {
+                "title": "Maillage d'Alerte Delta",
+                "desc": "Pipeline de notification universel via Telegram, Push et Neural_Link."
+            }
+        },
+        "onboarding": {
+            "badge": "Séquence d'Onboarding",
+            "title": "Initialiser",
+            "titleAccent": "le Suivi",
+            "step1": {
+                "title": "File d'Attente d'Actifs",
+                "desc": "Injectez l'URL du produit dans le cluster de surveillance."
+            },
+            "step2": {
+                "title": "Config du Seuil",
+                "desc": "Définissez le delta cible ou activez la Logique_Prix_Neurale."
+            },
+            "step3": {
+                "title": "Dispatch Temps Réel",
+                "desc": "Notification instantanée lors de la collision de seuil."
+            }
+        },
+        "stats": {
+            "nodes": "Noeuds de Données",
+            "capital": "Capital Préservé",
+            "domains": "Domaines Actifs",
+            "uptime": "Disponibilité Moteur"
+        },
+        "cta": {
+            "title": "Prêt à sécuriser vos rendements ?",
+            "subtitle": "Rejoignez le réseau de surveillance d'actifs haute fréquence.",
+            "button": "Créer un compte gratuit",
+            "note": "Accès Système : Limité à 5 actifs pour le niveau gratuit"
+        },
+        "footer": {
+            "tagline": "Cluster de Surveillance d'Actifs Autonome",
+            "copyright": "© 2026 MarktMinder Core. Tous droits réservés.",
+            "links": {
+                "privacy": "Confidentialité",
+                "terms": "Conditions",
+                "impressum": "Mentions Légales",
+                "contact": "Contact"
+            }
+        }
+    },
+    "pricing": {
+        "header": {
+            "returnBase": "Retour à la base"
+        },
+        "hero": {
+            "badge": "Accès Protocole",
+            "title": "Système d'",
+            "titleAccent": "Abonnement",
+            "subtitle": "Sélectionnez votre niveau pour une surveillance d'actifs avancée."
+        },
+        "tiers": {
+            "free": {
+                "name": "Gratuit",
+                "tagline": "Accès Standard",
+                "price": "0 €",
+                "cycle": "/cycle",
+                "features": [
+                    "5 Produits Suivis",
+                    "3 Alertes Actives",
+                    "Historique de 30 jours",
+                    "Latence Standard"
+                ],
+                "button": "Initialiser"
+            },
+            "pro": {
+                "name": "Pro",
+                "tagline": "Intel Amélioré",
+                "price": "4,99 €",
+                "cycle": "/cycle",
+                "features": [
+                    "50 Produits Suivis",
+                    "25 Alertes Actives",
+                    "Historique de Prix Complet",
+                    "Prévisions IA",
+                    "Files d'Attente Prioritaires"
+                ],
+                "button": "Initialiser Pro",
+                "processing": "Traitement..."
+            },
+            "power": {
+                "name": "Power",
+                "badge": "Ratio Optimal",
+                "tagline": "Surveillance Élite",
+                "price": "9,99 €",
+                "cycle": "/cycle",
+                "features": [
+                    "200 Produits Suivis",
+                    "100 Alertes Actives",
+                    "Radar Deals & Price DNA",
+                    "Scraping Prioritaire",
+                    "Déclencheurs Personnalisés"
+                ],
+                "button": "Initialiser Power",
+                "processing": "Traitement..."
+            },
+            "enterprise": {
+                "name": "Entreprise",
+                "tagline": "Protocole Complet",
+                "price": "29,99 €",
+                "cycle": "/cycle",
+                "features": [
+                    "Produits Illimités",
+                    "Alertes Illimitées",
+                    "Accès API (10k/jour)",
+                    "Embeds en Marque Blanche",
+                    "Support Dédié"
+                ],
+                "button": "Contacter les ventes"
+            }
+        },
+        "faq": {
+            "title": "Questions Fréquentes",
+            "items": [
+                {
+                    "q": "Puis-je annuler à tout moment ?",
+                    "a": "Oui. L'annulation de la sous-routine est disponible sans pénalité à tout intervalle de cycle."
+                },
+                {
+                    "q": "Méthodes de paiement ?",
+                    "a": "Tous les protocoles de crédit majeurs, PayPal et prélèvement SEPA sont supportés."
+                },
+                {
+                    "q": "Sécurité des données ?",
+                    "a": "Chiffrement AES-256 appliqué à tous les identifiants d'actifs et métriques utilisateur."
+                },
+                {
+                    "q": "Politique de remboursement ?",
+                    "a": "Garantie de performance de 30 jours pour tous les niveaux d'abonnement payants."
+                }
+            ]
+        },
+        "securityFooter": "VALIDÉ_RGPD • CHIFFRÉ_SSL • FAIT_EN_ALLEMAGNE"
+    },
+    "features": {
+        "header": {
+            "returnBase": "Retour_À_La_Base"
+        },
+        "hero": {
+            "badge": "Capacités_Système",
+            "title": "Spécifications des",
+            "titleAccent": "Fonctionnalités",
+            "subtitle": "Modules de surveillance haute précision conçus pour l'analyse technique."
+        },
+        "grid": {
+            "analytics": {
+                "title": "Moteur Analytique",
+                "desc": "Ingestion de données en temps réel et visualisation de l'historique des prix avec une précision à la milliseconde."
+            },
+            "signal": {
+                "title": "Relais Signal",
+                "desc": "Système de livraison d'alertes à faible latence supportant les protocoles Discord, Email et Push."
+            },
+            "radar": {
+                "title": "Radar Multi-Marché",
+                "desc": "Surveillance simultanée sur les places de marché Amazon, Etsy et Otto avec synchronisation automatique."
+            },
+            "forecast": {
+                "title": "Prévision Neurale",
+                "desc": "Algorithmes prédictifs analysant la volatilité du marché pour signaler les points d'entrée optimaux."
+            },
+            "security": {
+                "title": "Sécurité des Actifs",
+                "desc": "Chiffrement de classe entreprise pour tous les identifiants de suivi et métriques de portefeuille."
+            },
+            "scrapers": {
+                "title": "Scrapers Automatisés",
+                "desc": "Architecture de scraping dynamique qui contourne les mesures anti-bot pour une disponibilité de 99,9 %."
+            }
+        },
+        "cta": {
+            "title": "Prêt à initialiser le suivi ?",
+            "createAccount": "CRÉER_COMPTE",
+            "viewSubs": "VOIR_ABONNEMENTS"
+        }
+    },
     "common": {
         "appName": "MarktMinder",
         "loading": "Chargement...",
@@ -43,7 +267,10 @@
         "community": "Communauté",
         "operations": "Opérations",
         "system": "Système",
-        "add_asset": "AJOUTER_ACTIF"
+        "add_asset": "Ajouter un actif",
+        "docs": "Docs",
+        "accessSystem": "Accès Système",
+        "initialize": "Initialiser"
     },
     "dashboard": {
         "welcome": "Bienvenue, {name}",
@@ -239,5 +466,186 @@
                 "noDescription": "Aucune description fournie pour cette collection."
             }
         }
+    },
+    "privacy": {
+        "header": {
+            "badge": "Protocole_de_Sécurité",
+            "title": "Politique de",
+            "titleAccent": "Confidentialité",
+            "subtitle": "Dernière Révision : 1er Janvier 2026",
+            "returnBase": "Retour_À_La_Base"
+        },
+        "sections": {
+            "encryption": {
+                "title": "1. Normes de Chiffrement des Données",
+                "content": "MarktMinder (\"nous\", \"notre\" ou \"nos\") respecte votre vie privée et s'engage à protéger vos données personnelles. Tous les cycles d'ingestion utilisent des protocoles de chiffrement de classe entreprise pour garantir l'intégrité de vos actifs surveillés."
+            },
+            "metrics": {
+                "title": "Métriques_Collectées",
+                "items": [
+                    "Identifiants de compte",
+                    "Identifiants d'actifs (URLs)",
+                    "Logs d'interaction utilisateur",
+                    "Données techniques système"
+                ]
+            },
+            "utilization": {
+                "title": "Flux_d'Utilisation",
+                "items": [
+                    "Continuité de service",
+                    "Relais de signal",
+                    "Optimisation système",
+                    "Sécurité du protocole"
+                ]
+            },
+            "compliance": {
+                "title": "2. Droits_et_Conformité (RGPD)",
+                "content": "Conformément au Règlement Général sur la Protection des Données (RGPD), les utilisateurs conservent le contrôle total sur leurs index de données.",
+                "rights": [
+                    "Accès aux données",
+                    "Correction d'index",
+                    "Suppression d'actifs",
+                    "Restriction de traitement",
+                    "Portabilité",
+                    "Retrait de consentement"
+                ]
+            },
+            "contact": {
+                "title": "3. Contact_Technique",
+                "content": "Pour toute demande concernant les protocoles de sécurité des données, contactez-nous via le point de terminaison suivant :"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Privacy_Engine_v1.0"
+    },
+    "terms": {
+        "header": {
+            "badge": "Cadre_Légal",
+            "title": "Conditions",
+            "titleAccent": "d'Utilisation",
+            "subtitle": "Déploiement Système : 1er Janvier 2026",
+            "returnBase": "Retour_À_La_Base"
+        },
+        "sections": {
+            "agreement": {
+                "title": "1. Accord d'Accès au Protocole",
+                "content": "En accédant à l'environnement MarktMinder ou en l'utilisant, vous acceptez d'être lié par ces conditions système. L'accès non autorisé aux couches de service restreintes est strictement interdit."
+            },
+            "obligations": {
+                "title": "Obligations de l'Utilisateur",
+                "items": [
+                    "Sécurité des identifiants",
+                    "Exactitude des données",
+                    "Intégrité du système",
+                    "Utilisation autorisée"
+                ]
+            },
+            "restricted": {
+                "title": "Actions_Restreintes",
+                "items": [
+                    "Ingénierie inverse",
+                    "Extraction automatisée",
+                    "Saturation de ressources",
+                    "Partage de compte"
+                ]
+            },
+            "reliability": {
+                "title": "2. Avis de Fiabilité des Données",
+                "content": "Bien que nos modules de scraping visent une précision de 99,9 %, la volatilité du marché peut entraîner des écarts de millisecondes entre nos relevés et les points de vente en direct. Vérifiez toutes les métriques avant d'exécuter des transactions externes."
+            },
+            "jurisdiction": {
+                "title": "3. Module de Juridiction",
+                "content": "Ces conditions sont régies par les lois de la République fédérale d'Allemagne. Les litiges seront soumis à la juridiction exclusive des tribunaux régionaux.",
+                "entity": "Entité légale : MarktMinder GmbH // Registre : Berlin-Charlottenburg HRB 123456"
+            },
+            "contact": {
+                "title": "4. Relais de Contact",
+                "content": "Pour toute demande concernant les protocoles légaux, contactez-nous via le point de terminaison suivant :"
+            }
+        },
+        "footer": "© 2026 MarktMinder // System_Terms_v1.2.4"
+    },
+    "contact": {
+        "header": {
+            "badge": "Interface_Comms",
+            "title": "Établir le",
+            "titleAccent": "Contact",
+            "subtitle": "Initialisez un relais de message vers notre cluster de support technique.",
+            "returnBase": "Retour_À_La_Base"
+        },
+        "info": {
+            "title": "Informations_Noeud",
+            "support": {
+                "title": "Relais_Support",
+                "latency": "Latence : < 24h"
+            },
+            "bulletins": {
+                "title": "Bulletins_Techniques",
+                "content": "Incluez les logs système ou les identifiants de compte pour des cycles de résolution accélérés."
+            },
+            "mobile": {
+                "title": "Mobile_Ops",
+                "content": "Nos modules de terrain sont optimisés pour les protocoles de communication mobile."
+            },
+            "status": "Statut Opérationnel : ACTIF"
+        },
+        "form": {
+            "name": "Identifiant_Entité",
+            "namePlaceholder": "NOM_OU_ID",
+            "email": "Point_Comms",
+            "emailPlaceholder": "ADRESSE_EMAIL",
+            "subject": "Objet_Protocole",
+            "subjectPlaceholder": "TYPE_REQUÊTE_SYSTÈME",
+            "message": "Charge_Transmission",
+            "messagePlaceholder": "ENTRER LE CONTENU DU MESSAGE...",
+            "submit": "EXÉCUTER LA TRANSMISSION",
+            "success": {
+                "title": "Transmission_Réussie",
+                "content": "Votre message a été mis en file d'attente pour traitement. Établir un nouveau relais ?",
+                "button": "RÉINITIALISER"
+            }
+        },
+        "footer": "© 2026 MarktMinder // Comms_Core_v1.0.2"
+    },
+    "impressum": {
+        "header": {
+            "badge": "Registre_Divulgation",
+            "title": "Mentions",
+            "titleAccent": "Légales",
+            "subtitle": "Informations selon § 5 TMG",
+            "returnBase": "Retour_À_La_Base"
+        },
+        "sections": {
+            "provider": {
+                "title": "Prestataire",
+                "name": "MarktMinder GmbH",
+                "address": "Musterstraße 123",
+                "city": "10115 Berlin",
+                "country": "Allemagne"
+            },
+            "contact": {
+                "title": "Contact"
+            },
+            "register": {
+                "title": "Registre",
+                "court": "Tribunal de district de Berlin",
+                "number": "HRB 123456",
+                "vatId": "N° TVA :",
+                "vatNumber": "DE123456789"
+            },
+            "dispute": {
+                "title": "Règlement des litiges",
+                "content": "La Commission européenne fournit une plateforme de règlement des litiges en ligne (OS) :",
+                "note": "Nous ne sommes pas disposés ou obligés de participer à des procédures de règlement des litiges devant un conseil d'arbitrage de consommation."
+            },
+            "liability": {
+                "title": "Responsabilité_du_contenu",
+                "content": "En tant que prestataire de services, nous sommes responsables de notre propre contenu sur ces pages conformément aux lois générales selon § 7 Para.1 TMG. Selon §§ 8 à 10 TMG, en tant que prestataire de services, nous ne sommes pas obligés de surveiller les informations tierces transmises ou stockées."
+            },
+            "copyright": {
+                "title": "Droit d'auteur",
+                "content": "Le contenu et les œuvres créés par les exploitants du site sur ces pages sont soumis au droit d'auteur allemand. Les téléchargements et copies de ce site ne sont autorisés que pour un usage privé et non commercial."
+            }
+        },
+        "footer": "© 2026 MarktMinder // Impressum_Module_FR"
     }
 }
