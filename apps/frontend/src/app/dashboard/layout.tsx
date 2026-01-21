@@ -23,6 +23,8 @@ import { useState } from 'react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { PriceParticles } from '@/components/PriceParticles';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
+import { CurrencySwitcher } from '@/components/ui/CurrencySwitcher';
 
 function DashboardLayoutContent({ children }: { children: ReactNode }) {
     const { user, isLoading, isAuthenticated, logout } = useAuth();
@@ -186,9 +188,14 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3">
+                            <div className="hidden md:flex items-center gap-2">
+                                <LocaleSwitcher />
+                                <CurrencySwitcher />
+                            </div>
+                            <div className="hidden md:block h-8 w-px bg-border/20" />
                             <ThemeToggle />
-                            <div className="hidden sm:block h-8 w-px bg-border/20 mx-2" />
+                            <div className="hidden sm:block h-8 w-px bg-border/20" />
                             <GlowButton
                                 onClick={() => router.push('/dashboard/products/add')}
                                 size="sm"
